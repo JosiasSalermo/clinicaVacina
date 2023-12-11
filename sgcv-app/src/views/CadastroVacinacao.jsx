@@ -8,6 +8,7 @@ import { mensagemSucesso, mensagemErro } from "../components/toastr";
 import FormGroup from "../components/FormGroup";
 
 import "../custom.css";
+import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { BASE_URL } from '../config/axios';// api-fake-vacina
@@ -33,7 +34,7 @@ function CadastroVacinacao() {
   const [dataVacinacao, setDataVacinacao] = useState('');
   const [horaVacinacao, setHoraVacinacao] = useState('');
 
-
+  const [loading, setLoading] = useState(true);
 
   function inicializar() {
     if (idParam == null) {
@@ -48,7 +49,7 @@ function CadastroVacinacao() {
       setDataVacinacao('');
       setHoraVacinacao('');
 
-    } else {
+    } else if (dados) {
       setId(dados.id);
       setNome(dados.nome);
       setEmail(dados.email);
@@ -58,6 +59,8 @@ function CadastroVacinacao() {
       setNomeVacina(dados.nomeVacina);
       setDataVacinacao(dados.dataVacinacao);
       setHoraVacinacao(dados.dataVecinacao);
+    } else {
+      buscar();
     }
 
   }
@@ -96,25 +99,59 @@ function CadastroVacinacao() {
 
 
   async function buscar() {
-    if (idParam != null) {
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      });
-      setId(dados.id);
-      setNome(dados.nome); ///
-      setEmail(dados.email); //
-      setDataNasc(dados.dataNasc); //
-      setDDD(dados.ddd); //
-      setTelefone(dados.telefone); //
-      setNomeVacina(dados.nomeVacina); //
-      setTipoVacina(dados.tipoVacina); //
-      setDataVacinacao(dados.dataVacinacao);
-      setHoraVacinacao(dados.horaVacinacao);
+    try {
+      const response = await axios.get(`${baseURL}/${idParam}`);
+      setId(response.dados.id);
+      setNome(response.dados.nome); ///
+      setEmail(response.dados.email); //
+      setDataNasc(response.dados.dataNasc); //
+      setDDD(response.dados.ddd); //
+      setTelefone(response.dados.telefone); //
+      setNomeVacina(response.dados.nomeVacina); //
+      setTipoVacina(response.dados.tipoVacina); //
+      setDataVacinacao(response.dados.dataVacinacao);
+      setHoraVacinacao(response.dados.horaVacinacao);
+    } catch (error) {
+      console.error("Erro ao buscar os dados:", error);
     }
   }
 
-  const [dados, setDados] = useState([]);
 
+  useEffect(() => {
+    async function buscar() {
+      try {
+        console.log("Fetching data...");
+        const response = await axios.get(`${baseURL}/${idParam}`);
+        console.log("Data fetched successfully:", response.data);
+        setDados(response.data);
+        setId(response.data.id);
+        setNome(response.data.nome);
+        setEmail(response.data.email);
+        setDataNasc(response.data.dataNasc);
+        setDDD(response.data.ddd);
+        setTelefone(dados.telefone);
+        setNomeVacina(response.data.nomeVacina);
+        setDataVacinacao(response.data.dataVacinacao);
+        setHoraVacinacao(response.data.dataVecinacao);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+        mensagemErro("Erro ao buscar os dados");
+      } finally {
+        setLoading(false);
+        console.log("Loading set to false");
+      }
+    }
+
+
+    if (idParam) {
+      buscar();
+    } else {
+      setLoading(false);
+    }
+  }, [baseURL, idParam]);
+
+
+  const [dados, setDados] = useState([]);
   useEffect(() => {
     axios.get(`${BASE_URL}/vacina`).then((response) => {
       setDados(response.data);
@@ -122,9 +159,7 @@ function CadastroVacinacao() {
   }, []);
 
 
-
   const [dados2, setDados2] = useState(null); // 
-
   useEffect(() => {
     axios.get(`${URL_paciente}/pacientes`).then((response) => {
       setDados2(response.data);
@@ -132,9 +167,7 @@ function CadastroVacinacao() {
   }, []);
 
 
-
   const [dados3, setDados3] = useState(null);
-  
   useEffect(() => {
     axios.get(`${URL_agenda}/agendamento`).then((response) => {
       setDados3(response.data);
@@ -152,6 +185,7 @@ function CadastroVacinacao() {
 
   return (
     <div className="container">
+      <LoadingOverlay loading={loading} />
       <Card title="Cadastro de Vacinação">
         <div className="row">
           <div className="col-lg-12">

@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoadingOverlay from './LoadingOverlay';
 
 
+import CadastroVacina from './views/CadastroVacina';
 import CadastroVacinacao from './views/CadastroVacinacao';
+
 import ListagemFabricantes from './views/ListagemFabricantes';
 import ListagemFuncionarios from './views/ListagemFuncionarios';
 import ListagemVacinas from './views/ListagemVacinas';
@@ -29,6 +31,7 @@ function Rotas() {
       <Routes>
         <Route path="/" element={<Navigate to='/ListagemVacinacao' />} />
 
+        <Route path='/CadastroVacina' element={<CadastroVacina />} />
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
         
         <Route path='/ListagemFabricantes' element={<ListagemFabricantes />} />
