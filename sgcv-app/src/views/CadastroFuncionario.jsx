@@ -35,7 +35,7 @@ function CadastroFuncionario() {
   const [complemento, setComplemento] = useState('');
   const [cep, setCep] = useState('');
   const [uf, setUf] = useState('');
-  const [cidade, setCidade] = useState('');
+  const [cidades, setCidades] = useState([]);
   const [cargo, setCargo] = useState('');
   const [perfilAcesso, setPerfilAcesso] = useState('');
   const [especialidade, setEspecialidade] = useState('');
@@ -59,7 +59,7 @@ function CadastroFuncionario() {
       setComplemento('');
       setCep('');
       setUf('');
-      setCidade('');
+      setCidades('');
       setCargo('');
       setPerfilAcesso('');
       setEspecialidade('');
@@ -78,7 +78,7 @@ function CadastroFuncionario() {
       setComplemento(dados.complemento);
       setCep(dados.cep);
       setUf(dados.uf);
-      setCidade(dados.cidade);
+      setCidades(dados.cidades);
       setCargo(dados.cargo);
       setPerfilAcesso(dados.perfilAcesso);
       setEspecialidade(dados.especialidade);
@@ -90,7 +90,7 @@ function CadastroFuncionario() {
   }
 
   async function salvar() {
-    let data = { id, nomeFuncionario, email, cpf, dataNasc, ddd, telefone, fotoPerfil, logradouro, numero, complemento, cep, uf, cidade, cargo, perfilAcesso, especialidade, conselho };
+    let data = { id, nomeFuncionario, email, cpf, dataNasc, ddd, telefone, fotoPerfil, logradouro, numero, complemento, cep, uf, cidades, cargo, perfilAcesso, especialidade, conselho };
     data = JSON.stringify(data);
 
     if (idParam == null) {
@@ -137,7 +137,7 @@ function CadastroFuncionario() {
       setComplemento(response.dados.complemento);
       setCep(response.dados.cep);
       setUf(response.dados.uf);
-      setCidade(response.dados.cidade);
+      setCidades(response.dados.cidades);
       setCargo(response.dados.cargo);
       setPerfilAcesso(response.dados.perfilAcesso);
       setEspecialidade(response.dados.especialidade);
@@ -166,7 +166,7 @@ function CadastroFuncionario() {
         setComplemento(response.data.complemento);
         setCep(response.data.cep);
         setUf(response.data.uf);
-        setCidade(response.data.cidade);
+        setCidades(response.data.cidades);
         setCargo(response.data.cargo);
         setPerfilAcesso(response.data.perfilAcesso);
         setEspecialidade(response.data.especialidade);
@@ -186,6 +186,8 @@ function CadastroFuncionario() {
       setLoading(false);
     }
   }, [baseURL, idParam]);
+
+  
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
@@ -369,7 +371,7 @@ function CadastroFuncionario() {
                   <FormGroup label="Estado: " htmlFor="inputEstado">
                     <select
                       className="form-select"
-                      id="inputUf"
+                      id="selectUf"
                       name="uf"
                       value={uf}
                       onChange={(e) => setUf(e.target.value)}
@@ -377,22 +379,38 @@ function CadastroFuncionario() {
                       <option key="0" value="0">
                         Selecione o Estado
                       </option>
-                      {dados2.map((dado) => (
-                        <option key={dado.id} value={dado.id}>
-                          {dado.uf}
+                      {dados2.map((estados) => (
+                        <option key={estados.id} value={estados.uf}>
+                          {estados.uf}
                         </option>
                       ))}
                     </select>
                   </FormGroup>
                 </div>
                 <div className="col-md-5">
-                  <FormGroup label="Cidade: " htmlFor="inputCidade">
-                    <input
+                  <FormGroup label="Cidade: " htmlFor="selectCidade">
+                    <select
                       className="form-select"
-                      id="inputCidade"
+                      id="selectCidade"
                       name="cidade"
-                    />
-                    <option value=" "></option>
+                      value={cidades}
+                      onChange={(e) => setCidades(e.target.value)}
+                    >
+                    <option key="0" value="0">
+                        Selecione a Cidade
+                    </option>
+                    {dados2
+                      .filter((estados)=> estados.uf === uf)
+                      .map((estados) => 
+                        estados.cidades.map((cidades) => (
+                          <option key={cidades} value={cidades}>
+                          {cidades}
+                        </option>
+                        ))
+
+                     
+                    )}
+                    </select>
                   </FormGroup>
                 </div>
               </div>
