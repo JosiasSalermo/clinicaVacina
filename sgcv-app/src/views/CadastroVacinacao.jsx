@@ -12,6 +12,7 @@ import "../custom.css";
 import axios from "axios";
 import { BASE_URL } from '../config/axios';// api-fake-vacina
 import { URL_paciente } from '../config/axios';// paciente
+import { URL_agenda } from '../config/axios';// agenda
 
 
 function CadastroVacinacao() {
@@ -19,7 +20,7 @@ function CadastroVacinacao() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_paciente}/agenda`;
+  const baseURL = `${BASE_URL}/vacina`;
 
   const [id, setId] = useState('');
   const [nome, setNome] = useState('');
@@ -33,7 +34,6 @@ function CadastroVacinacao() {
   const [horaVacinacao, setHoraVacinacao] = useState('');
 
 
-  const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
@@ -53,7 +53,7 @@ function CadastroVacinacao() {
       setNome(dados.nome);
       setEmail(dados.email);
       setDataNasc(dados.dataNasc);
-      setDDD(dados.ddd);
+      setDDD(dados.ddd || '');
       setTelefone(dados.telefone);
       setNomeVacina(dados.nomeVacina);
       setDataVacinacao(dados.dataVacinacao);
@@ -94,36 +94,49 @@ function CadastroVacinacao() {
     }
   }
 
+
   async function buscar() {
     if (idParam != null) {
       await axios.get(`${baseURL}/${idParam}`).then((response) => {
         setDados(response.data);
       });
       setId(dados.id);
-      setNome(dados.nome);
-      setEmail(dados.email);
-      setDataNasc(dados.dataNasc);
-      setDDD(dados.ddd);
-      setTelefone(dados.telefone);
-      setNomeVacina(dados.nomeVacina);
-      setTipoVacina(dados.tipoVacina);
+      setNome(dados.nome); ///
+      setEmail(dados.email); //
+      setDataNasc(dados.dataNasc); //
+      setDDD(dados.ddd); //
+      setTelefone(dados.telefone); //
+      setNomeVacina(dados.nomeVacina); //
+      setTipoVacina(dados.tipoVacina); //
       setDataVacinacao(dados.dataVacinacao);
       setHoraVacinacao(dados.horaVacinacao);
     }
   }
 
-  const [dados2, setDados2] = useState(null); // TipoVacina
-  
-  useEffect(() => {
-    axios.get(`${BASE_URL}/tipoVacina`).then((response) => {
-      setDados2(response.data);
-    });
-  }, []);
-  
-  const [dados3, setDados3] = useState(null); // TipoVacina
+  const [dados, setDados] = useState([]);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/vacina`).then((response) => {
+      setDados(response.data);
+    });
+  }, []);
+
+
+
+  const [dados2, setDados2] = useState(null); // 
+
+  useEffect(() => {
+    axios.get(`${URL_paciente}/pacientes`).then((response) => {
+      setDados2(response.data);
+    });
+  }, []);
+
+
+
+  const [dados3, setDados3] = useState(null);
+  
+  useEffect(() => {
+    axios.get(`${URL_agenda}/agendamento`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -146,7 +159,7 @@ function CadastroVacinacao() {
 
 
               <div className="mesmaLinha">
-                <div className="col-md-12 mb-3">
+                <div className="col-md-5 mb-3">
                   <FormGroup
                     label="Nome: *"
                     htmlFor="inputNome">
@@ -156,7 +169,7 @@ function CadastroVacinacao() {
                       id="inputNome"
                       name="nome"
                       value={nome}
-                      onChange={(e) => setNomeVacina(e.target.value)}
+                      onChange={(e) => setNome(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -235,15 +248,15 @@ function CadastroVacinacao() {
                       value={nomeVacina}
                       onChange={(e) => setNomeVacina(e.target.value)}
                     >
-                    <option key="0" value="0">
-                      Selecione o Nome da Vacina
-                    </option>
-                    {dados3.map((dado) => (
-                      <option key={dado.id} value={dado.id}
-                      >
-                        {dado.nomeVacina}
+                      <option key="0" value="0">
+                        Selecione o Nome da Vacina
                       </option>
-                    ))}
+                      {dados.map((dado) => (
+                        <option key={dado.id} value={dado.id}
+                        >
+                          {dado.nomeVacina}
+                        </option>
+                      ))}
                     </select>
                   </FormGroup>
                 </div>
@@ -260,7 +273,7 @@ function CadastroVacinacao() {
                       <option key="0" value="0">
                         Selecione o Tipo de Vacina
                       </option>
-                      {dados2.map((dado) => (
+                      {dados.map((dado) => (
                         <option key={dado.id} value={dado.id}>
                           {dado.tipoVacina}
                         </option>
