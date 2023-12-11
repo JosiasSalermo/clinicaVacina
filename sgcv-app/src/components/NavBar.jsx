@@ -99,7 +99,7 @@ function Navbar(props) {
             </li>
 
             <li className='nav-item'>
-              <NavbarItem render='true' href='/ListagemFabricante' label='Fabricante' />
+              <NavbarItem render='true' href='/ListagemFabricantes' label='Fabricantes' />
             </li>
 
 
