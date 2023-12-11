@@ -91,9 +91,7 @@ function CadastroTipoVacina() {
   useEffect(() => {
     async function buscar() {
       try {
-
         const response = await axios.get(`${baseURL}/${idParam}`);
-
         setDados(response.data);
         setId(response.data.id);
         setTipoVacina(response.data.tipoVacina);
