@@ -284,7 +284,7 @@ function CadastroVacina() {
 
               <div className="col-md-12 mb-3">
                 <FormGroup
-                  label="Descrição do perfil de acesso: "
+                  label="Descrição da Vacina: "
                   htmlFor="inputDescricao"
                 >
                   <textarea

@@ -187,7 +187,7 @@ function CadastroFuncionario() {
     }
   }, [baseURL, idParam]);
 
-  
+
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
@@ -195,12 +195,19 @@ function CadastroFuncionario() {
       setDados(response.data);
     });
   }, []);
-  
+
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
     axios.get(`${URL_endereco}/estados`).then((response) => {
       setDados2(response.data);
+    });
+  }, []);
+
+  const [dados3, setDados3] = useState(null);
+  useEffect(() => {
+    axios.get(`${URL_funcionario}/perfil`).then((response) => {
+      setDados3(response.data);
     });
   }, []);
 
@@ -211,6 +218,7 @@ function CadastroFuncionario() {
 
   if (!dados) return null;
   if (!dados2) return null;
+  if (!dados3) return null;
 
 
   return (
@@ -396,20 +404,18 @@ function CadastroFuncionario() {
                       value={cidades}
                       onChange={(e) => setCidades(e.target.value)}
                     >
-                    <option key="0" value="0">
+                      <option key="0" value="0">
                         Selecione a Cidade
-                    </option>
-                    {dados2
-                      .filter((estados)=> estados.uf === uf)
-                      .map((estados) => 
-                        estados.cidades.map((cidades) => (
-                          <option key={cidades} value={cidades}>
-                          {cidades}
-                        </option>
-                        ))
-
-                     
-                    )}
+                      </option>
+                      {dados2
+                        .filter((estados) => estados.uf === uf)
+                        .map((estados) =>
+                          estados.cidades.map((cidades) => (
+                            <option key={cidades} value={cidades}>
+                              {cidades}
+                            </option>
+                          ))
+                        )}
                     </select>
                   </FormGroup>
                 </div>
@@ -417,13 +423,23 @@ function CadastroFuncionario() {
 
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Perfil de acesso: " htmlFor="inputPerfilAcesso">
+                  <FormGroup label="Perfil de acesso: " htmlFor="selectPerfilAcesso">
                     <select
                       className="form-select"
                       id="inputPerfilAcesso "
                       name="perfilAcesso"
+                      value={perfilAcesso}
+                      onChange={(e) => setPerfilAcesso(e.target.value)}
                     >
-                      <option value=" "></option>
+                      <option key="0" value="0">
+                        Selecione o Perfil de Acesso
+                      </option>
+                      {dados3.map((dado) => (
+                        <option key={dado.id} value={dado.id}
+                        >
+                          {dado.perfilAcesso}
+                        </option>
+                      ))}
                     </select>
                   </FormGroup>
                 </div>

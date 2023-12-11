@@ -6,20 +6,30 @@ import '../custom.css';
 function Navbar(props) {
   const [isDropdownOpen1, setDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setDropdownOpen2] = useState(false);
+  const [isDropdownOpen3, setDropdownOpen3] = useState(false);
+  const [isDropdownOpen4, setDropdownOpen4] = useState(false);
 
   const handleMouseEnter = (index) => {
     if (index === 1) {
       setDropdownOpen1(true);
       setDropdownOpen2(false);
+      setDropdownOpen3(false);
     } else if (index === 2) {
       setDropdownOpen1(false);
       setDropdownOpen2(true);
+      setDropdownOpen3(false);
+    } else if(index === 3){
+      setDropdownOpen1(false);
+      setDropdownOpen2(false);
+      setDropdownOpen3(true);
+
     }
   };
 
   const handleMouseLeave = () => {
     setDropdownOpen1(false);
     setDropdownOpen2(false);
+    setDropdownOpen3(false);
   };
 
 
@@ -94,15 +104,69 @@ function Navbar(props) {
               </div>
             </li>
 
-            <li className='nav-item '>
-              <NavbarItem render='true' href='/ListagemFuncionarios' label='Funcionários' />
+
+
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(3)}
+              onMouseLeave={handleMouseLeave}>
+              <a
+                className={`nav-link ${isDropdownOpen3 ? 'active' : ''}`}
+                href='/ListagemFuncionarios'
+                id='navbarDropdown3'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen3 ? 'true' : 'false'}
+              >
+                Funcionarios
+              </a>
+              <div className={`dropdown-menu ${isDropdownOpen3 ? 'show' : ''}`}
+                aria-labelledby='navbarDropdown3'>
+                <a className='dropdown-item'
+                  href='CadastroPerfilAcesso'>
+                  Cadastrar Perfil de Acesso
+                </a>
+                <a className='dropdown-item'
+                  href='CadastroFabricante'>
+                  Cadastrar Fabricante
+                </a>
+              </div>
             </li>
 
-            <li className='nav-item'>
-              <NavbarItem render='true' href='/ListagemFabricantes' label='Fabricantes' />
+
+
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(4)}
+              onMouseLeave={handleMouseLeave}>
+              <a
+                className={`nav-link ${isDropdownOpen4 ? 'active' : ''}`}
+                href='/ListagemFabricantes'
+                id='navbarDropdown4'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen4 ? 'true' : 'false'}
+              >
+                Fabricantes
+              </a>
+              <div className={`dropdown-menu ${isDropdownOpen4 ? 'show' : ''}`}
+                aria-labelledby='navbarDropdown4'>
+                <a className='dropdown-item'
+                  href='CadastroPerfilAcesso'>
+                  Cadastrar Perfil de Acesso
+                </a>
+                <a className='dropdown-item'
+                  href='CadastroFabricante'>
+                  Cadastrar Cargo
+                </a>
+                <a className='dropdown-item'
+                  href='CadastroFabricante'>
+                  Cadastrar Especialidade
+                </a>
+              </div>
             </li>
 
-
+           
           </ul>
         </div>
       </div>
