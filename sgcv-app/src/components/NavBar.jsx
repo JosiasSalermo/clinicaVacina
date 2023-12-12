@@ -8,6 +8,7 @@ function NavBar(props) {
   const [isDropdownOpen2, setDropdownOpen2] = useState(false);
   const [isDropdownOpen3, setDropdownOpen3] = useState(false);
   const [isDropdownOpen4, setDropdownOpen4] = useState(false);
+  const [isDropdownOpen5, setDropdownOpen5] = useState(false);
 
   const handleMouseEnter = (index) => {
     if (index === 1) {
@@ -15,21 +16,31 @@ function NavBar(props) {
       setDropdownOpen2(false);
       setDropdownOpen3(false);
       setDropdownOpen4(false);
+      setDropdownOpen5(false);
     } else if (index === 2) {
       setDropdownOpen1(false);
       setDropdownOpen2(true);
       setDropdownOpen3(false);
       setDropdownOpen4(false);
+      setDropdownOpen5(false);
     } else if (index === 3) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(true);
       setDropdownOpen4(false);
+      setDropdownOpen5(false);
     } else if (index === 4) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(false);
       setDropdownOpen4(true);
+      setDropdownOpen5(false);
+    } else if (index === 5) {
+      setDropdownOpen1(false);
+      setDropdownOpen2(false);
+      setDropdownOpen3(false);
+      setDropdownOpen4(false);
+      setDropdownOpen5(true);
     }
   };
 
@@ -38,6 +49,7 @@ function NavBar(props) {
     setDropdownOpen2(false);
     setDropdownOpen3(false);
     setDropdownOpen4(false);
+    setDropdownOpen5(false);
   };
 
 
@@ -61,7 +73,9 @@ function NavBar(props) {
         <div className='collapse navbar-collapse ' id='navbarResponsive '>
           <ul className='navbar-nav'>
 
-            <li className={'nav-item dropdown'} onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={handleMouseLeave}>
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(1)}
+              onMouseLeave={handleMouseLeave}>
               <a
                 className={`nav-link ${isDropdownOpen1 ? 'active' : ''}`}
                 href='/ListagemVacinacao'
@@ -172,6 +186,24 @@ function NavBar(props) {
                   Cadastrar Tipo de Vacina
                 </a>
               </div>
+            </li>
+
+
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(5)}
+              onMouseLeave={handleMouseLeave}>
+              <a
+                className={`nav-link ${isDropdownOpen5 ? 'active' : ''}`}
+                href='/ListagemPacientes'
+                id='navbarDropdown5'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen5 ? 'true' : 'false'}
+              >
+                Pacientes
+              </a>
+
             </li>
 
 

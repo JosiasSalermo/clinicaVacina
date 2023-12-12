@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoadingOverlay from './LoadingOverlay';
 
 
+import CadastroPaciente from './views/CadastroPaciente';
 import CadastroFabricante from './views/CadastroFabricante';
 import CadastroEspecialidade from './views/CadastroEspecialidade';
 import CadastroCargo from './views/CadastroCargo';
@@ -12,6 +13,7 @@ import CadastroTipoVacina from './views/CadastroTipoVacina';
 import CadastroVacina from './views/CadastroVacina';
 import CadastroVacinacao from './views/CadastroVacinacao';
 
+import ListagemPacientes from './views/ListagemPacientes';
 import ListagemFabricantes from './views/ListagemFabricantes';
 import ListagemFuncionarios from './views/ListagemFuncionarios';
 import ListagemVacinas from './views/ListagemVacinas';
@@ -37,6 +39,7 @@ function Rotas() {
       <Routes>
         <Route path="/" element={<Navigate to='/ListagemVacinacao' />} />
 
+        <Route path='/CadastroPaciente' element={<CadastroPaciente />} />
         <Route path='/CadastroFabricante' element={<CadastroFabricante />} />
         <Route path='/CadastroEspecialidade' element={<CadastroEspecialidade />} />
         <Route path='/CadastroCargo' element={<CadastroCargo />} />
@@ -46,6 +49,7 @@ function Rotas() {
         <Route path='/CadastroVacina' element={<CadastroVacina />} />
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
 
+        <Route path='/ListagemPacientes' element={<ListagemPacientes />} />
         <Route path='/ListagemFabricantes' element={<ListagemFabricantes />} />
         <Route path='/ListagemFuncionarios' element={<ListagemFuncionarios />} />
         <Route path='/ListagemVacinas' element={<ListagemVacinas />} />
