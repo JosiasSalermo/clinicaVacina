@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/vacina`;
+const baseURL = `${BASE_URL}/vacinas`;
 
 function ListagemVacinas() {
   const navigate = useNavigate();

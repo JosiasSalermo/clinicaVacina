@@ -19,7 +19,7 @@ function CadastroVacina() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/vacina`;
+  const baseURL = `${BASE_URL}/vacinas`;
 
   const [id, setId] = useState('');
   const [nomeVacina, setNomeVacina] = useState('');
@@ -42,7 +42,7 @@ function CadastroVacina() {
       setDosesAmpola('');
       setTipoVacina('');
       setNomeFabricante('');
-    } else if(dados) {
+    } else if (dados) {
       setId(dados.id);
       setNomeVacina(dados.nomeVacina);
       setDescricao(dados.descricao);
@@ -51,7 +51,7 @@ function CadastroVacina() {
       setDosesAmpola(dados.dosesAmpola);
       setTipoVacina(dados.tipoVacina);
       setNomeFabricante(dados.nomeFabricante);
-    } else{
+    } else {
       buscar();
     }
   }
@@ -91,7 +91,6 @@ function CadastroVacina() {
   async function buscar() {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
-      setDados(response.data);
       setId(response.dados.id);
       setNomeVacina(response.dados.nomeVacina);
       setDescricao(response.dados.descricao);
@@ -141,7 +140,7 @@ function CadastroVacina() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${BASE_URL}/vacina`).then((response) => {
+    axios.get(`${BASE_URL}/vacinas`).then((response) => {
       setDados(response.data);
     });
   }, []);
@@ -149,7 +148,7 @@ function CadastroVacina() {
 
   const [dados2, setDados2] = useState(null); // TipoVacina
   useEffect(() => {
-    axios.get(`${URL_fabricante}/fabricante`).then((response) => {
+    axios.get(`${URL_fabricante}/fabricantes`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -161,7 +160,7 @@ function CadastroVacina() {
 
   if (!dados) return null;
   if (!dados2) return null;
- 
+
 
 
   return (

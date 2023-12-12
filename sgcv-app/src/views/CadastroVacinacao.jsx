@@ -21,7 +21,7 @@ function CadastroVacinacao() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/vacina`;
+  const baseURL = `${BASE_URL}/vacinas`;
 
   const [id, setId] = useState('');
   const [nome, setNome] = useState('');
@@ -153,7 +153,7 @@ function CadastroVacinacao() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${BASE_URL}/vacina`).then((response) => {
+    axios.get(`${BASE_URL}/vacinas`).then((response) => {
       setDados(response.data);
     });
   }, []);

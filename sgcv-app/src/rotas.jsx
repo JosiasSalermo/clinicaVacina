@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoadingOverlay from './LoadingOverlay';
 
 
+import CadastroFabricante from './views/CadastroFabricante';
 import CadastroEspecialidade from './views/CadastroEspecialidade';
 import CadastroCargo from './views/CadastroCargo';
 import CadastroPerfilAcesso from './views/CadastroPerfilAcesso';
@@ -31,11 +32,12 @@ function Rotas() {
 
   return (
     <BrowserRouter>
-         {loading && <LoadingOverlay loading={loading} />}
-   
+      {loading && <LoadingOverlay loading={loading} />}
+
       <Routes>
         <Route path="/" element={<Navigate to='/ListagemVacinacao' />} />
 
+        <Route path='/CadastroFabricante' element={<CadastroFabricante />} />
         <Route path='/CadastroEspecialidade' element={<CadastroEspecialidade />} />
         <Route path='/CadastroCargo' element={<CadastroCargo />} />
         <Route path='/CadastroPerfilAcesso' element={<CadastroPerfilAcesso />} />
@@ -43,12 +45,12 @@ function Rotas() {
         <Route path='/CadastroTipoVacina' element={<CadastroTipoVacina />} />
         <Route path='/CadastroVacina' element={<CadastroVacina />} />
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
-        
+
         <Route path='/ListagemFabricantes' element={<ListagemFabricantes />} />
         <Route path='/ListagemFuncionarios' element={<ListagemFuncionarios />} />
         <Route path='/ListagemVacinas' element={<ListagemVacinas />} />
         <Route path='/ListagemVacinacao' element={<ListagemVacinacao />} />
-      
+
 
       </Routes>
     </BrowserRouter>

@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { URL_fabricante } from '../config/axios';
 
-const baseURL = `${URL_fabricante}/fabricante`;
+const baseURL = `${URL_fabricante}/fabricantes`;
 
 
 function ListagemFabricantes() {

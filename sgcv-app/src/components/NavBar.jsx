@@ -3,7 +3,7 @@ import 'bootswatch/dist/minty/bootstrap.css';
 import NavbarItem from './NavbarItem';
 import '../custom.css';
 
-function Navbar(props) {
+function NavBar(props) {
   const [isDropdownOpen1, setDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setDropdownOpen2] = useState(false);
   const [isDropdownOpen3, setDropdownOpen3] = useState(false);
@@ -14,15 +14,22 @@ function Navbar(props) {
       setDropdownOpen1(true);
       setDropdownOpen2(false);
       setDropdownOpen3(false);
+      setDropdownOpen4(false);
     } else if (index === 2) {
       setDropdownOpen1(false);
       setDropdownOpen2(true);
       setDropdownOpen3(false);
-    } else if(index === 3){
+      setDropdownOpen4(false);
+    } else if (index === 3) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(true);
-
+      setDropdownOpen4(false);
+    } else if (index === 4) {
+      setDropdownOpen1(false);
+      setDropdownOpen2(false);
+      setDropdownOpen3(false);
+      setDropdownOpen4(true);
     }
   };
 
@@ -30,6 +37,7 @@ function Navbar(props) {
     setDropdownOpen1(false);
     setDropdownOpen2(false);
     setDropdownOpen3(false);
+    setDropdownOpen4(false);
   };
 
 
@@ -156,21 +164,17 @@ function Navbar(props) {
               <div className={`dropdown-menu ${isDropdownOpen4 ? 'show' : ''}`}
                 aria-labelledby='navbarDropdown4'>
                 <a className='dropdown-item'
-                  href='CadastroPerfilAcesso'>
-                  Cadastrar Perfil de Acesso
+                  href='CadastroVacina'>
+                  Cadastrar Vacina
                 </a>
                 <a className='dropdown-item'
-                  href='CadastroFabricante'>
-                  Cadastrar Cargo
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroFabricante'>
-                  Cadastrar Especialidade
+                  href='CadastroTipoVacina'>
+                  Cadastrar Tipo de Vacina
                 </a>
               </div>
             </li>
 
-           
+
           </ul>
         </div>
       </div>
@@ -178,4 +182,4 @@ function Navbar(props) {
   );
 }
 
-export default Navbar;
+export default NavBar;
