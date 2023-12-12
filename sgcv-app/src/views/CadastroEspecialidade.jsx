@@ -14,16 +14,16 @@ import LoadingOverlay from "../LoadingOverlay";
 import axios from "axios";
 import { URL_funcionario } from '../config/axios';
 
-function CadastroPerfilAcesso() {
+function CadastroEspecialidade() {
 
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_funcionario}/perfil`;
+  const baseURL = `${URL_funcionario}/especialidades`;
 
   const [id, setId] = useState('');
-  const [perfilAcesso, setPerfilAcesso] = useState('');
+  const [especialidade, setEspecialidade] = useState('');
   const [descricao, setDescricao] = useState('');
 
   const [loading, setLoading] = useState(true);
@@ -31,11 +31,11 @@ function CadastroPerfilAcesso() {
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setPerfilAcesso('');
+      setEspecialidade('');
       setDescricao('');
     } else if (dados) {
       setId(dados.id);
-      setPerfilAcesso(dados.perfilAcesso);
+      setEspecialidade(dados.especialidade);
       setDescricao(dados.descricao);
     } else {
       buscar();
@@ -45,7 +45,7 @@ function CadastroPerfilAcesso() {
 
 
   async function salvar() {
-    let data = { id, perfilAcesso, descricao };
+    let data = { id, especialidade, descricao };
     data = JSON.stringify(data);
 
     if (idParam == null) {
@@ -54,7 +54,7 @@ function CadastroPerfilAcesso() {
           headers: { 'Content-type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Perfil ${perfilAcesso} cadastrada com sucesso!`);
+          mensagemSucesso(`Especialidade ${especialidade} cadastrada com sucesso!`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -65,7 +65,7 @@ function CadastroPerfilAcesso() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Perfil ${perfilAcesso} alterada com sucesso!`);
+          mensagemSucesso(`Especialidade ${especialidade} alterada com sucesso!`);
           navigate(`ListagemFuncionarios`);
         })
         .catch(function (error) {
@@ -79,7 +79,7 @@ function CadastroPerfilAcesso() {
       const response = await axios.get(`${baseURL}/${idParam}`);
       setDados(response.data);
       setId(response.dados.id);
-      setPerfilAcesso(response.dados.perfilAcesso);
+      setEspecialidade(response.dados.especialidade);
       setDescricao(response.dados.descricao);
 
     } catch (error) {
@@ -94,7 +94,7 @@ function CadastroPerfilAcesso() {
         const response = await axios.get(`${baseURL}/${idParam}`);
         setDados(response.data);
         setId(response.data.id);
-        setPerfilAcesso(response.data.perfilAcesso);
+        setEspecialidade(response.data.especialidade);
         setDescricao(response.data.descricao);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
@@ -116,12 +116,12 @@ function CadastroPerfilAcesso() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/perfil`).then((response) => {
+    axios.get(`${URL_funcionario}/especialidades`).then((response) => {
       setDados(response.data);
     });
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     buscar();
   }, [id]);
 
@@ -130,23 +130,23 @@ function CadastroPerfilAcesso() {
   return (
     <div className="container">
       <LoadingOverlay loading={loading} />
-      <Card title="Cadastro Perfil de Acesso">
+      <Card title="Cadastro de Especialidade">
         <div className="row">
           <div className="col-lg-12">
             <div className="form-row">
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
                   <FormGroup
-                    label="Perfil: *"
+                    label="Especialidade: *"
                     htmlFor="inputNomeTipo"
                   >
                     <input
                       type="text"
-                      id="inputTipoVacina"
-                      value={perfilAcesso}
+                      id="inputEspecialidade"
+                      value={especialidade}
                       className="form-control"
                       name=""
-                      onChange={(e) => setPerfilAcesso(e.target.value)}
+                      onChange={(e) => setEspecialidade(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -199,4 +199,4 @@ function CadastroPerfilAcesso() {
 
 }
 
-export default CadastroPerfilAcesso;
+export default CadastroEspecialidade;

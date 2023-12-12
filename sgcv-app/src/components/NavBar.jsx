@@ -127,8 +127,12 @@ function Navbar(props) {
                   Cadastrar Perfil de Acesso
                 </a>
                 <a className='dropdown-item'
-                  href='CadastroFabricante'>
-                  Cadastrar Fabricante
+                  href='CadastroCargo'>
+                  Cadastrar Cargo
+                </a>
+                <a className='dropdown-item'
+                  href='CadastroEspecialidade'>
+                  Cadastrar Especialidade
                 </a>
               </div>
             </li>

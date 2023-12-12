@@ -211,6 +211,21 @@ function CadastroFuncionario() {
     });
   }, []);
 
+
+  const [dados4, setDados4] = useState(null);
+  useEffect(() => {
+    axios.get(`${URL_funcionario}/cargos`).then((response) => {
+      setDados4(response.data);
+    });
+  }, []);
+
+  const [dados5, setDados5] = useState(null);
+  useEffect(() => {
+    axios.get(`${URL_funcionario}/especialidades`).then((response) => {
+      setDados5(response.data);
+    });
+  }, []);
+
   useEffect(() => {
     buscar();
   }, [id]);
@@ -219,6 +234,8 @@ function CadastroFuncionario() {
   if (!dados) return null;
   if (!dados2) return null;
   if (!dados3) return null;
+  if (!dados4) return null;
+  if (!dados5) return null;
 
 
   return (
@@ -446,13 +463,23 @@ function CadastroFuncionario() {
 
 
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Cargo do Funcionário: " htmlFor="inputCargoFuncionario">
+                  <FormGroup label="Cargo do Funcionário: " htmlFor="selectCargoFuncionario">
                     <select
                       className="form-select"
-                      id="inputCargoFuncionario "
+                      id="selectCargoFuncionario "
                       name="cargoFuncionario"
+                      value={cargo}
+                      onChange={(e) => setCargo(e.target.value)}
                     >
-                      <option value=" "></option>
+                      <option key="0" value="0">
+                        Selecione o Cargo
+                      </option>
+                      {dados4.map((dado) => (
+                        <option key={dado.id} value={dado.id}
+                        >
+                          {dado.cargo}
+                        </option>
+                      ))}
                     </select>
                   </FormGroup>
                 </div>
@@ -464,8 +491,18 @@ function CadastroFuncionario() {
                       className="form-select"
                       id="inputEspecialidade"
                       name="especialidade"
+                      value={especialidade}
+                      onChange={(e) => setEspecialidade(e.target.value)}
                     >
-                      <option value=" "></option>
+                      <option key="0" value="0">
+                        Selecione a Especialidade
+                      </option>
+                      {dados5.map((dado) => (
+                        <option key={dado.id} value={dado.id}
+                        >
+                          {dado.especialidade}
+                        </option>
+                      ))}
                     </select>
                   </FormGroup>
                 </div>
