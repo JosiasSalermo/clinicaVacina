@@ -19,6 +19,8 @@ import ListagemFuncionarios from './views/ListagemFuncionarios';
 import ListagemVacinas from './views/ListagemVacinas';
 import ListagemVacinacao from './views/ListagemVacinacao';
 
+import Compra from './views/Compra';
+
 
 
 function Rotas() {
@@ -54,6 +56,8 @@ function Rotas() {
         <Route path='/ListagemFuncionarios' element={<ListagemFuncionarios />} />
         <Route path='/ListagemVacinas' element={<ListagemVacinas />} />
         <Route path='/ListagemVacinacao' element={<ListagemVacinacao />} />
+
+        <Route path='/Compra' element={<Compra />} />
 
 
       </Routes>
