@@ -9,6 +9,7 @@ function NavBar(props) {
   const [isDropdownOpen3, setDropdownOpen3] = useState(false);
   const [isDropdownOpen4, setDropdownOpen4] = useState(false);
   const [isDropdownOpen5, setDropdownOpen5] = useState(false);
+  const [isDropdownOpen6, setDropdownOpen6] = useState(false);
 
   const handleMouseEnter = (index) => {
     if (index === 1) {
@@ -17,30 +18,42 @@ function NavBar(props) {
       setDropdownOpen3(false);
       setDropdownOpen4(false);
       setDropdownOpen5(false);
+      setDropdownOpen6(false);
     } else if (index === 2) {
       setDropdownOpen1(false);
       setDropdownOpen2(true);
       setDropdownOpen3(false);
       setDropdownOpen4(false);
       setDropdownOpen5(false);
+      setDropdownOpen6(false);
     } else if (index === 3) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(true);
       setDropdownOpen4(false);
       setDropdownOpen5(false);
+      setDropdownOpen6(false);
     } else if (index === 4) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(false);
       setDropdownOpen4(true);
       setDropdownOpen5(false);
+      setDropdownOpen6(false);
     } else if (index === 5) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
       setDropdownOpen3(false);
       setDropdownOpen4(false);
       setDropdownOpen5(true);
+      setDropdownOpen6(false);
+    } else if (index === 6) {
+      setDropdownOpen1(false);
+      setDropdownOpen2(false);
+      setDropdownOpen3(false);
+      setDropdownOpen4(false);
+      setDropdownOpen5(false);
+      setDropdownOpen6(true);
     }
   };
 
@@ -57,7 +70,7 @@ function NavBar(props) {
     <div className='navbar navbar-expand-lg fixed-top bg-primary'>
       <div className='container'>
         <a href='/' className='navbar-brand'>
-          <img src="https://cdn-icons-png.flaticon.com/128/6064/6064458.png" alt="" width={35} />
+          <img src="https://cdn-icons-png.flaticon.com/128/6064/6064458.png" alt="" width={20} />
         </a>
         <button
           className='navbar-toggler'
@@ -76,9 +89,9 @@ function NavBar(props) {
             <li className={'nav-item dropdown'}
               onMouseEnter={() => handleMouseEnter(1)}
               onMouseLeave={handleMouseLeave}>
-              <a
+              <span
                 className={`nav-link ${isDropdownOpen1 ? 'active' : ''}`}
-                href='/ListagemVacinacao'
+                href='#'
                 id='navbarDropdown1'
                 role='button'
                 data-bs-toggle='dropdown'
@@ -86,17 +99,19 @@ function NavBar(props) {
                 aria-expanded={isDropdownOpen1 ? 'true' : 'false'}
               >
                 Vacinação do dia
-              </a>
+              </span>
+
+
+
               <div
                 className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''} `}
                 aria-labelledby='navbarDropdown1'
               >
-                <a className='dropdown-item' href='CadastroTipoVacina'>
-                  Cadastrar Tipo de vacina
+                <a className='dropdown-item' href='ListagemVacinacao'>
+                  Vacinação do dia
                 </a>
               </div>
             </li>
-
 
 
             <li className={'nav-item dropdown'}
@@ -207,6 +222,32 @@ function NavBar(props) {
             </li>
 
 
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(6)}
+              onMouseLeave={handleMouseLeave}>
+              <span
+                className={`nav-link ${isDropdownOpen6 ? 'active' : ''}`}
+                href='#'
+                id='navbarDropdown6'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen6 ? 'true' : 'false'}
+              >
+                Compra
+              </span>
+
+
+
+              <div
+                className={`dropdown-menu ${isDropdownOpen6 ? 'show' : ''} `}
+                aria-labelledby='navbarDropdown6'
+              >
+                <a className='dropdown-item' href='Compra'>
+                  Compra
+                </a>
+              </div>
+            </li>
           </ul>
         </div>
       </div>

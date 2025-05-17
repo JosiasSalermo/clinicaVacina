@@ -8,7 +8,6 @@ export const URL_fabricante = 'https://my-json-server.typicode.com/JosiasSalermo
 
 export const URL_endereco = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-endereco';
 
-
 export const URL_agenda = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-agenda';
 
 

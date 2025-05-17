@@ -8,12 +8,14 @@ import { mensagemSucesso, mensagemErro } from "../components/toastr";
 import FormGroup from "../components/FormGroup";
 
 
+
 import "../custom.css";
 import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { URL_fabricante } from "../config/axios";
 import { URL_endereco } from "../config/axios";
+import { URL_paciente } from "../config/axios";
 import { BASE_URL } from "../config/axios";
 
 function Compra() {
@@ -256,6 +258,13 @@ function Compra() {
     });
   }, []);
 
+  const [dados4, setDados4] = useState(null);
+  useEffect(() => {
+    axios.get(`${URL_paciente}/contraIndicacao`).then((response) => {
+      setDados4(response.data);
+    });
+  }, []);
+
 
 
   useEffect(() => {
@@ -266,6 +275,7 @@ function Compra() {
   if (!dados) return null;
   if (!dados2) return null;
   if (!dados3) return null;
+  if (!dados4) return null;
 
 
   return (
@@ -275,6 +285,19 @@ function Compra() {
         <div className="row">
           <div className="col-lg-12">
             <div className="form-row">
+
+              <div className="col-md-12 mb-3">
+                <FormGroup label="Nome Fornecedor: *" htmlFor="inputNomeFornecedor">
+                  <input
+                    type="text"
+                    id="inputNomeFornecedor"
+                    value={nomeFornecedor}
+                    className="form-control"
+                    name="nomeFornecedor"
+                    onChange={(e) => setNomeFornecedor(e.target.value)}
+                  />
+                </FormGroup>
+              </div>
 
               <div className="col-md-12 mb-3">
                 <FormGroup label="CNPJ: *" htmlFor="inputCnpj">
@@ -302,18 +325,7 @@ function Compra() {
                 </FormGroup>
               </div>
 
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Nome Fornecedor: *" htmlFor="inputNomeFornecedor">
-                  <input
-                    type="text"
-                    id="inputNomeFornecedor"
-                    value={nomeFornecedor}
-                    className="form-control"
-                    name="nomeFornecedor"
-                    onChange={(e) => setNomeFornecedor(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
+
 
               <div className="col-md-12 mb-3">
                 <FormGroup label="Email: *" htmlFor="inputEmail">
@@ -324,19 +336,6 @@ function Compra() {
                     className="form-control"
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Nome: *" htmlFor="inputNomeFabricante">
-                  <input
-                    type="text"
-                    id="inputNomeFabricante"
-                    value={nomeFabricante}
-                    className="form-control"
-                    name="nomeFabricante"
-                    onChange={(e) => setNomeFabricante(e.target.value)}
                   />
                 </FormGroup>
               </div>
@@ -365,18 +364,6 @@ function Compra() {
                       className="form-control"
                       name="telefone"
                       onChange={(e) => setTelefone(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-3 mb-3">
-                  <FormGroup label="Foto de perfil: " htmlFor="selectFotoPerfil">
-                    <input
-                      type="file"
-                      id="selectFotoPerfil"
-                      value={fotoPerfil}
-                      className="form-control"
-                      name="idFotoPerfil"
-                      onChange={(e) => setFotoPerfil(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -434,7 +421,7 @@ function Compra() {
 
               <div className="mesmaLinha mb-3">
                 <div className="col-md-5" >
-                  <FormGroup label="Estado: " htmlFor="inputEstado">
+                  <FormGroup label="Estado: " htmlFor="selectEstado">
                     <select
                       className="form-select"
                       id="selectUf"
@@ -481,27 +468,31 @@ function Compra() {
 
               <div className="mesmaLinha mb-3">
                 <div className="col-md-5" >
-                  <FormGroup label="Valor: " htmlFor="inputValor">
-                    <select
-                      className="form-select"
-                      id="selectValor"
-                      name="valor"
+                  <FormGroup label="Valor da Compra: *" htmlFor="inputValor">
+                    <input
+                      type="text"
+                      id="inputValor"
                       value={valor}
-                      onChange={(e) => setUf(e.target.value)}
-                    >
-                    </select>
+                      className="form-control"
+                      name="valor"
+                      inputMode="decimal"
+                      pattern="^\d+([.,]\d{1,2})?$"
+                      placeholder="R$ 0,00"
+                      onChange={(e) => setValor(e.target.value)}
+                    />
                   </FormGroup>
                 </div>
                 <div className="col-md-5">
-                  <FormGroup label="Data da Compra: " htmlFor="selectDataCompra">
-                    <select
-                      className="form-select"
-                      id="selectDataCompra"
-                      name="dataCompra"
+                  <FormGroup label="Data da Compra: " htmlFor="inputDataCompra">
+                    <input
+                      type="date"
+                      id="inputDataCompra"
                       value={dataCompra}
+                      className="form-control"
+                      name="dataCompra"
                       onChange={(e) => setDataCompra(e.target.value)}
-                    >
-                    </select>
+
+                    />
                   </FormGroup>
                 </div>
               </div>
@@ -556,14 +547,14 @@ function Compra() {
               <div className="mesmaLinha mb-3">
                 <div className="col-md-5" >
                   <FormGroup label="Doses Ampola: " htmlFor="inputDosesAmpola">
-                    <select
-                      className="form-select"
-                      id="selectDosesAmpola"
-                      name="dosesAmpola"
+                    <input
+                      type="number"
+                      id="inputDosesAmpola"
                       value={dosesAmpola}
-                      onChange={(e) => setUf(e.target.value)}
-                    >
-                    </select>
+                      className="form-control"
+                      name="dosesAmpola"
+                      onChange={(e) => setDosesAmpola(e.target.value)}
+                    />
                   </FormGroup>
                 </div>
                 <div className="col-md-5">
@@ -573,8 +564,16 @@ function Compra() {
                       id="selectContraIndicação"
                       name="contraIndicação"
                       value={contraIndicacao}
-                      onChange={(e) => setDataCompra(e.target.value)}
+                      onChange={(e) => setContraIndicacao(e.target.value)}
                     >
+                      <option key="0" value="0">
+                        Selecione a Contra Indicação
+                      </option>
+                      {dados4.map((dado) => (
+                        <option key={dado.id} value={dado.id}>
+                          {dado.contraIndicacao}
+                        </option>
+                      ))}
                     </select>
                   </FormGroup>
                 </div>
@@ -583,38 +582,41 @@ function Compra() {
               <div className="mesmaLinha mb-3">
                 <div className="col-md-4" >
                   <FormGroup label="Data Validade: " htmlFor="inputDataValidade">
-                    <select
-                      className="form-select"
-                      id="selectDataValidade"
-                      name="dataValidade"
+                    <input
+                      type="date"
+                      id="inputDataValidade"
                       value={dataValidade}
-                      onChange={(e) => setUf(e.target.value)}
+                      className="form-control"
+                      name="dataValidade"
+                      onChange={(e) => setDataValidade(e.target.value)}
                     >
-                    </select>
+                    </input>
                   </FormGroup>
                 </div>
                 <div className="col-md-4">
-                  <FormGroup label="Número Lote: " htmlFor="selectNumeroLote">
-                    <select
-                      className="form-select"
-                      id="selectNumeroLote"
-                      name="numeroLote"
+                  <FormGroup label="Número Lote: " htmlFor="inputNumeroLote">
+                    <input
+                      type="number"
+                      id="inputNumeroLote"
                       value={numeroLote}
+                      className="form-control"
+                      name="numeroLote"
                       onChange={(e) => setNumeroLote(e.target.value)}
                     >
-                    </select>
+                    </input>
                   </FormGroup>
                 </div>
                 <div className="col-md-2">
-                  <FormGroup label="Número Ampola: " htmlFor="selectNumeroAmpola">
-                    <select
-                      className="form-select"
-                      id="selectNumeroAmpola"
-                      name="numeroAmpola"
+                  <FormGroup label="Número Ampola: " htmlFor="inputNumeroAmpola">
+                    <input
+                      type="number"
+                      id="inputNumeroAmpola"
                       value={numeroAmpola}
+                      className="form-control"
+                      name="numeroAmpola"
                       onChange={(e) => setNumeroAmpola(e.target.value)}
                     >
-                    </select>
+                    </input>
                   </FormGroup>
                 </div>
               </div>
@@ -643,8 +645,8 @@ function Compra() {
             </Stack>
           </div>
         </div>
-      </Card>
-    </div>
+      </Card >
+    </div >
   );
 }
 
