@@ -83,6 +83,8 @@ body {
   .dropdown-menu.show[aria-labelledby='themes'] .dropdown-item:first-child {
     width: 100%;
   }
+ 
+
   .bs-component {
     position: relative;
   }
@@ -298,4 +300,14 @@ body {
 .nav-item {
   margin-right: 100px;
   
+}
+
+/* 1) Menu principal: não mostrar o cursor de link */
+.navbar .nav-link {
+  cursor: default !important;
+}
+
+/* 2) Submenus (dropdown items): manter a mãozinha */
+.navbar .dropdown-item {
+  cursor: pointer !important;
 }
