@@ -171,7 +171,7 @@ function CadastroVacina() {
           <div className="col-lg-12">
             <div className="form-row">
               <div className="mesmaLinha">
-                <div className="col-md-5 mb-3">
+                <div className="col-md-12 mb-3">
                   <FormGroup
                     label="Nome da vacina: *"
                     htmlFor="inputNomeVacina"
@@ -187,21 +187,7 @@ function CadastroVacina() {
                   </FormGroup>
                 </div>
 
-                <div className="col-md-5 mb-3">
-                  <FormGroup
-                    label="Número do Lote: *"
-                    htmlFor="inputNumeroLote"
-                  >
-                    <input
-                      type="text"
-                      id="inputNumeroLote"
-                      value={numeroLote}
-                      className="form-control"
-                      name="numeroLote"
-                      onChange={(e) => setNumeroLote(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
+
               </div>
 
               <div className="mesmaLinha">
@@ -225,59 +211,17 @@ function CadastroVacina() {
                   </FormGroup>
                 </div>
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Fabricante: *" htmlFor="selectFabricante">
-                    <select
-                      className="form-select"
-                      id="selectFabricante"
-                      name="nomeFabricante"
-                      value={nomeFabricante}
-                      onChange={(e) => setNomeFabricante(e.target.value)}
-                    >
-                      <option key="0" value="0">
-                        Selecione o Fabricante
-                      </option>
-                      {dados2.map((dado) => (
-                        <option key={dado.id} value={dado.id}>
-                          {dado.nomeFabricante}
-                        </option>
-                      ))}
-                    </select>
-                  </FormGroup>
+
                 </div>
               </div>
 
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
-                  <FormGroup
-                    label="Data de Validade: *"
-                    htmlFor="inputDataValidade"
-                  >
-                    <input
-                      type="date"
-                      id="inputDataValidade"
-                      value={dataValidade}
-                      className="form-control"
-                      name="dataValidade"
-                      onChange={(e) => setDataValidade(e.target.value)}
-                    />
-                  </FormGroup>
+
                 </div>
 
                 <div className="col-md-5 mb-3">
-                  <FormGroup
-                    label="Doses por ampola: *"
-                    htmlFor="inpuDosesAmpola"
-                  >
-                    <input
-                      type="number"
-                      id="inputDosesAmpola"
-                      value={dosesAmpola}
-                      maxLength="4"
-                      className="form-control"
-                      name="dosesAmpola"
-                      onChange={(e) => setDosesAmpola(e.target.value)}
-                    />
-                  </FormGroup>
+
                 </div>
               </div>
 
