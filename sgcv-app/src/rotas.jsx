@@ -12,6 +12,7 @@ import CadastroFuncionario from './views/CadastroFuncionario';
 import CadastroTipoVacina from './views/CadastroTipoVacina';
 import CadastroVacina from './views/CadastroVacina';
 import CadastroVacinacao from './views/CadastroVacinacao';
+import CadastroCompra from './views/CadastroCompra';
 
 import ListagemPacientes from './views/ListagemPacientes';
 import ListagemFabricantes from './views/ListagemFabricantes';
@@ -19,7 +20,6 @@ import ListagemFuncionarios from './views/ListagemFuncionarios';
 import ListagemVacinas from './views/ListagemVacinas';
 import ListagemVacinacao from './views/ListagemVacinacao';
 
-import Compra from './views/Compra';
 
 
 
@@ -50,6 +50,7 @@ function Rotas() {
         <Route path='/CadastroTipoVacina' element={<CadastroTipoVacina />} />
         <Route path='/CadastroVacina' element={<CadastroVacina />} />
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
+        <Route path='/CadastroCompra' element={<CadastroCompra />} />
 
         <Route path='/ListagemPacientes' element={<ListagemPacientes />} />
         <Route path='/ListagemFabricantes' element={<ListagemFabricantes />} />
@@ -57,7 +58,6 @@ function Rotas() {
         <Route path='/ListagemVacinas' element={<ListagemVacinas />} />
         <Route path='/ListagemVacinacao' element={<ListagemVacinacao />} />
 
-        <Route path='/Compra' element={<Compra />} />
 
 
       </Routes>

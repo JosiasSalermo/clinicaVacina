@@ -18,7 +18,7 @@ import { URL_endereco } from "../config/axios";
 import { URL_paciente } from "../config/axios";
 import { BASE_URL } from "../config/axios";
 
-function Compra() {
+function CadastroCompra() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
@@ -281,7 +281,7 @@ function Compra() {
   return (
     <div className="container">
       <LoadingOverlay loading={loading} />
-      <Card title="Compra">
+      <Card title="Cadastrar Compra">
         <div className="row">
           <div className="col-lg-12">
             <div className="form-row">
@@ -650,4 +650,4 @@ function Compra() {
   );
 }
 
-export default Compra;
+export default CadastroCompra;

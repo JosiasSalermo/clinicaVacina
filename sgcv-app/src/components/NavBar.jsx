@@ -99,7 +99,7 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen1 ? 'true' : 'false'}
               >
-                Vacinação
+                Vacinações
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''} `}
@@ -275,7 +275,7 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen6 ? 'true' : 'false'}
               >
-                Compra
+                Compras
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen6 ? 'show' : ''} `}
@@ -284,10 +284,6 @@ function NavBar(props) {
                 <a className='dropdown-item'
                   href='CadastroCompra'>
                   Cadastrar Compra
-                </a>
-                <a className='dropdown-item'
-                  href='Compra'>
-                  Compra
                 </a>
               </div>
             </li>
