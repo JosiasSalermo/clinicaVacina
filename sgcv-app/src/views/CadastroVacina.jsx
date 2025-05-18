@@ -225,7 +225,7 @@ function CadastroVacina() {
                   </FormGroup>
                 </div>
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Fabricante: " htmlFor="selectFabricante">
+                  <FormGroup label="Fabricante: *" htmlFor="selectFabricante">
                     <select
                       className="form-select"
                       id="selectFabricante"
@@ -249,7 +249,7 @@ function CadastroVacina() {
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
                   <FormGroup
-                    label="Data de Validade: "
+                    label="Data de Validade: *"
                     htmlFor="inputDataValidade"
                   >
                     <input
@@ -265,7 +265,7 @@ function CadastroVacina() {
 
                 <div className="col-md-5 mb-3">
                   <FormGroup
-                    label="Doses por ampola:"
+                    label="Doses por ampola: *"
                     htmlFor="inpuDosesAmpola"
                   >
                     <input
