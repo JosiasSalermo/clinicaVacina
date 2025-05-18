@@ -342,7 +342,7 @@ function CadastroCompra() {
 
               <div className="mesmaLinha">
                 <div className="col-md-2 mb-3">
-                  <FormGroup label="DDD:" htmlFor="inputDDD">
+                  <FormGroup label="DDD: *" htmlFor="inputDDD">
                     <input
                       type="tel"
                       maxLength="2"
@@ -355,7 +355,7 @@ function CadastroCompra() {
                   </FormGroup>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <FormGroup label="Telefone: " htmlFor="inputTelefone">
+                  <FormGroup label="Telefone: *" htmlFor="inputTelefone">
                     <input
                       type="tel"
                       maxLength="9"
@@ -370,7 +370,7 @@ function CadastroCompra() {
               </div>
 
               <div className="col-md-12 mb-3">
-                <FormGroup label="Logradouro: " htmlFor="inputLogradouro">
+                <FormGroup label="Logradouro: *" htmlFor="inputLogradouro">
                   <input
                     type="text"
                     maxLength="100"
@@ -407,7 +407,7 @@ function CadastroCompra() {
                   </FormGroup>
                 </div>
                 <div className="col-md-4 mb-3">
-                  <FormGroup label="CEP: " htmlFor="inputCep">
+                  <FormGroup label="CEP: *" htmlFor="inputCep">
                     <input
                       type="text"
                       maxLength="8"
@@ -483,7 +483,7 @@ function CadastroCompra() {
                   </FormGroup>
                 </div>
                 <div className="col-md-5">
-                  <FormGroup label="Data da Compra: " htmlFor="inputDataCompra">
+                  <FormGroup label="Data da Compra: *" htmlFor="inputDataCompra">
                     <input
                       type="date"
                       id="inputDataCompra"
@@ -499,7 +499,7 @@ function CadastroCompra() {
 
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Nome Vacina: " htmlFor="selectNomeVacina">
+                  <FormGroup label="Nome Vacina: *" htmlFor="selectNomeVacina">
                     <select
                       className="form-select"
                       id="inputNomeVacina"
@@ -522,7 +522,7 @@ function CadastroCompra() {
 
 
                 <div className="col-md-5 mb-3">
-                  <FormGroup label="Tipo de Vacina: " htmlFor="selectTipo">
+                  <FormGroup label="Tipo de Vacina: *" htmlFor="selectTipo">
                     <select
                       className="form-select"
                       id="selectTipo"
@@ -581,7 +581,7 @@ function CadastroCompra() {
 
               <div className="mesmaLinha mb-3">
                 <div className="col-md-4" >
-                  <FormGroup label="Data Validade: " htmlFor="inputDataValidade">
+                  <FormGroup label="Data Validade: *" htmlFor="inputDataValidade">
                     <input
                       type="date"
                       id="inputDataValidade"
@@ -594,7 +594,7 @@ function CadastroCompra() {
                   </FormGroup>
                 </div>
                 <div className="col-md-4">
-                  <FormGroup label="Número Lote: " htmlFor="inputNumeroLote">
+                  <FormGroup label="Número Lote: *" htmlFor="inputNumeroLote">
                     <input
                       type="number"
                       id="inputNumeroLote"
