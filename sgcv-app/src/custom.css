@@ -302,6 +302,23 @@ body {
   
 }
 
+#navbarDropdown1:hover,
+#navbarDropdown2:hover,
+#navbarDropdown3:hover,
+#navbarDropdown4:hover,
+#navbarDropdown5:hover
+{
+  background-color:  #56cc9d; 
+  border-radius: 5px;
+  color: white;
+}
+
+.dropdown-item:hover{
+  background-color:  #56cc9d; 
+  border-radius: 2px;
+  color: white;
+}
+
 /* 1) Menu principal: não mostrar o cursor de link */
 .navbar .nav-link {
   cursor: default !important;
