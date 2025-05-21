@@ -12,14 +12,15 @@ import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { BASE_URL } from '../config/axios';
-import { URL_fabricante } from "../config/axios";
+
 
 function CadastroVacina() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/vacinas`;
+  const baseURL = `${BASE_URL}/vacina`;
+  const URL_fabricante = `${BASE_URL}/fabricante`;
 
   const [id, setId] = useState('');
   const [nomeVacina, setNomeVacina] = useState('');

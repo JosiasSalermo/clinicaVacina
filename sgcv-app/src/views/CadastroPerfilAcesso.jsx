@@ -121,7 +121,7 @@ function CadastroPerfilAcesso() {
     });
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     buscar();
   }, [id]);
 
@@ -137,7 +137,7 @@ function CadastroPerfilAcesso() {
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
                   <FormGroup
-                    label="Perfil: *"
+                    label="Nome do Perfil: *"
                     htmlFor="inputNomeTipo"
                   >
                     <input
