@@ -143,7 +143,7 @@ function CadastroCompra() {
         })
         .then(function (response) {
           mensagemSucesso(`Compra ${compra} alterada com sucesso!`);
-          navigate(`/Compra`);
+          navigate(`/CadastroCompra`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);

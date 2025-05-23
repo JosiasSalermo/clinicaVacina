@@ -1,5 +1,3 @@
-// src/views/Descarte.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -20,7 +18,7 @@ function CadastroDescarte() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/vacinas`;
+  const baseURL = `${BASE_URL}/descarte`;
 
 
   // Estado do formulário
@@ -62,8 +60,8 @@ function CadastroDescarte() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Descarte cadastrado com sucesso!`);
-          navigate(`/Descarte`);
+          mensagemSucesso(`Descarte ${id} cadastrada com sucesso!`);
+          navigate(`/CadastroDescarte`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -74,8 +72,8 @@ function CadastroDescarte() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Descarte  alterada com sucesso!`);
-          navigate(`/Descarte`);
+          mensagemSucesso(`Descarte ${id} alterada com sucesso!`);
+          navigate(`/CadastroDescarte`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -86,13 +84,14 @@ function CadastroDescarte() {
   async function buscar() {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
+      setDados(response.data);
       setId(response.dados.id);
       setQuantidade(response.dados.quantidade);
       setDataDescarte(response.dados.dataDescarte);
       setMotivo(response.dados.motivo);
       setNumeroLote(response.dados.numeroLote);
     } catch (error) {
-      mensagemErro('Erro ao buscar os dados:', error);
+      console.error('Erro ao buscar os dados:', error);
     }
   }
 
