@@ -20,7 +20,6 @@ import { URL_fabricante } from "../config/axios";
 import { URL_estado } from "../config/axios";
 import { URL_agenda } from "../config/axios";
 
-
 function CadastroCompra() {
   const { idParam } = useParams();
 
@@ -29,123 +28,116 @@ function CadastroCompra() {
   const baseURL = `${URL_fabricante}/fabricantes`;
   const compraURL = `${BASE_URL}/compras`;
 
-  // --- Dados básicos da Compra/DTO ---
   const [id, setId] = useState('');
-  const [valor, setValor] = useState([]);
-  const [dataCompra, setDataCompra] = useState([]);
-
-  // --- Relacionamentos por ID (vêm do CompraDTO) ---
-  const [fornecedorId, setFornecedorId] = useState([]);
-  const [nomeFornecedor, setNomeFornecedor] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
-  const [fabricanteId, setFabricanteId] = useState([]);
-  const [vacinaId, setVacinaId] = useState([]);
-  const [tipoVacinaId, setTipoVacinaId] = useState([]);
-  const [loteId, setLoteId] = useState([]);
-
-  // --- Listas para selects ---
-  const [fornecedor, setFornecedor] = useState([]);
-  const [fabricante, setFabricante] = useState([]);
-  const [vacina, setVacina] = useState([]);
-  const [tipoVacina, setTipoVacina] = useState([]);
-  const [lote, setLote] = useState([]);
-
-  // --- Endereço / Localização ---
-  const [uf, setUf] = useState('');
-  const [estados, setEstados] = useState([]);
-  const [cidade, setCidade] = useState('');
+  const [nomeFornecedor, setNomeFornecedor] = useState('');
   const [email, setEmail] = useState('');
+  const [nomeFabricante, setNomeFabricante] = useState('');
+  const [ddd, setDdd] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [fotoPerfil, setFotoPerfil] = useState();
   const [logradouro, setLogradouro] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
   const [cep, setCep] = useState('');
-
+  const [uf, setUf] = useState('');
+  const [cidades, setCidades] = useState([]);
+  const [valor, setValor] = useState([]);
+  const [dataCompra, setDataCompra] = useState([]);
   const [nomeVacina, setNomeVacina] = useState('');
+  const [tipoVacina, setTipoVacina] = useState('');
   const [dosesAmpola, setDosesAmpola] = useState('');
+  const [indicacao, setIndicacao] = useState('');
   const [contraIndicacao, setContraIndicacao] = useState('');
   const [dataValidade, setDataValidade] = useState('');
   const [numeroLote, setNumeroLote] = useState('');
   const [numeroAmpola, setNumeroAmpola] = useState('');
+  const [compra, setCompra] = useState('');
+
+  const [fornecedorId, setFornecedorId] = useState('');
+  const [fornecedorCNPJ, setFornecedorCNPJ] = useState('');
+  const [fornecedorNome, setFornecedorNome] = useState('');
+  const [fabricanteId, setFabricanteId] = useState('');
+  cosnt[fabricanteCNPJ, setFabricanteCNPJ] = useState('');
+  cosnt[fabricanteNome, setFabricanteNome] = useState('');
 
 
-  // --- Telefones (se usar) e outros domínios externos, só se precisar ---
-  const [ddd, setDdd] = useState('');
-  const [telefone, setTelefone] = useState('');
 
-  //--- Controle de loading e edição --
+
+
   const [loading, setLoading] = useState(true);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setValor('');
-      setDataCompra('');
-      setFornecedorId('');
-      setNomeFornecedor('');
       setCnpj('');
       setRazaoSocial('');
-      setFabricanteId('');
-      setVacinaId('');
-      setTipoVacinaId('');
-      setLoteId('');
-      setFornecedor('');
-      setFabricante('');
-      setVacina('');
-      setTipoVacina('');
-      setLote('');
-      setUf('');
-      setEstados('');
-      setCidade('');
+      setNomeFornecedor('');
       setEmail('');
+      setNomeFabricante('');
+      setDdd('');
+      setTelefone('');
+      setFotoPerfil('');
       setLogradouro('');
       setNumero('');
       setComplemento('');
       setCep('');
+      setUf('');
+      setCidades('');
+      setValor('');
+      setDataCompra('');
       setNomeVacina('');
+      setTipoVacina('');
       setDosesAmpola('');
+      setIndicacao('');
       setContraIndicacao('');
       setDataValidade('');
       setNumeroLote('');
       setNumeroAmpola('');
-      setDdd('');
-      setTelefone('')
+      setCompra('');
 
+      setFornecedorId('');
+      setFornecedorCNPJ('');
+      setFornecedorNome('');
+      setFabricanteId('');
+      setFabricanteCNPJ('');
+      setFabricanteNome('');
 
     } else if (dados) {
       setId(dados.id);
-      setValor(dados.id);
-      setDataCompra(dados.id);
-      setFornecedorId(dados.id);
-      setNomeFornecedor(dados.id);
-      setCnpj(dados.id);
-      setRazaoSocial(dados.id);
-      setFabricanteId(dados.id);
-      setVacinaId(dados.id);
-      setTipoVacinaId(dados.id);
-      setLoteId(dados.id);
-      setFornecedor(dados.id);
-      setFabricante(dados.id);
-      setVacina(dados.id);
-      setTipoVacina(dados.id);
-      setLote(dados.id);
-      setUf(dados.id);
-      setEstados(dados.id);
-      setCidade(dados.id);
-      setEmail(dados.id);
-      setLogradouro(dados.id);
-      setNumero(dados.id);
-      setComplemento(dados.id);
-      setCep(dados.id);
-      setNomeVacina(dados.id);
-      setDosesAmpola(dados.id);
-      setContraIndicacao(dados.id);
-      setDataValidade(dados.id);
-      setNumeroLote(dados.id);
-      setNumeroAmpola(dados.id);
-      setDdd(dados.id);
-      setTelefone(dados.id);
+      setCnpj(dados.cnpj);
+      setRazaoSocial(dados.razaoSocial);
+      setNomeFornecedor(dados.nomeFornecedor);
+      setEmail(dados.email);
+      setNomeFabricante(dados.nomeFabricante);
+      setDdd(dados.ddd);
+      setTelefone(dados.telefone);
+      setFotoPerfil(dados.fotoPerfil);
+      setLogradouro(dados.logradouro);
+      setNumero(dados.numero);
+      setComplemento(dados.complemento);
+      setCep(dados.cep);
+      setUf(dados.uf);
+      setCidades(dados.cidades);
+      setValor(dados.valor);
+      setDataCompra(dados.dataCompra);
+      setNomeVacina(dados.nomeVacina);
+      setTipoVacina(dados.tipoVacina);
+      setDosesAmpola(dados.dosesAmpola);
+      setIndicacao(dados.indicacao);
+      setContraIndicacao(dados.contraIndicacao);
+      setDataValidade(dados.dataValidade);
+      setNumeroLote(dados.numeroLote);
+      setNumeroAmpola(dados.numeroAmpola);
+      setCompra(dados.compra);
 
+      setFornecedorId(dados.fornecedorId);
+      setFornecedorCNPJ(dados.fornecedorCNPJ);
+      setFornecedorNome(dados.fornecedorNome);
+      setFabricanteId(dados.fabricanteId);
+      setFabricanteCNPJ(dados.fabricanteCNPJ);
+      setFabricanteNome(dados.fabricanteNome);
     } else {
       buscar();
     }
@@ -153,16 +145,16 @@ function CadastroCompra() {
   }
 
   async function salvar() {
-    let data = { id, valor, dataCompra, fornecedorId, nomeFornecedor, cnpj, razaoSocial, fabricanteId, vacinaId, tipoVacinaId, loteId, fornecedor, fabricante, vacina, tipoVacina, lote, uf, estados, cidade, email, logradouro, numero, complemento, cep, nomeVacina, dosesAmpola, contraIndicacao, dataValidade, numeroLote, numeroAmpola, ddd, telefone };
+    let data = { id, cnpj, razaoSocial, nomeFornecedor, email, nomeFabricante, ddd, telefone, fotoPerfil, logradouro, numero, complemento, cep, uf, cidades, valor, dataCompra, nomeVacina, tipoVacina, dosesAmpola, indicacao, contraIndicacao, dataValidade, numeroLote, numeroAmpola, compra, fornecedorId, fornecedorCNPJ, fornecedorNome, fabricanteId, fabricanteCNPJ, fabricanteNome };
     data = JSON.stringify(data);
 
     if (idParam == null) {
       await axios
-        .post(compraURL, data, {
+        .post(baseURL, data, {
           headers: { 'Content-type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Compra cadastrada com sucesso!`);
+          mensagemSucesso(`Compra ${compra} cadastrada com sucesso!`);
           navigate(`/Compra`);
         })
         .catch(function (error) {
@@ -170,12 +162,12 @@ function CadastroCompra() {
         });
     } else {
       await axios
-        .put(`${compraURL}/${idParam}`, data, {
+        .put(`${baseURL}/${idParam}`, data, {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Compra ${idParam} alterada com sucesso!`);
-          navigate(`/Compra`);
+          mensagemSucesso(`Compra ${compra} alterada com sucesso!`);
+          navigate(`/CadastroCompra`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -188,22 +180,37 @@ function CadastroCompra() {
       const response = await axios.get(`${baseURL}/${idParam}`);
       setDados(response.data);
       setId(response.dados.id);
+      setCnpj(response.dados.cnpj);
+      setRazaoSocial(response.dados.razaoSocial);
+      setNomeFornecedor(response.dados.nomeFornecedor);
+      setEmail(response.dados.email);
+      setNomeFabricante(response.dados.nomeFabricante);
+      setDdd(response.dados.ddd);
+      setTelefone(response.dados.telefone);
+      setFotoPerfil(response.dados.fotoPerfil);
+      setLogradouro(response.dados.logradouro);
+      setNumero(response.dados.numero);
+      setComplemento(response.dados.complemento);
+      setCep(response.dados.cep);
+      setUf(response.dados.uf);
+      setCidades(response.dados.cidades);
       setValor(response.dados.valor);
       setDataCompra(response.dados.dataCompra);
+      setNomeVacina(response.dados.nomeVacina);
+      setTipoVacina(response.dados.tipoVacina);
+      setDosesAmpola(response.dados.dosesAmpola);
+      setIndicacao(response.dados.indicacao);
+      setContraIndicacao(response.dados.contraIndicacao);
+      setDataValidade(response.dados.dataValidade);
+      setNumeroLote(response.dados.numeroLote);
+      setNumeroAmpola(response.dados.numeroAmpola);
+
       setFornecedorId(response.dados.fornecedorId);
+      setFornecedorCNPJ(response.dados.fornecedorCNPJ);
+      setFornecedorNome(response.dados.fornecedorNome);
       setFabricanteId(response.dados.fabricanteId);
-      setVacinaId(response.dados.vacinaId);
-      setTipoVacinaId(response.dados.tipoVacinaId);
-      setLoteId(response.dados.loteId);
-      setFornecedor(response.dados.fornecedor);
-      setFabricante(response.dados.fabricante);
-      setVacina(response.dados.vacina);
-      setLote(response.dados.lote);
-      setUf(response.dados.uf);
-      setEstados(response.dados.estados);
-      setCidade(response.dados.cidade);
-      setDdd(response.dados.ddd);
-      setTelefone(response.dados.telefone)
+      setFabricanteCNPJ(response.dados.fabricanteCNPJ);
+      setFabricanteNome(response.dados.fabricanteNome);
 
     } catch (error) {
       console.error("Erro ao buscar os dados:", error);
@@ -216,22 +223,37 @@ function CadastroCompra() {
         const response = await axios.get(`${baseURL}/${idParam}`);
         setDados(response.data);
         setId(response.data.id);
+        setCnpj(response.data.cnpj);
+        setRazaoSocial(response.data.razaoSocial);
+        setNomeFornecedor(response.data.nomeFornecedor);
+        setEmail(response.data.email);
+        setNomeFabricante(response.data.nomeFabricante);
+        setDdd(response.data.ddd);
+        setTelefone(response.data.telefone);
+        setFotoPerfil(response.data.fotoPerfil);
+        setLogradouro(response.data.logradouro);
+        setNumero(response.data.numero);
+        setComplemento(response.data.complemento);
+        setCep(response.data.cep);
+        setUf(response.data.uf);
+        setCidades(response.data.cidades);
         setValor(response.data.valor);
         setDataCompra(response.data.dataCompra);
+        setNomeVacina(response.data.nomeVacina);
+        setTipoVacina(response.data.tipoVacina);
+        setDosesAmpola(response.data.dosesAmpola);
+        setIndicacao(response.data.indicacao);
+        setContraIndicacao(response.data.contraIndicacao);
+        setDataValidade(response.data.dataValidade);
+        setNumeroLote(response.data.numeroLote);
+        setNumeroAmpola(response.data.numeroAmpola);
+
         setFornecedorId(response.data.fornecedorId);
+        setFornecedorCNPJ(response.data.fornecedorCNPJ);
+        setFornecedorNome(response.data.fornecedorNome);
         setFabricanteId(response.data.fabricanteId);
-        setVacinaId(response.data.vacinaId);
-        setTipoVacinaId(response.data.vacinaId);
-        setLoteId(response.data.loteId);
-        setFornecedor(response.data.fornecedor);
-        setFabricante(response.data.fabricante);
-        setVacina(response.data.vacina);
-        setLote(response.data.lote);
-        setUf(response.data.uf);
-        setEstados(response.data.estados);
-        setCidade(response.data.cidade);
-        setDdd(response.data.ddd);
-        setTelefone(response.data.telefone)
+        setFabricanteCNPJ(response.data.fabricanteCNPJ);
+        setFabricanteNome(response.data.fabricanteNome);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
         mensagemErro("Erro ao buscar os dados");
@@ -260,7 +282,7 @@ function CadastroCompra() {
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_estado}/estados`).then((response) => {
+    axios.get(`${URL_endereco}/estados`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -461,10 +483,10 @@ function CadastroCompra() {
                       className="form-select"
                       id="selectCidade"
                       name="cidade"
-                      value={cidade}
-                      onChange={(e) => setCidade(e.target.value)}
+                      value={cidades}
+                      onChange={(e) => setCidades(e.target.value)}
                     >
-                      <option key="0" value="">
+                      <option key="0" value="0">
                         Selecione a Cidade
                       </option>
                       {dados2

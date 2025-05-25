@@ -6,7 +6,7 @@ export const URL_funcionario = 'https://my-json-server.typicode.com/JosiasSalerm
 
 export const URL_fabricante = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-fabricante';
 
-export const URL_endereco = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-endereco';
+export const URL_estado = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-estado';
 
 export const URL_agenda = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-agenda';
 

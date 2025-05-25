@@ -12,8 +12,12 @@ import "../custom.css";
 import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
+import { BASE_URL } from "../config/axios";
+import { URL_paciente } from "../config/axios";
 import { URL_funcionario } from "../config/axios";
-import { URL_endereco } from "../config/axios";
+import { URL_fabricante } from "../config/axios";
+import { URL_estado } from "../config/axios";
+import { URL_agenda } from "../config/axios";
 
 function CadastroFuncionario() {
   const { idParam } = useParams();
@@ -199,7 +203,7 @@ function CadastroFuncionario() {
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_endereco}/estados`).then((response) => {
+    axios.get(`${URL_estado}/estados`).then((response) => {
       setDados2(response.data);
     });
   }, []);
