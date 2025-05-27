@@ -13,68 +13,102 @@ import "../custom.css";
 import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
-import { BASE_URL } from "../config/axios";
-import { URL_paciente } from "../config/axios";
-import { URL_funcionario } from "../config/axios";
+import { URL_compra } from "../config/axios";
 import { URL_fabricante } from "../config/axios";
-import { URL_estado } from "../config/axios";
-import { URL_agenda } from "../config/axios";
+import { URL_fornecedor } from "../config/axios";
 
 
 function CadastroCompra() {
   const { idParam } = useParams();
-
   const navigate = useNavigate();
 
-  const baseURL = `${URL_fabricante}/fabricantes`;
-  const compraURL = `${BASE_URL}/compras`;
+  const compraURL = `${URL_compra}`;
 
-  // --- Dados básicos da Compra/DTO ---
+  // Estado para lista de compras (TODAS)
+  const [compras, setCompras] = useState([]);
+
+  // — Dados da Compra
   const [id, setId] = useState('');
-  const [valor, setValor] = useState([]);
-  const [dataCompra, setDataCompra] = useState([]);
+  const [valor, setValor] = useState('');
+  const [dataCompra, setDataCompra] = useState('');
 
-  // --- Relacionamentos por ID (vêm do CompraDTO) ---
-  const [fornecedorId, setFornecedorId] = useState([]);
-  const [nomeFornecedor, setNomeFornecedor] = useState('');
-  const [cnpj, setCnpj] = useState('');
-  const [razaoSocial, setRazaoSocial] = useState('');
-  const [fabricanteId, setFabricanteId] = useState([]);
-  const [vacinaId, setVacinaId] = useState([]);
-  const [tipoVacinaId, setTipoVacinaId] = useState([]);
-  const [loteId, setLoteId] = useState([]);
-
-  // --- Listas para selects ---
-  const [fornecedor, setFornecedor] = useState([]);
-  const [fabricante, setFabricante] = useState([]);
-  const [vacina, setVacina] = useState([]);
-  const [tipoVacina, setTipoVacina] = useState([]);
-  const [lote, setLote] = useState([]);
-
-  // --- Endereço / Localização ---
-  const [uf, setUf] = useState('');
-  const [estados, setEstados] = useState([]);
-  const [cidade, setCidade] = useState('');
-  const [email, setEmail] = useState('');
-  const [logradouro, setLogradouro] = useState('');
-  const [numero, setNumero] = useState('');
-  const [complemento, setComplemento] = useState('');
-  const [cep, setCep] = useState('');
-
-  const [nomeVacina, setNomeVacina] = useState('');
-  const [dosesAmpola, setDosesAmpola] = useState('');
-  const [contraIndicacao, setContraIndicacao] = useState('');
-  const [dataValidade, setDataValidade] = useState('');
-  const [numeroLote, setNumeroLote] = useState('');
-  const [numeroAmpola, setNumeroAmpola] = useState('');
+  // — IDs de relacionamento
+  const [fornecedorId, setFornecedorId] = useState('');
+  const [fabricanteId, setFabricanteId] = useState('');
 
 
-  // --- Telefones (se usar) e outros domínios externos, só se precisar ---
-  const [ddd, setDdd] = useState('');
-  const [telefone, setTelefone] = useState('');
+  // — Listas para selects (sempre arrays)
+  const [fornecedores, setFornecedores] = useState([]);
+  const [fabricantes, setFabricantes] = useState([]);
 
   //--- Controle de loading e edição --
   const [loading, setLoading] = useState(true);
+
+  async function buscarTodasCompras() {
+    try {
+      const response = await axios.get(`${compraURL}/compras`);
+      const listaCompras = response.data;
+
+      console.log("Lista de Compras:");
+      setCompras(listaCompras);
+    } catch (error) {
+      console.error("Erro ao buscar compra:", error);
+      mensagemErro("Erro ao buscar compras");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function buscarCompraPorId() {
+    try {
+      const response = await axios.get(`${compraURL}/compras/${idParam}`);
+      const compra = response.data;
+      setId(compra.id);
+      setValor(compra.valor);
+      setDataCompra(compra.dataCompra);
+      setFornecedorId(compra.fornecedorId);
+      setFabricanteId(compra.fabricanteId);
+    } catch (error) {
+      console.error("Erro ao buscar compra:", error);
+      mensagemErro("Compra não encontrada");
+    } finally {
+      setLoading(false);
+    }
+
+  }
+
+
+  async function salvar() {
+    const data = {
+      valor,
+      dataCompra,
+      fornecedorId,
+      fabricanteId
+    };
+
+    try {
+      if (idParam == null) {
+        await axios
+          .post(`${compraURL}/compras`, data, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+        mensagemSucesso(`Compra cadastrada com sucesso!`);
+
+      } else {
+        await axios
+          .put(`${compraURL}/compras/${idParam}`, data, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+        mensagemSucesso(`Compra ${id} alterada com sucesso!`);
+      }
+      navigate(`/Compra`);
+    }
+    catch (error) {
+      console.error("Erro ao salvar compra:", error);
+      mensagemErro("Erro ao salvar os dados");
+
+    }
+  }
 
   function inicializar() {
     if (idParam == null) {
@@ -82,587 +116,173 @@ function CadastroCompra() {
       setValor('');
       setDataCompra('');
       setFornecedorId('');
-      setNomeFornecedor('');
-      setCnpj('');
-      setRazaoSocial('');
       setFabricanteId('');
-      setVacinaId('');
-      setTipoVacinaId('');
-      setLoteId('');
-      setFornecedor('');
-      setFabricante('');
-      setVacina('');
-      setTipoVacina('');
-      setLote('');
-      setUf('');
-      setEstados('');
-      setCidade('');
-      setEmail('');
-      setLogradouro('');
-      setNumero('');
-      setComplemento('');
-      setCep('');
-      setNomeVacina('');
-      setDosesAmpola('');
-      setContraIndicacao('');
-      setDataValidade('');
-      setNumeroLote('');
-      setNumeroAmpola('');
-      setDdd('');
-      setTelefone('')
-
-
-    } else if (dados) {
-      setId(dados.id);
-      setValor(dados.id);
-      setDataCompra(dados.id);
-      setFornecedorId(dados.id);
-      setNomeFornecedor(dados.id);
-      setCnpj(dados.id);
-      setRazaoSocial(dados.id);
-      setFabricanteId(dados.id);
-      setVacinaId(dados.id);
-      setTipoVacinaId(dados.id);
-      setLoteId(dados.id);
-      setFornecedor(dados.id);
-      setFabricante(dados.id);
-      setVacina(dados.id);
-      setTipoVacina(dados.id);
-      setLote(dados.id);
-      setUf(dados.id);
-      setEstados(dados.id);
-      setCidade(dados.id);
-      setEmail(dados.id);
-      setLogradouro(dados.id);
-      setNumero(dados.id);
-      setComplemento(dados.id);
-      setCep(dados.id);
-      setNomeVacina(dados.id);
-      setDosesAmpola(dados.id);
-      setContraIndicacao(dados.id);
-      setDataValidade(dados.id);
-      setNumeroLote(dados.id);
-      setNumeroAmpola(dados.id);
-      setDdd(dados.id);
-      setTelefone(dados.id);
-
     } else {
-      buscar();
-    }
-
-  }
-
-  async function salvar() {
-    let data = { id, valor, dataCompra, fornecedorId, nomeFornecedor, cnpj, razaoSocial, fabricanteId, vacinaId, tipoVacinaId, loteId, fornecedor, fabricante, vacina, tipoVacina, lote, uf, estados, cidade, email, logradouro, numero, complemento, cep, nomeVacina, dosesAmpola, contraIndicacao, dataValidade, numeroLote, numeroAmpola, ddd, telefone };
-    data = JSON.stringify(data);
-
-    if (idParam == null) {
-      await axios
-        .post(compraURL, data, {
-          headers: { 'Content-type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Compra cadastrada com sucesso!`);
-          navigate(`/Compra`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
-    } else {
-      await axios
-        .put(`${compraURL}/${idParam}`, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Compra ${idParam} alterada com sucesso!`);
-          navigate(`/Compra`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
+      buscarCompraPorId();
     }
   }
 
-  async function buscar() {
-    try {
-      const response = await axios.get(`${baseURL}/${idParam}`);
-      setDados(response.data);
-      setId(response.dados.id);
-      setValor(response.dados.valor);
-      setDataCompra(response.dados.dataCompra);
-      setFornecedorId(response.dados.fornecedorId);
-      setFabricanteId(response.dados.fabricanteId);
-      setVacinaId(response.dados.vacinaId);
-      setTipoVacinaId(response.dados.tipoVacinaId);
-      setLoteId(response.dados.loteId);
-      setFornecedor(response.dados.fornecedor);
-      setFabricante(response.dados.fabricante);
-      setVacina(response.dados.vacina);
-      setLote(response.dados.lote);
-      setUf(response.dados.uf);
-      setEstados(response.dados.estados);
-      setCidade(response.dados.cidade);
-      setDdd(response.dados.ddd);
-      setTelefone(response.dados.telefone)
 
-    } catch (error) {
-      console.error("Erro ao buscar os dados:", error);
-    }
-  }
+
+
 
   useEffect(() => {
-    async function buscar() {
-      try {
-        const response = await axios.get(`${baseURL}/${idParam}`);
-        setDados(response.data);
-        setId(response.data.id);
-        setValor(response.data.valor);
-        setDataCompra(response.data.dataCompra);
-        setFornecedorId(response.data.fornecedorId);
-        setFabricanteId(response.data.fabricanteId);
-        setVacinaId(response.data.vacinaId);
-        setTipoVacinaId(response.data.vacinaId);
-        setLoteId(response.data.loteId);
-        setFornecedor(response.data.fornecedor);
-        setFabricante(response.data.fabricante);
-        setVacina(response.data.vacina);
-        setLote(response.data.lote);
-        setUf(response.data.uf);
-        setEstados(response.data.estados);
-        setCidade(response.data.cidade);
-        setDdd(response.data.ddd);
-        setTelefone(response.data.telefone)
-      } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
-        mensagemErro("Erro ao buscar os dados");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-
     if (idParam) {
-      buscar();
+      buscarCompraPorId();
     } else {
       setLoading(false);
     }
-  }, [baseURL, idParam]);
+  }, [idParam]);
 
 
 
-  const [dados, setDados] = useState([]);
+  // - UseEffect para buscar compras ao carregar o componente
+
+  // - Compras
   useEffect(() => {
-    axios.get(`${URL_fabricante}/fabricantes`).then((response) => {
-      setDados(response.data);
-    });
+    async function carregarCompras() {
+      try {
+        const response = await axios.get(`${compraURL}/compras`);
+        setCompras(response.data);
+      } catch (error) {
+        mensagemErro("Erro ao carregar lista de compras.");
+      }
+    }
+    carregarCompras();
+  }, []);
+
+  // - Fabricantes 
+  useEffect(() => {
+    async function carregarFabricantes() {
+      try {
+        const response = await axios.get(`${URL_fabricante}/fabricantes`);
+        setFabricantes(response.data);
+      } catch (error) {
+        mensagemErro("Erro ao carregar fabricantes.");
+      }
+    }
+    carregarFabricantes();
+  }, []);
+
+  // - Fornecedores 
+  useEffect(() => {
+    async function carregarFornecedores() {
+      try {
+        const response = await axios.get(`${URL_fornecedor}/fornecedores`);
+        setFornecedores(response.data);
+      } catch (error) {
+        mensagemErro("Erro ao carregar fornecedores.");
+      }
+    }
+    carregarFornecedores();
   }, []);
 
 
-  const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_estado}/estados`).then((response) => {
-      setDados2(response.data);
-    });
-  }, []);
+    if (idParam) {
+      buscarCompraPorId();
+    } else {
+      setLoading(false);
+    }
+  }, [idParam]);
 
 
-  const [dados3, setDados3] = useState(null);
-  useEffect(() => {
-    axios.get(`${BASE_URL}/vacinas`).then((response) => {
-      setDados3(response.data);
-    });
-  }, []);
-
-  const [dados4, setDados4] = useState(null);
-  useEffect(() => {
-    axios.get(`${URL_paciente}/contraIndicacao`).then((response) => {
-      setDados4(response.data);
-    });
-  }, []);
-
-
-
-  useEffect(() => {
-    buscar();
-  }, [id]);
-
-
-  if (!dados) return null;
-  if (!dados2) return null;
-  if (!dados3) return null;
-  if (!dados4) return null;
+  if (loading) return <LoadingOverlay loading={true} />;
 
 
   return (
     <div className="container">
       <LoadingOverlay loading={loading} />
-      <Card title="Cadastrar Compra">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="form-row">
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Nome Fornecedor: *" htmlFor="inputNomeFornecedor">
-                  <input
-                    type="text"
-                    id="inputNomeFornecedor"
-                    value={nomeFornecedor}
-                    className="form-control"
-                    name="nomeFornecedor"
-                    onChange={(e) => setNomeFornecedor(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="CNPJ: *" htmlFor="inputCnpj">
-                  <input
-                    type="text"
-                    id="inputCnpj"
-                    value={cnpj}
-                    className="form-control"
-                    name="cnpj"
-                    onChange={(e) => setCnpj(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Razão Social: *" htmlFor="inputCnpj">
-                  <input
-                    type="text"
-                    id="inputCnpj"
-                    value={razaoSocial}
-                    className="form-control"
-                    name="razaoSocial"
-                    onChange={(e) => setCnpj(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Email: *" htmlFor="inputEmail">
-                  <input
-                    type="email"
-                    id="inputEmail"
-                    value={email}
-                    className="form-control"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className="mesmaLinha">
-                <div className="col-md-2 mb-3">
-                  <FormGroup label="DDD: *" htmlFor="inputDDD">
-                    <input
-                      type="tel"
-                      maxLength="2"
-                      id="inputDDD"
-                      value={ddd}
-                      className="form-control"
-                      name="ddd"
-                      onChange={(e) => setDdd(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-6 mb-3">
-                  <FormGroup label="Telefone: *" htmlFor="inputTelefone">
-                    <input
-                      type="tel"
-                      maxLength="9"
-                      id="inputTelefone"
-                      value={telefone}
-                      className="form-control"
-                      name="telefone"
-                      onChange={(e) => setTelefone(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="col-md-12 mb-3">
-                <FormGroup label="Logradouro: *" htmlFor="inputLogradouro">
-                  <input
-                    type="text"
-                    maxLength="100"
-                    id="inputEmail"
-                    value={logradouro}
-                    className="form-control"
-                    name="logradouro"
-                    onChange={(e) => setLogradouro(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className="mesmaLinha">
-                <div className="col-md-2 mb-3">
-                  <FormGroup label="Número: " htmlFor="inputNumero">
-                    <input
-                      type="text"
-                      maxLength="4"
-                      id="inputNumero"
-                      className="form-control"
-                      name="numero"
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-5 mb-3">
-                  <FormGroup label="Complemento: " htmlFor="inputComplemento">
-                    <input
-                      type="text"
-                      maxLength="100"
-                      id="inputComplemento"
-                      className="form-control"
-                      name="complemento"
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <FormGroup label="CEP: *" htmlFor="inputCep">
-                    <input
-                      type="text"
-                      maxLength="8"
-                      id="inputCep"
-                      className="form-control"
-                      name="cep"
-                    />
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="mesmaLinha mb-3">
-                <div className="col-md-5" >
-                  <FormGroup label="Estado: " htmlFor="selectEstado">
-                    <select
-                      className="form-select"
-                      id="selectUf"
-                      name="uf"
-                      value={uf}
-                      onChange={(e) => setUf(e.target.value)}
-                    >
-                      <option key="0" value="0">
-                        Selecione o Estado
-                      </option>
-                      {dados2.map((estados) => (
-                        <option key={estados.id} value={estados.uf}>
-                          {estados.uf}
-                        </option>
-                      ))}
-                    </select>
-                  </FormGroup>
-                </div>
-                <div className="col-md-5">
-                  <FormGroup label="Cidade: " htmlFor="selectCidade">
-                    <select
-                      className="form-select"
-                      id="selectCidade"
-                      name="cidade"
-                      value={cidade}
-                      onChange={(e) => setCidade(e.target.value)}
-                    >
-                      <option key="0" value="">
-                        Selecione a Cidade
-                      </option>
-                      {dados2
-                        .filter((estados) => estados.uf === uf)
-                        .map((estados) =>
-                          estados.cidades.map((cidades) => (
-                            <option key={cidades} value={cidades}>
-                              {cidades}
-                            </option>
-                          ))
-                        )}
-                    </select>
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="mesmaLinha mb-3">
-                <div className="col-md-5" >
-                  <FormGroup label="Valor da Compra: *" htmlFor="inputValor">
-                    <input
-                      type="text"
-                      id="inputValor"
-                      value={valor}
-                      className="form-control"
-                      name="valor"
-                      inputMode="decimal"
-                      pattern="^\d+([.,]\d{1,2})?$"
-                      placeholder="R$ 0,00"
-                      onChange={(e) => setValor(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-5">
-                  <FormGroup label="Data da Compra: *" htmlFor="inputDataCompra">
-                    <input
-                      type="date"
-                      id="inputDataCompra"
-                      value={dataCompra}
-                      className="form-control"
-                      name="dataCompra"
-                      onChange={(e) => setDataCompra(e.target.value)}
-
-                    />
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="mesmaLinha">
-                <div className="col-md-5 mb-3">
-                  <FormGroup label="Nome Vacina: *" htmlFor="selectNomeVacina">
-                    <select
-                      className="form-select"
-                      id="inputNomeVacina"
-                      name="nomeVacina"
-                      value={nomeVacina}
-                      onChange={(e) => setNomeVacina(e.target.value)}
-                    >
-                      <option key="0" value="0">
-                        Selecione o Nome da Vacina
-                      </option>
-                      {dados3.map((dado) => (
-                        <option key={dado.id} value={dado.id}
-                        >
-                          {dado.nomeVacina}
-                        </option>
-                      ))}
-                    </select>
-                  </FormGroup>
-                </div>
-
-
-                <div className="col-md-5 mb-3">
-                  <FormGroup label="Tipo de Vacina: *" htmlFor="selectTipo">
-                    <select
-                      className="form-select"
-                      id="selectTipo"
-                      name="tipoVacina"
-                      value={tipoVacina}
-                      onChange={(e) => setTipoVacina(e.target.value)}
-                    >
-                      <option key="0" value="0">
-                        Selecione o Tipo de Vacina
-                      </option>
-                      {dados3.map((dado) => (
-                        <option key={dado.id} value={dado.id}
-                        >
-                          {dado.tipoVacina}
-                        </option>
-                      ))}
-                    </select>
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="mesmaLinha mb-3">
-                <div className="col-md-5" >
-                  <FormGroup label="Doses Ampola: " htmlFor="inputDosesAmpola">
-                    <input
-                      type="number"
-                      id="inputDosesAmpola"
-                      value={dosesAmpola}
-                      className="form-control"
-                      name="dosesAmpola"
-                      onChange={(e) => setDosesAmpola(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
-                <div className="col-md-5">
-                  <FormGroup label="Contra Indicação: " htmlFor="selectContraIndicacao">
-                    <select
-                      className="form-select"
-                      id="selectContraIndicação"
-                      name="contraIndicação"
-                      value={contraIndicacao}
-                      onChange={(e) => setContraIndicacao(e.target.value)}
-                    >
-                      <option key="0" value="0">
-                        Selecione a Contra Indicação
-                      </option>
-                      {dados4.map((dado) => (
-                        <option key={dado.id} value={dado.id}>
-                          {dado.contraIndicacao}
-                        </option>
-                      ))}
-                    </select>
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className="mesmaLinha mb-3">
-                <div className="col-md-4" >
-                  <FormGroup label="Data Validade: *" htmlFor="inputDataValidade">
-                    <input
-                      type="date"
-                      id="inputDataValidade"
-                      value={dataValidade}
-                      className="form-control"
-                      name="dataValidade"
-                      onChange={(e) => setDataValidade(e.target.value)}
-                    >
-                    </input>
-                  </FormGroup>
-                </div>
-                <div className="col-md-4">
-                  <FormGroup label="Número Lote: *" htmlFor="inputNumeroLote">
-                    <input
-                      type="number"
-                      id="inputNumeroLote"
-                      value={numeroLote}
-                      className="form-control"
-                      name="numeroLote"
-                      onChange={(e) => setNumeroLote(e.target.value)}
-                    >
-                    </input>
-                  </FormGroup>
-                </div>
-                <div className="col-md-2">
-                  <FormGroup label="Número Ampola: " htmlFor="inputNumeroAmpola">
-                    <input
-                      type="number"
-                      id="inputNumeroAmpola"
-                      value={numeroAmpola}
-                      className="form-control"
-                      name="numeroAmpola"
-                      onChange={(e) => setNumeroAmpola(e.target.value)}
-                    >
-                    </input>
-                  </FormGroup>
-                </div>
-              </div>
-
-
-
-
-
-
+      <Card title={idParam ? "Editar Compra" : "Cadastrar Compra"}>
+        <form>
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <FormGroup label="Valor da Compra: *" htmlFor="inputValor">
+                <input
+                  type="number"
+                  step="0.01"
+                  id="inputValor"
+                  value={valor}
+                  className="form-control"
+                  name="valor"
+                  onChange={e => setValor(e.target.value)}
+                  required
+                />
+              </FormGroup>
             </div>
-            <Stack spacing={1} padding={1} direction="row">
-              <button
-                onClick={salvar}
-                type="button"
-                className="btn btn-success"
-              >
-                Salvar
-              </button>
-              <button
-                onClick={inicializar}
-                type="button"
-                className="btn btn-danger"
-              >
-                Cancelar
-              </button>
-            </Stack>
+            <div className="col-md-6 mb-3">
+              <FormGroup label="Data da Compra: *" htmlFor="inputDataCompra">
+                <input
+                  type="date"
+                  id="inputDataCompra"
+                  value={dataCompra}
+                  className="form-control"
+                  name="dataCompra"
+                  onChange={e => setDataCompra(e.target.value)}
+                  required
+                />
+              </FormGroup>
+            </div>
           </div>
-        </div>
-      </Card >
-    </div >
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <FormGroup label="Fabricante: *" htmlFor="selectFabricante">
+                <select
+                  className="form-select"
+                  id="selectFabricante"
+                  value={fabricanteId}
+                  onChange={e => setFabricanteId(e.target.value)}
+                  required
+                >
+                  <option value="">Selecione o Fabricante</option>
+                  {fabricantes.map(fab => (
+                    <option key={fab.id} value={fab.id}>
+                      {fab.nome_fantasia}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+            </div>
+            <div className="col-md-6 mb-3">
+              <FormGroup label="Fornecedor: *" htmlFor="selectFornecedor">
+                <select
+                  className="form-select"
+                  id="selectFornecedor"
+                  value={fornecedorId}
+                  onChange={e => setFornecedorId(e.target.value)}
+                  required
+                >
+                  <option value="">Selecione o Fornecedor</option>
+                  {fornecedores.map(forn => (
+                    <option key={forn.id} value={forn.id}>
+                      {forn.nome_fantasia}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+            </div>
+          </div>
+          <Stack spacing={1} padding={1} direction="row">
+            <button
+              onClick={salvar}
+              type="button"
+              className="btn btn-success"
+            >
+              Salvar
+            </button>
+            <button
+              onClick={inicializar}
+              type="button"
+              className="btn btn-danger"
+            >
+              Cancelar
+            </button>
+          </Stack>
+        </form>
+      </Card>
+    </div>
   );
+
 }
 
 export default CadastroCompra;
