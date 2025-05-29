@@ -22,6 +22,7 @@ import ListagemFabricantes from './views/ListagemFabricantes';
 import ListagemFuncionarios from './views/ListagemFuncionarios';
 import ListagemVacinas from './views/ListagemVacinas';
 import ListagemVacinacao from './views/ListagemVacinacao';
+import ListagemCompra from './views/ListagemCompra';
 
 
 
@@ -54,6 +55,8 @@ function Rotas() {
         <Route path='/CadastroVacina' element={<CadastroVacina />} />
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
         <Route path='/CadastroCompra' element={<CadastroCompra />} />
+        <Route path="/CadastroCompra/:idParam" element={<CadastroCompra />} />
+
         <Route path='/CadastroDescarte' element={<CadastroDescarte />} />
 
 
@@ -63,6 +66,7 @@ function Rotas() {
         <Route path='/ListagemFuncionarios' element={<ListagemFuncionarios />} />
         <Route path='/ListagemVacinas' element={<ListagemVacinas />} />
         <Route path='/ListagemVacinacao' element={<ListagemVacinacao />} />
+        <Route path='/ListagemCompra' element={<ListagemCompra />} />
 
 
 

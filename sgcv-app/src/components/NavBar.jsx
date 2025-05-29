@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import 'bootswatch/dist/minty/bootstrap.css';
-import NavbarItem from './NavbarItem';
 import '../custom.css';
 
 function NavBar(props) {
@@ -348,6 +347,10 @@ function NavBar(props) {
                 <a className='dropdown-item'
                   href='CadastroCompra'>
                   Cadastrar Compra
+                </a>
+                <a className='dropdown-item'
+                  href='ListagemCompra'>
+                  Listagem de Compras
                 </a>
               </div>
             </li>
