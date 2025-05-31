@@ -101,7 +101,8 @@ function CadastroCompra() {
           });
         mensagemSucesso(`Compra ${id} alterada com sucesso!`);
       }
-      navigate(`/Compra`);
+
+      navigate('/ListagemCompra');
     }
     catch (error) {
       console.error("Erro ao salvar compra:", error);
