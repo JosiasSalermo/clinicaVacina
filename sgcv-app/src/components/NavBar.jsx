@@ -212,6 +212,10 @@ function NavBar(props) {
                   href='CadastroDescarte'>
                   Cadastrar Descarte
                 </a>
+                <a className='dropdown-item'
+                  href='ListagemDescarte'>
+                  Listagem de Descartes
+                </a>
               </div>
             </li>
 
@@ -376,6 +380,10 @@ function NavBar(props) {
                 <a className='dropdown-item'
                   href='CadastroDescarte'>
                   Cadastrar Descarte
+                </a>
+                <a className='dropdown-item'
+                  href='ListagemDescarte'>
+                  Listagem de Descartess
                 </a>
               </div>
             </li>

@@ -267,12 +267,11 @@ function CadastroCompra() {
             <button
               onClick={salvar}
               type="button"
-              className="btn btn-success"
-            >
+              className="btn btn-success" >
               Salvar
             </button>
             <button
-              onClick={inicializar}
+              onClick={() => navigate('/ListagemCompra')}
               type="button"
               className="btn btn-danger"
             >
