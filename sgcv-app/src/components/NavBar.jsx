@@ -142,6 +142,9 @@ function NavBar(props) {
                 <a className='dropdown-item' href='CadastroUsuario'>
                   Cadastrar Usuário
                 </a>
+                <a className='dropdown-item' href='ListagemUsuarios'>
+                  Listagem de Usuários
+                </a>
 
               </div>
             </li>

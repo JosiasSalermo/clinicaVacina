@@ -14,6 +14,7 @@ import CadastroVacina from './views/CadastroVacina';
 import CadastroVacinacao from './views/CadastroVacinacao';
 import CadastroCompra from './views/CadastroCompra';
 import CadastroDescarte from './views/CadastroDescarte';
+import CadastroUsuario from './views/CadastroUsuario';
 
 // LISTAGEM
 import ListagemPacientes from './views/ListagemPacientes';
@@ -23,6 +24,7 @@ import ListagemVacinas from './views/ListagemVacinas';
 import ListagemVacinacao from './views/ListagemVacinacao';
 import ListagemCompra from './views/ListagemCompra';
 import ListagemDescarte from './views/ListagemDescarte';
+import ListagemUsuarios from './views/ListagemUsuario';
 
 function Rotas() {
   const [loading, setLoading] = React.useState(true);
@@ -56,6 +58,7 @@ function Rotas() {
         <Route path='/CadastroCompra/:idParam' element={<CadastroCompra />} />
         <Route path='/CadastroDescarte' element={<CadastroDescarte />} />
         <Route path='/CadastroDescarte/:idParam' element={<CadastroDescarte />} />
+        <Route path='/CadastroUsuario' element={<CadastroUsuario />} />
 
         {/* ROTAS DE LISTAGEM */}
         <Route path='/ListagemPacientes' element={<ListagemPacientes />} />
@@ -65,7 +68,12 @@ function Rotas() {
         <Route path='/ListagemVacinacao' element={<ListagemVacinacao />} />
         <Route path='/ListagemCompra' element={<ListagemCompra />} />
         <Route path='/ListagemDescarte' element={<ListagemDescarte />} />
+        <Route path='/ListagemUsuarios' element={<ListagemUsuarios />} />
+        <Route path='/CadastroUsuario/:idParam' element={<CadastroUsuario />} />
+
       </Routes>
+
+
     </BrowserRouter>
   );
 }

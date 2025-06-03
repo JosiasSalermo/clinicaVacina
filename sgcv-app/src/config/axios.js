@@ -16,6 +16,8 @@ export const URL_compra = 'https://my-json-server.typicode.com/JosiasSalermo/api
 
 export const URL_telefone = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-telefone';
 
+export const URL_usuario = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-usuario';
+
 
 
 // 'http://localhost:8080/api/v1';
