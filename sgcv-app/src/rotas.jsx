@@ -15,6 +15,7 @@ import CadastroVacinacao from './views/CadastroVacinacao';
 import CadastroCompra from './views/CadastroCompra';
 import CadastroDescarte from './views/CadastroDescarte';
 import CadastroUsuario from './views/CadastroUsuario';
+import CadastroAgendamento from './views/CadastroAgendamento';
 
 // LISTAGEM
 import ListagemPacientes from './views/ListagemPacientes';
@@ -59,6 +60,7 @@ function Rotas() {
         <Route path='/CadastroDescarte' element={<CadastroDescarte />} />
         <Route path='/CadastroDescarte/:idParam' element={<CadastroDescarte />} />
         <Route path='/CadastroUsuario' element={<CadastroUsuario />} />
+        <Route path='/CadastroAgendamento' element={<CadastroAgendamento />} />
 
         {/* ROTAS DE LISTAGEM */}
         <Route path='/ListagemPacientes' element={<ListagemPacientes />} />

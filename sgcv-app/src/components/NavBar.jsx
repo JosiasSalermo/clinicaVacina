@@ -11,6 +11,7 @@ function NavBar(props) {
   const [isDropdownOpen6, setDropdownOpen6] = useState(false);
   const [isDropdownOpen7, setDropdownOpen7] = useState(false);
   const [isDropdownOpen8, setDropdownOpen8] = useState(false);
+  const [isDropdownOpen9, setDropdownOpen9] = useState(false);
 
   const handleMouseEnter = (index) => {
     if (index === 1) {
@@ -22,6 +23,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 2) {
       setDropdownOpen1(false);
       setDropdownOpen2(true);
@@ -31,6 +33,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 3) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -40,6 +43,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 4) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -49,6 +53,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 5) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -58,6 +63,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 6) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -67,6 +73,7 @@ function NavBar(props) {
       setDropdownOpen6(true);
       setDropdownOpen7(false);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 7) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -76,6 +83,7 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(true);
       setDropdownOpen8(false);
+      setDropdownOpen9(false);
     } else if (index === 8) {
       setDropdownOpen1(false);
       setDropdownOpen2(false);
@@ -85,6 +93,17 @@ function NavBar(props) {
       setDropdownOpen6(false);
       setDropdownOpen7(false);
       setDropdownOpen8(true);
+      setDropdownOpen9(false);
+    } else if (index === 9) {
+      setDropdownOpen1(false);
+      setDropdownOpen2(false);
+      setDropdownOpen3(false);
+      setDropdownOpen4(false);
+      setDropdownOpen5(false);
+      setDropdownOpen6(false);
+      setDropdownOpen7(false);
+      setDropdownOpen8(false);
+      setDropdownOpen9(true);
     }
 
   };
@@ -98,6 +117,7 @@ function NavBar(props) {
     setDropdownOpen6(false);
     setDropdownOpen7(false);
     setDropdownOpen8(false);
+    setDropdownOpen9(false);
   };
 
 
@@ -133,17 +153,17 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen1 ? 'true' : 'false'}
               >
-                Usuários
+                Agendamento
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''} `}
                 aria-labelledby='navbarDropdown1'
               >
-                <a className='dropdown-item' href='CadastroUsuario'>
-                  Cadastrar Usuário
+                <a className='dropdown-item' href='CadastroAgendamento'>
+                  Cadastrar Agendamento
                 </a>
-                <a className='dropdown-item' href='ListagemUsuarios'>
-                  Listagem de Usuários
+                <a className='dropdown-item' href='ListagemAgendamentos'>
+                  Listagem dos Agendamentos
                 </a>
 
               </div>
@@ -161,11 +181,39 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen2 ? 'true' : 'false'}
               >
-                Vacinações
+                Usuários
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen2 ? 'show' : ''} `}
                 aria-labelledby='navbarDropdown2'
+              >
+                <a className='dropdown-item' href='CadastroUsuario'>
+                  Cadastrar Usuário
+                </a>
+                <a className='dropdown-item' href='ListagemUsuarios'>
+                  Listagem de Usuários
+                </a>
+
+              </div>
+            </li>
+
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(3)}
+              onMouseLeave={handleMouseLeave}>
+              <span
+                className={`nav-link ${isDropdownOpen3 ? 'active' : ''}`}
+                href='/'
+                id='navbarDropdown3'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen3 ? 'true' : 'false'}
+              >
+                Vacinações
+              </span>
+              <div
+                className={`dropdown-menu ${isDropdownOpen3 ? 'show' : ''} `}
+                aria-labelledby='navbarDropdown3'
               >
                 <a className='dropdown-item' href='CadastroVacinacao'>
                   Cadastrar Vacinação
@@ -176,24 +224,23 @@ function NavBar(props) {
               </div>
             </li>
 
-
             <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(3)}
+              onMouseEnter={() => handleMouseEnter(4)}
               onMouseLeave={handleMouseLeave}>
               <span
-                className={`nav-link ${isDropdownOpen3 ? 'active' : ''}`}
+                className={`nav-link ${isDropdownOpen4 ? 'active' : ''}`}
                 href='/ListagemVacinas'
-                id='navbarDropdown3'
+                id='navbarDropdown4'
                 role='button'
                 data-bs-toggle='dropdown'
                 aria-haspopup="true"
-                aria-expanded={isDropdownOpen3 ? 'true' : 'false'}
+                aria-expanded={isDropdownOpen4 ? 'true' : 'false'}
               >
                 Vacinas
               </span>
               <div
-                className={`dropdown-menu ${isDropdownOpen3 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown2'
+                className={`dropdown-menu ${isDropdownOpen4 ? 'show' : ''}`}
+                aria-labelledby='navbarDropdown4'
               >
                 <a className='dropdown-item'
                   href='CadastroVacina'>
@@ -222,25 +269,23 @@ function NavBar(props) {
               </div>
             </li>
 
-
-
             <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(3)}
+              onMouseEnter={() => handleMouseEnter(5)}
               onMouseLeave={handleMouseLeave}>
               <span
-                className={`nav-link ${isDropdownOpen4 ? 'active' : ''}`}
+                className={`nav-link ${isDropdownOpen5 ? 'active' : ''}`}
                 href='/'
-                id='navbarDropdown4'
+                id='navbarDropdown5'
                 role='button'
                 data-bs-toggle='dropdown'
                 aria-haspopup="true"
-                aria-expanded={isDropdownOpen4 ? 'true' : 'false'}
+                aria-expanded={isDropdownOpen5 ? 'true' : 'false'}
               >
                 Funcionarios
               </span>
               <div
-                className={`dropdown-menu ${isDropdownOpen4 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown4'
+                className={`dropdown-menu ${isDropdownOpen5 ? 'show' : ''}`}
+                aria-labelledby='navbarDropdown5'
               >
                 <a className='dropdown-item'
                   href='CadastroFuncionario'>
@@ -265,25 +310,23 @@ function NavBar(props) {
               </div>
             </li>
 
-
-
             <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(5)}
+              onMouseEnter={() => handleMouseEnter(6)}
               onMouseLeave={handleMouseLeave}>
               <span
-                className={`nav-link ${isDropdownOpen5 ? 'active' : ''}`}
+                className={`nav-link ${isDropdownOpen6 ? 'active' : ''}`}
                 href='/'
-                id='navbarDropdown5'
+                id='navbarDropdown6'
                 role='button'
                 data-bs-toggle='dropdown'
                 aria-haspopup="true"
-                aria-expanded={isDropdownOpen5 ? 'true' : 'false'}
+                aria-expanded={isDropdownOpen6 ? 'true' : 'false'}
               >
                 Fabricantes
               </span>
               <div
-                className={`dropdown-menu ${isDropdownOpen5 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown5'
+                className={`dropdown-menu ${isDropdownOpen6 ? 'show' : ''}`}
+                aria-labelledby='navbarDropdown6'
               >
                 <a className='dropdown-item'
                   href='CadastroFabricante'>
@@ -304,35 +347,6 @@ function NavBar(props) {
               </div>
             </li>
 
-
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(6)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen6 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown6'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen6 ? 'true' : 'false'}
-              >
-                Pacientes
-              </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen6 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown6'
-              >
-                <a className='dropdown-item' href='CadastroPaciente'>
-                  Cadastrar Paciente
-                </a>
-                <a className='dropdown-item' href='ListagemPacientes'>
-                  Listagem de Pacientes
-                </a>
-              </div>
-            </li>
-
-
             <li className={'nav-item dropdown'}
               onMouseEnter={() => handleMouseEnter(7)}
               onMouseLeave={handleMouseLeave}>
@@ -345,19 +359,17 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen7 ? 'true' : 'false'}
               >
-                Compras
+                Pacientes
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen7 ? 'show' : ''} `}
                 aria-labelledby='navbarDropdown7'
               >
-                <a className='dropdown-item'
-                  href='CadastroCompra'>
-                  Cadastrar Compra
+                <a className='dropdown-item' href='CadastroPaciente'>
+                  Cadastrar Paciente
                 </a>
-                <a className='dropdown-item'
-                  href='ListagemCompra'>
-                  Listagem de Compras
+                <a className='dropdown-item' href='ListagemPacientes'>
+                  Listagem de Pacientes
                 </a>
               </div>
             </li>
@@ -374,11 +386,40 @@ function NavBar(props) {
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen8 ? 'true' : 'false'}
               >
-                Descarte
+                Compras
               </span>
               <div
                 className={`dropdown-menu ${isDropdownOpen8 ? 'show' : ''} `}
                 aria-labelledby='navbarDropdown8'
+              >
+                <a className='dropdown-item'
+                  href='CadastroCompra'>
+                  Cadastrar Compra
+                </a>
+                <a className='dropdown-item'
+                  href='ListagemCompra'>
+                  Listagem de Compras
+                </a>
+              </div>
+            </li>
+
+            <li className={'nav-item dropdown'}
+              onMouseEnter={() => handleMouseEnter(9)}
+              onMouseLeave={handleMouseLeave}>
+              <span
+                className={`nav-link ${isDropdownOpen8 ? 'active' : ''}`}
+                href='/'
+                id='navbarDropdown8'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen8 ? 'true' : 'false'}
+              >
+                Descarte
+              </span>
+              <div
+                className={`dropdown-menu ${isDropdownOpen9 ? 'show' : ''} `}
+                aria-labelledby='navbarDropdown9'
               >
                 <a className='dropdown-item'
                   href='CadastroDescarte'>
