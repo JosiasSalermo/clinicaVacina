@@ -162,7 +162,7 @@ function NavBar(props) {
                 <a className='dropdown-item' href='CadastroAgendamento'>
                   Cadastrar Agendamento
                 </a>
-                <a className='dropdown-item' href='ListagemAgendamentos'>
+                <a className='dropdown-item' href='ListagemAgendamento'>
                   Listagem dos Agendamentos
                 </a>
 

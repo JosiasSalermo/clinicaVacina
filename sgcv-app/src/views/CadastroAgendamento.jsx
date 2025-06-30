@@ -9,8 +9,6 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { URL_paciente } from '../config/axios';
 
-const baseURL = `${URL_paciente}/pacientes`;
-
 function CadastroAgendamento() {
   const navigate = useNavigate();
   const { idParam } = useParams();
@@ -44,9 +42,9 @@ function CadastroAgendamento() {
       try {
         const resposta = await axios.get(`${URL_paciente}/agendamento/${idParam}`);
         const agendamento = resposta.data;
-        setDataAgendamento(agendamento.dataAgendamento);
-        setHorarioAgendamento(agendamento.horarioAgendamento);
-        setPacienteId(agendamento.pacienteId);
+        setDataAgendamento(agendamento.data_agendamento || '');
+        setHorarioAgendamento(agendamento.horario_agendamento || '');
+        setPacienteId(String(agendamento.paciente_id || ''));
       } catch (error) {
         mensagemErro('Erro ao buscar agendamento.');
       }

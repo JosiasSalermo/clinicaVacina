@@ -17,6 +17,8 @@ import CadastroDescarte from './views/CadastroDescarte';
 import CadastroUsuario from './views/CadastroUsuario';
 import CadastroAgendamento from './views/CadastroAgendamento';
 
+
+
 // LISTAGEM
 import ListagemPacientes from './views/ListagemPacientes';
 import ListagemFabricantes from './views/ListagemFabricantes';
@@ -26,6 +28,7 @@ import ListagemVacinacao from './views/ListagemVacinacao';
 import ListagemCompra from './views/ListagemCompra';
 import ListagemDescarte from './views/ListagemDescarte';
 import ListagemUsuarios from './views/ListagemUsuario';
+import ListagemAgendamento from './views/ListagemAgendamento';
 
 function Rotas() {
   const [loading, setLoading] = React.useState(true);
@@ -47,20 +50,44 @@ function Rotas() {
 
         {/* ROTAS DE CADASTRO */}
         <Route path='/CadastroPaciente' element={<CadastroPaciente />} />
+        <Route path='/CadastroPaciente/:idParam' element={<CadastroPaciente />} />
+
         <Route path='/CadastroFabricante' element={<CadastroFabricante />} />
+        <Route path='/CadastroFabricante/:idParam' element={<CadastroFabricante />} />
+
         <Route path='/CadastroEspecialidade' element={<CadastroEspecialidade />} />
+        <Route path='/CadastroEspecialidade/:idParam' element={<CadastroEspecialidade />} />
+
         <Route path='/CadastroCargo' element={<CadastroCargo />} />
+        <Route path='/CadastroCargo/:idParam' element={<CadastroCargo />} />
+
         <Route path='/CadastroPerfilAcesso' element={<CadastroPerfilAcesso />} />
+        <Route path='/CadastroPerfilAcesso/:idParam' element={<CadastroPerfilAcesso />} />
+
         <Route path='/CadastroFuncionario' element={<CadastroFuncionario />} />
+        <Route path='/CadastroFuncionario/:idParam' element={<CadastroFuncionario />} />
+
         <Route path='/CadastroTipoVacina' element={<CadastroTipoVacina />} />
+        <Route path='/CadastroTipoVacina/:idParam' element={<CadastroTipoVacina />} />
+
         <Route path='/CadastroVacina' element={<CadastroVacina />} />
+        <Route path='/CadastroVacina/:idParam' element={<CadastroVacina />} />
+
         <Route path='/CadastroVacinacao' element={<CadastroVacinacao />} />
+        <Route path='/CadastroVacinacao/:idParam' element={<CadastroVacinacao />} />
+
         <Route path='/CadastroCompra' element={<CadastroCompra />} />
         <Route path='/CadastroCompra/:idParam' element={<CadastroCompra />} />
+
         <Route path='/CadastroDescarte' element={<CadastroDescarte />} />
         <Route path='/CadastroDescarte/:idParam' element={<CadastroDescarte />} />
+
         <Route path='/CadastroUsuario' element={<CadastroUsuario />} />
+        <Route path='/CadastroUsuario/:idParam' element={<CadastroUsuario />} />
+
         <Route path='/CadastroAgendamento' element={<CadastroAgendamento />} />
+        <Route path='/CadastroAgendamento/:idParam' element={<CadastroAgendamento />} />
+
 
         {/* ROTAS DE LISTAGEM */}
         <Route path='/ListagemPacientes' element={<ListagemPacientes />} />
@@ -71,7 +98,9 @@ function Rotas() {
         <Route path='/ListagemCompra' element={<ListagemCompra />} />
         <Route path='/ListagemDescarte' element={<ListagemDescarte />} />
         <Route path='/ListagemUsuarios' element={<ListagemUsuarios />} />
-        <Route path='/CadastroUsuario/:idParam' element={<CadastroUsuario />} />
+        <Route path='/ListagemAgendamento' element={<ListagemAgendamento />} />
+
+        {/* REDIRECIONAMENTO */}
 
       </Routes>
 
