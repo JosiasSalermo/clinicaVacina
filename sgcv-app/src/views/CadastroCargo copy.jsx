@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import { mensagemSucesso, mensagemErro } from "../components/toastr";
 import FormGroup from "../components/FormGroup";
 
+
 import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
@@ -14,71 +15,117 @@ import axios from "axios";
 import { URL_funcionario } from '../config/axios';
 
 function CadastroCargo() {
+
   const { idParam } = useParams();
+
   const navigate = useNavigate();
+
   const baseURL = `${URL_funcionario}/cargo`;
 
   const [id, setId] = useState('');
   const [cargo, setCargo] = useState('');
   const [descricao, setDescricao] = useState('');
+
   const [loading, setLoading] = useState(true);
-  const [erros, setErros] = useState({});
+
+  function inicializar() {
+    if (idParam == null) {
+      setId('');
+      setCargo('');
+      setDescricao('');
+    } else if (dados) {
+      setId(dados.id);
+      setCargo(dados.cargo);
+      setDescricao(dados.descricao);
+    } else {
+      buscar();
+    }
+  }
+
+
 
   async function salvar() {
-    const novosErros = {};
-
-    if (!cargo.trim()) {
-      novosErros.cargo = "O campo Cargo é obrigatório.";
-    }
-
-    setErros(novosErros);
-    if (Object.keys(novosErros).length > 0) {
-      mensagemErro("Preencha todos os campos obrigatórios corretamente.");
-      return;
-    }
-
     let data = { id, cargo, descricao };
     data = JSON.stringify(data);
 
-    try {
-      if (!idParam) {
-        await axios.post(baseURL, data, {
+    if (idParam == null) {
+      await axios
+        .post(baseURL, data, {
           headers: { 'Content-type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Cargo ${cargo} cadastrada com sucesso!`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
         });
-        mensagemSucesso(`Cargo ${cargo} cadastrado com sucesso!`);
-      } else {
-        await axios.put(`${baseURL}/${idParam}`, data, {
+    } else {
+      await axios
+        .put(`${baseURL}/${idParam}`, data, {
           headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Cargo ${cargo} alterada com sucesso!`);
+          navigate(`ListagemFuncionarios`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
         });
-        mensagemSucesso(`Cargo ${cargo} alterado com sucesso!`);
-        navigate(`/ListagemFuncionarios`);
-      }
-    } catch (error) {
-      mensagemErro(error?.response?.data || "Erro ao salvar cargo.");
     }
   }
 
   async function buscar() {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
-      setId(response.data.id);
-      setCargo(response.data.cargo);
-      setDescricao(response.data.descricao);
+      setDados(response.data);
+      setId(response.dados.id);
+      setCargo(response.dados.cargo);
+      setDescricao(response.dados.descricao);
+
     } catch (error) {
       console.error("Erro ao buscar os dados:", error);
-      mensagemErro("Erro ao buscar os dados");
-    } finally {
-      setLoading(false);
     }
   }
 
+
   useEffect(() => {
+    async function buscar() {
+      try {
+        const response = await axios.get(`${baseURL}/${idParam}`);
+        setDados(response.data);
+        setId(response.data.id);
+        setCargo(response.data.cargo);
+        setDescricao(response.data.descricao);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+        mensagemErro("Erro ao buscar os dados");
+      } finally {
+        setLoading(false);
+
+      }
+    }
+
+
     if (idParam) {
       buscar();
     } else {
       setLoading(false);
     }
   }, [baseURL, idParam]);
+
+
+  const [dados, setDados] = useState([]);
+  useEffect(() => {
+    axios.get(`${URL_funcionario}/cargo`).then((response) => {
+      setDados(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    buscar();
+  }, [id]);
+
+  if (!dados) return null;
 
   return (
     <div className="container">
@@ -97,12 +144,10 @@ function CadastroCargo() {
                       type="text"
                       id="inputCargo"
                       value={cargo}
-                      className={`form-control ${erros.cargo ? 'is-invalid' : ''}`}
+                      className="form-control"
+                      name=""
                       onChange={(e) => setCargo(e.target.value)}
                     />
-                    {erros.cargo && (
-                      <div className="invalid-feedback">{erros.cargo}</div>
-                    )}
                   </FormGroup>
                 </div>
               </div>
@@ -115,9 +160,11 @@ function CadastroCargo() {
                   <textarea
                     cols={30}
                     rows={6}
+                    type="textarea"
                     id="inputDescricao"
                     value={descricao}
                     className="form-control"
+                    name="descricao"
                     onChange={(e) => setDescricao(e.target.value)}
                   />
                 </FormGroup>
@@ -132,7 +179,7 @@ function CadastroCargo() {
                   Salvar
                 </button>
                 <button
-                  onClick={() => navigate('/ListagemFuncionarios')}
+                  onClick={inicializar}
                   type="button"
                   className="btn btn-danger"
                 >
@@ -141,10 +188,15 @@ function CadastroCargo() {
               </Stack>
             </div>
           </div>
-        </div>
-      </Card>
-    </div>
+        </div >
+      </Card >
+    </div >
   );
+
+
+
+
+
 }
 
 export default CadastroCargo;
