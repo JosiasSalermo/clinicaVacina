@@ -1,3 +1,7 @@
+export const BASE_URL = 'http://localhost:8080/api/v1';
+
+
+/*
 export const BASE_URL = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-vacina';
 
 export const URL_paciente = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-paciente';
@@ -18,6 +22,6 @@ export const URL_telefone = 'https://my-json-server.typicode.com/JosiasSalermo/a
 
 export const URL_usuario = 'https://my-json-server.typicode.com/JosiasSalermo/api-fake-usuario';
 
-
+*/
 
 // 'http://localhost:8080/api/v1';
