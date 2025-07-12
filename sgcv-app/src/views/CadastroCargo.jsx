@@ -11,12 +11,13 @@ import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
 import axios from "axios";
-import { URL_funcionario } from '../config/axios';
+
+import { BASE_URL } from '../config/axios';
 
 function CadastroCargo() {
   const { idParam } = useParams();
   const navigate = useNavigate();
-  const baseURL = `${URL_funcionario}/cargo`;
+  const baseURL = `${BASE_URL}/cargos`;
 
   const [id, setId] = useState('');
   const [cargo, setCargo] = useState('');
@@ -38,7 +39,7 @@ function CadastroCargo() {
     }
 
     let data = { id, cargo, descricao };
-    data = JSON.stringify(data);
+    //data = JSON.stringify(data);
 
     try {
       if (!idParam) {
@@ -78,7 +79,7 @@ function CadastroCargo() {
     } else {
       setLoading(false);
     }
-  }, [baseURL, idParam]);
+  }, [/*baseURL*/, idParam]);
 
   return (
     <div className="container">

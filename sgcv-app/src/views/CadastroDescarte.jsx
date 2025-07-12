@@ -32,10 +32,10 @@ function CadastroDescarte() {
     try {
       const resposta = await axios.get(`${BASE_URL}/descarte/${idParam}`);
       const descarte = resposta.data;
-      setQuantidade(descarte.quantidade_descarte);
-      setDataDescarte(descarte.data);
+      setQuantidade(descarte.quantidadeDescarte);
+      setDataDescarte(descarte.data?.substring(0, 10));
       setMotivo(descarte.motivo);
-      setLoteId(descarte.lote_id);
+      setLoteId(descarte.loteId);
     } catch (error) {
       mensagemErro('Erro ao buscar descarte.');
     }
@@ -48,10 +48,10 @@ function CadastroDescarte() {
 
   const salvar = async () => {
     const dados = {
-      quantidade_descarte: Number(quantidade),
+      quantidadeDescarte: Number(quantidade),
       data: dataDescarte,
       motivo,
-      lote_id: Number(loteId),
+      loteId: Number(loteId),
     };
 
     try {

@@ -13,16 +13,15 @@ import "../custom.css";
 import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
-import { URL_compra } from "../config/axios";
-import { URL_fabricante } from "../config/axios";
-import { URL_fornecedor } from "../config/axios";
+import { BASE_URL } from "../config/axios";
 
 
 function CadastroCompra() {
   const { idParam } = useParams();
   const navigate = useNavigate();
 
-  const compraURL = `${URL_compra}`;
+  const baseURL = `${BASE_URL}/compras`;
+
 
   // Estado para lista de compras (TODAS)
   const [compras, setCompras] = useState([]);
@@ -46,7 +45,7 @@ function CadastroCompra() {
 
   async function buscarTodasCompras() {
     try {
-      const response = await axios.get(`${compraURL}/compras`);
+      const response = await axios.get(`${baseURL}/compras`);
       const listaCompras = response.data;
 
       console.log("Lista de Compras:");
@@ -61,7 +60,7 @@ function CadastroCompra() {
 
   async function buscarCompraPorId() {
     try {
-      const response = await axios.get(`${compraURL}/compras/${idParam}`);
+      const response = await axios.get(`${baseURL}/compras/${idParam}`);
       const compra = response.data;
       setId(compra.id);
       setValor(compra.valor);
@@ -80,23 +79,23 @@ function CadastroCompra() {
 
   async function salvar() {
     const data = {
-      valor,
+      valor: parseFloat(valor),
       dataCompra,
-      fornecedorId,
-      fabricanteId
+      fornecedorId: parseInt((fornecedorId)),
+      fabricanteId: parseInt(fabricanteId)
     };
 
     try {
       if (idParam == null) {
         await axios
-          .post(`${compraURL}/compras`, data, {
+          .post(`${baseURL}/compras`, data, {
             headers: { 'Content-Type': 'application/json' },
           });
         mensagemSucesso(`Compra cadastrada com sucesso!`);
 
       } else {
         await axios
-          .put(`${compraURL}/compras/${idParam}`, data, {
+          .put(`${baseURL}/compras/${idParam}`, data, {
             headers: { 'Content-Type': 'application/json' },
           });
         mensagemSucesso(`Compra ${id} alterada com sucesso!`);
@@ -143,7 +142,7 @@ function CadastroCompra() {
   useEffect(() => {
     async function carregarCompras() {
       try {
-        const response = await axios.get(`${compraURL}/compras`);
+        const response = await axios.get(`${baseURL}/compras`);
         setCompras(response.data);
       } catch (error) {
         mensagemErro("Erro ao carregar lista de compras.");
@@ -156,7 +155,7 @@ function CadastroCompra() {
   useEffect(() => {
     async function carregarFabricantes() {
       try {
-        const response = await axios.get(`${URL_fabricante}/fabricantes`);
+        const response = await axios.get(`${BASE_URL}/fabricantes`);
         setFabricantes(response.data);
       } catch (error) {
         mensagemErro("Erro ao carregar fabricantes.");
@@ -169,7 +168,7 @@ function CadastroCompra() {
   useEffect(() => {
     async function carregarFornecedores() {
       try {
-        const response = await axios.get(`${URL_fornecedor}/fornecedores`);
+        const response = await axios.get(`${BASE_URL}/fornecedores`);
         setFornecedores(response.data);
       } catch (error) {
         mensagemErro("Erro ao carregar fornecedores.");

@@ -12,12 +12,13 @@ import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
 import axios from "axios";
-import { URL_paciente } from '../config/axios';
+import { BASE_URL } from '../config/axios';
+
 
 function CadastroAgendamento() {
   const { idParam } = useParams();
   const navigate = useNavigate();
-  const baseURL = `${URL_paciente}/agendamento`;
+  const baseURL = `${BASE_URL}/agendamentos`;
 
   const [dataAgendamento, setDataAgendamento] = useState('');
   const [horarioAgendamento, setHorarioAgendamento] = useState('');
