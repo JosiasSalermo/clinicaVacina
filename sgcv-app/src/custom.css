@@ -350,3 +350,7 @@ body {
 
 
 
+/* Ajusta o Popper do MUI para não invadir a borda inferior do input */
+.MuiAutocomplete-popper {
+  margin-top: 4px !important; /* afasta visualmente o dropdown do campo */
+}

@@ -3,16 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import Card from "../components/Card";
 import { mensagemSucesso, mensagemErro } from "../components/toastr";
 import FormGroup from "../components/FormGroup";
-
-import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
+import "../custom.css";
 import axios from "axios";
 import { BASE_URL } from '../config/axios';
+
 
 
 function CadastroAgendamento() {
@@ -20,12 +21,52 @@ function CadastroAgendamento() {
   const navigate = useNavigate();
   const baseURL = `${BASE_URL}/agendamentos`;
 
+  // 🧠 STATES
   const [dataAgendamento, setDataAgendamento] = useState('');
   const [horarioAgendamento, setHorarioAgendamento] = useState('');
-  const [pacienteId, setPacienteId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [loading, setLoading] = useState(true);
   const [erros, setErros] = useState({});
+
+  const [pacientes, setPacientes] = useState([]);
+  const [pacienteId, setPacienteId] = useState(null);
+
+  const [inputValue, setInputValue] = useState('');
+
+
+  // 🔄 CARREGAR LISTA DE PACIENTES
+  useEffect(() => {
+    axios.get(`${BASE_URL}/pacientes`)
+      .then(response => setPacientes(response.data))
+      .catch(error => console.error("Erro ao buscar pacientes", error));
+  }, []);
+
+  // 🔄 BUSCAR AGENDAMENTO PARA EDIÇÃO
+  useEffect(() => {
+    if (idParam) {
+      buscar();
+    } else {
+      setLoading(false);
+    }
+  }, [idParam]);
+
+
+  async function buscar() {
+    try {
+      const response = await axios.get(`${baseURL}/${idParam}`);
+      const agendamento = response.data;
+      setDataAgendamento(agendamento.dataAgendamento || '');
+      setHorarioAgendamento(agendamento.horarioAgendamento || '');
+      setPacienteId(agendamento.pacienteId || '');
+      setDescricao(agendamento.descricao || '');
+    } catch (error) {
+      console.error("Erro ao buscar os dados:", error);
+      mensagemErro("Erro ao buscar os dados");
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   async function salvar() {
     const novosErros = {};
@@ -51,7 +92,7 @@ function CadastroAgendamento() {
     const data = {
       dataAgendamento,
       horarioAgendamento,
-      pacienteId,
+      pacienteId: parseInt(pacienteId, 10),
       descricao
     };
 
@@ -69,29 +110,9 @@ function CadastroAgendamento() {
     }
   }
 
-  async function buscar() {
-    try {
-      const response = await axios.get(`${baseURL}/${idParam}`);
-      const agendamento = response.data;
-      setDataAgendamento(agendamento.dataAgendamento || '');
-      setHorarioAgendamento(agendamento.horarioAgendamento || '');
-      setPacienteId(agendamento.pacienteId || '');
-      setDescricao(agendamento.descricao || '');
-    } catch (error) {
-      console.error("Erro ao buscar os dados:", error);
-      mensagemErro("Erro ao buscar os dados");
-    } finally {
-      setLoading(false);
-    }
-  }
 
-  useEffect(() => {
-    if (idParam) {
-      buscar();
-    } else {
-      setLoading(false);
-    }
-  }, [baseURL, idParam]);
+
+
 
   return (
     <div className="container">
@@ -137,17 +158,42 @@ function CadastroAgendamento() {
               <div className="mesmaLinha">
                 <div className="col-md-5 mb-3">
                   <FormGroup label="Paciente: *" htmlFor="pacienteId">
-                    <input
-                      type="text"
-                      id="pacienteId"
-                      value={pacienteId}
-                      className={`form-control ${erros.pacienteId ? 'is-invalid' : ''}`}
-                      onChange={(e) => setPacienteId(e.target.value)}
+                    <Autocomplete
+                      id="paciente-autocomplete"
+                      options={inputValue.length >= 2 ? pacientes : []}
+                      inputValue={inputValue}
+                      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+                      getOptionLabel={(option) =>
+                        option && option.nome && option.cpf
+                          ? `${option.nome} - ${option.cpf}`
+                          : ''
+                      }
+                      value={pacientes.find(p => String(p.id) === String(pacienteId)) || null}
+                      onChange={(event, newValue) => {
+                        setPacienteId(newValue ? newValue.id.toString() : '');
+                      }}
+                      isOptionEqualToValue={(option, value) => option.id === value.id}
+                      noOptionsText=""
+                      renderInput={(params) => (
+                        <div ref={params.InputProps.ref}>
+                          <input
+                            type="text"
+                            {...params.inputProps}
+                            className={`form-control ${erros.pacienteId ? 'is-invalid' : ''}`}
+                            placeholder="Digite o nome ou CPF"
+                          />
+                          {erros.pacienteId && (
+                            <div className="invalid-feedback">{erros.pacienteId}</div>
+                          )}
+                        </div>
+                      )}
                     />
-                    {erros.pacienteId && (
-                      <div className="invalid-feedback">{erros.pacienteId}</div>
-                    )}
                   </FormGroup>
+
+
+
+
+
                 </div>
               </div>
 
