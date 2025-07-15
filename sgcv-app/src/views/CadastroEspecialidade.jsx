@@ -12,7 +12,7 @@ import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
 import axios from "axios";
-import { URL_funcionario } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
 function CadastroEspecialidade() {
 
@@ -20,7 +20,7 @@ function CadastroEspecialidade() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_funcionario}/especialidades`;
+  const baseURL = `${BASE_URL}/especialidades`;
 
   const [id, setId] = useState('');
   const [especialidade, setEspecialidade] = useState('');
@@ -28,25 +28,12 @@ function CadastroEspecialidade() {
 
   const [loading, setLoading] = useState(true);
 
-  function inicializar() {
-    if (idParam == null) {
-      setId('');
-      setEspecialidade('');
-      setDescricao('');
-    } else if (dados) {
-      setId(dados.id);
-      setEspecialidade(dados.especialidade);
-      setDescricao(dados.descricao);
-    } else {
-      buscar();
-    }
-  }
 
 
 
   async function salvar() {
     let data = { id, especialidade, descricao };
-    data = JSON.stringify(data);
+
 
     if (idParam == null) {
       await axios
@@ -77,13 +64,15 @@ function CadastroEspecialidade() {
   async function buscar() {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
-      setDados(response.data);
-      setId(response.dados.id);
-      setEspecialidade(response.dados.especialidade);
-      setDescricao(response.dados.descricao);
-
+      const data = response.data;
+      setId(data.id);
+      setEspecialidade(data.especialidade);
+      setDescricao(data.descricao);
     } catch (error) {
-      console.error("Erro ao buscar os dados:", error);
+
+      mensagemErro("Erro ao buscar os dados");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -92,7 +81,6 @@ function CadastroEspecialidade() {
     async function buscar() {
       try {
         const response = await axios.get(`${baseURL}/${idParam}`);
-        setDados(response.data);
         setId(response.data.id);
         setEspecialidade(response.data.especialidade);
         setDescricao(response.data.descricao);
@@ -105,98 +93,82 @@ function CadastroEspecialidade() {
       }
     }
 
+    useEffect(() => {
+      if (idParam) {
+        buscar();
+      } else {
+        setLoading(false);
+      }
+    }, [idParam]);
 
-    if (idParam) {
-      buscar();
-    } else {
-      setLoading(false);
-    }
-  }, [baseURL, idParam]);
 
 
-  const [dados, setDados] = useState([]);
-  useEffect(() => {
-    axios.get(`${URL_funcionario}/especialidades`).then((response) => {
-      setDados(response.data);
-    });
-  }, []);
+    return (
+      <div className="container">
+        <LoadingOverlay loading={loading} />
+        <Card title="Cadastro de Especialidade">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="form-row">
+                <div className="mesmaLinha">
+                  <div className="col-md-5 mb-3">
+                    <FormGroup
+                      label="Especialidade: *"
+                      htmlFor="inputNomeTipo"
+                    >
+                      <input
+                        type="text"
+                        id="inputEspecialidade"
+                        value={especialidade}
+                        className="form-control"
+                        name="especialidade"
 
-  useEffect(() => {
-    buscar();
-  }, [id]);
+                        onChange={(e) => setEspecialidade(e.target.value)}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
 
-  if (!dados) return null;
-
-  return (
-    <div className="container">
-      <LoadingOverlay loading={loading} />
-      <Card title="Cadastro de Especialidade">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="form-row">
-              <div className="mesmaLinha">
-                <div className="col-md-5 mb-3">
+                <div className="col-md-12 mb-3">
                   <FormGroup
-                    label="Especialidade: *"
-                    htmlFor="inputNomeTipo"
+                    label="Descrição do Perfil: "
+                    htmlFor="inputDescricao"
                   >
-                    <input
-                      type="text"
-                      id="inputEspecialidade"
-                      value={especialidade}
+                    <textarea
+                      cols={30}
+                      rows={6}
+                      type="textarea"
+                      id="inputDescricao"
+                      value={descricao}
                       className="form-control"
-                      name=""
-                      onChange={(e) => setEspecialidade(e.target.value)}
+                      name="descricao"
+                      onChange={(e) => setDescricao(e.target.value)}
                     />
                   </FormGroup>
                 </div>
-              </div>
 
-              <div className="col-md-12 mb-3">
-                <FormGroup
-                  label="Descrição do Perfil: "
-                  htmlFor="inputDescricao"
-                >
-                  <textarea
-                    cols={30}
-                    rows={6}
-                    type="textarea"
-                    id="inputDescricao"
-                    value={descricao}
-                    className="form-control"
-                    name="descricao"
-                    onChange={(e) => setDescricao(e.target.value)}
-                  />
-                </FormGroup>
-              </div>
+                <Stack spacing={1} padding={1} direction="row">
+                  <button
+                    onClick={salvar}
+                    type="button"
+                    className="btn btn-success"
+                  >
+                    Salvar
+                  </button>
+                  <button type="button" className="btn btn-danger"
+                    onClick={() => navigate('/ListagemEspecialidade')}
 
-              <Stack spacing={1} padding={1} direction="row">
-                <button
-                  onClick={salvar}
-                  type="button"
-                  className="btn btn-success"
-                >
-                  Salvar
-                </button>
-                <button
-                  onClick={inicializar}
-                  type="button"
-                  className="btn btn-danger"
-                >
-                  Cancelar
-                </button>
-              </Stack>
+
+                  >
+                    Cancelar
+                  </button>
+                </Stack>
+              </div>
             </div>
-          </div>
-        </div >
-      </Card >
-    </div >
-  );
-
-
-
-
-
-}
+          </div >
+        </Card >
+      </div >
+    );
+  }
 
 export default CadastroEspecialidade;
