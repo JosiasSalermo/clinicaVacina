@@ -13,102 +13,7 @@ function NavBar(props) {
   const [isDropdownOpen8, setDropdownOpen8] = useState(false);
   const [isDropdownOpen9, setDropdownOpen9] = useState(false);
 
-  const handleMouseEnter = (index) => {
-    if (index === 1) {
-      setDropdownOpen1(true);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 2) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(true);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 3) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(true);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 4) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(true);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 5) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(true);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 6) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(true);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 7) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(true);
-      setDropdownOpen8(false);
-      setDropdownOpen9(false);
-    } else if (index === 8) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(true);
-      setDropdownOpen9(false);
-    } else if (index === 9) {
-      setDropdownOpen1(false);
-      setDropdownOpen2(false);
-      setDropdownOpen3(false);
-      setDropdownOpen4(false);
-      setDropdownOpen5(false);
-      setDropdownOpen6(false);
-      setDropdownOpen7(false);
-      setDropdownOpen8(false);
-      setDropdownOpen9(true);
-    }
-
-  };
-
-  const handleMouseLeave = () => {
+  const closeAllDropdowns = () => {
     setDropdownOpen1(false);
     setDropdownOpen2(false);
     setDropdownOpen3(false);
@@ -120,317 +25,141 @@ function NavBar(props) {
     setDropdownOpen9(false);
   };
 
+  const handleMouseEnter = (index) => {
+    closeAllDropdowns();
+    switch (index) {
+      case 1: setDropdownOpen1(true); break;
+      case 2: setDropdownOpen2(true); break;
+      case 3: setDropdownOpen3(true); break;
+      case 4: setDropdownOpen4(true); break;
+      case 5: setDropdownOpen5(true); break;
+      case 6: setDropdownOpen6(true); break;
+      case 7: setDropdownOpen7(true); break;
+      case 8: setDropdownOpen8(true); break;
+      case 9: setDropdownOpen9(true); break;
+      default: break;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    closeAllDropdowns();
+  };
 
   return (
-    <div className='navbar navbar-expand-lg fixed-top bg-primary'>
-      <div className='container-fluid'>
-        <a href='/' className='navbar-brand'>
+    <div className="navbar navbar-expand-lg fixed-top bg-primary">
+      <div className="container-fluid">
+        <a href="/" className="navbar-brand">
           <img src="https://cdn-icons-png.flaticon.com/128/6064/6064458.png" alt="" width={20} />
         </a>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#navbarResponsive'
-          aria-controls='navbarResponsive'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <span className='navbar-toggler-icon'></span>
-        </button>
-        <div className='collapse navbar-collapse ' id='navbarResponsive '>
-          <ul className='navbar-nav'>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(1)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen1 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown1'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen1 ? 'true' : 'false'}
-              >
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarResponsive">
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen1 ? "active" : ""}`} id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen1}>
                 Agendamento
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown1'
-              >
-                <a className='dropdown-item' href='CadastroAgendamento'>
-                  Cadastrar Agendamento
-                </a>
-                <a className='dropdown-item' href='ListagemAgendamento'>
-                  Listagem dos Agendamentos
-                </a>
-
+              <div className={`dropdown-menu ${isDropdownOpen1 ? "show" : ""}`} aria-labelledby="navbarDropdown1">
+                <a className="dropdown-item" href="CadastroAgendamento">Cadastrar Agendamento</a>
+                <a className="dropdown-item" href="ListagemAgendamento">Listagem dos Agendamentos</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(2)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen2 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown2'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen2 ? 'true' : 'false'}
-              >
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen2 ? "active" : ""}`} id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen2}>
                 Usuários
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen2 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown2'
-              >
-                <a className='dropdown-item' href='CadastroUsuario'>
-                  Cadastrar Usuário
-                </a>
-                <a className='dropdown-item' href='ListagemUsuarios'>
-                  Listagem de Usuários
-                </a>
-
+              <div className={`dropdown-menu ${isDropdownOpen2 ? "show" : ""}`} aria-labelledby="navbarDropdown2">
+                <a className="dropdown-item" href="CadastroUsuario">Cadastrar Usuário</a>
+                <a className="dropdown-item" href="ListagemUsuarios">Listagem de Usuários</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(3)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen3 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown3'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen3 ? 'true' : 'false'}
-              >
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen3 ? "active" : ""}`} id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen3}>
                 Vacinações
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen3 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown3'
-              >
-                <a className='dropdown-item' href='CadastroVacinacao'>
-                  Cadastrar Vacinação
-                </a>
-                <a className='dropdown-item' href='ListagemVacinacao'>
-                  Vacinação do dia
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen3 ? "show" : ""}`} aria-labelledby="navbarDropdown3">
+                <a className="dropdown-item" href="CadastroVacinacao">Cadastrar Vacinação</a>
+                <a className="dropdown-item" href="ListagemVacinacao">Vacinação do dia</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(4)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen4 ? 'active' : ''}`}
-                href='/ListagemVacinas'
-                id='navbarDropdown4'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen4 ? 'true' : 'false'}
-              >
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(4)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen4 ? "active" : ""}`} id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen4}>
                 Vacinas
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen4 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown4'
-              >
-                <a className='dropdown-item'
-                  href='CadastroVacina'>
-                  Cadastrar Vacina
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemVacinas'>
-                  Listagem de Vacinas
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroTipoVacina'>
-                  Cadastrar Tipo de vacina
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroFabricante'>
-                  Cadastrar Fabricante
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroDescarte'>
-                  Cadastrar Descarte
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemDescarte'>
-                  Listagem de Descartes
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen4 ? "show" : ""}`} aria-labelledby="navbarDropdown4">
+                <a className="dropdown-item" href="CadastroVacina">Cadastrar Vacina</a>
+                <a className="dropdown-item" href="ListagemVacinas">Listagem de Vacinas</a>
+                <a className="dropdown-item" href="CadastroVacina">Cadastrar Tipo de vacina</a>
+                <a className="dropdown-item" href="ListagemVacinas">Listagem de Tipo de vacina</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(5)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen5 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown5'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen5 ? 'true' : 'false'}
-              >
-                Funcionarios
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(5)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen5 ? "active" : ""}`} id="navbarDropdown5" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen5}>
+                Funcionários
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen5 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown5'
-              >
-                <a className='dropdown-item'
-                  href='CadastroFuncionario'>
-                  Cadastrar Funcionario
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemFuncionarios'>
-                  Listagem de Funcionarios
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroCargo'>
-                  Cadastrar Cargo
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroPerfilAcesso'>
-                  Cadastrar Perfil de Acesso
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroEspecialidade'>
-                  Cadastrar Especialidade
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen5 ? "show" : ""}`} aria-labelledby="navbarDropdown5">
+                <a className="dropdown-item" href="CadastroFuncionario">Cadastrar Funcionário</a>
+                <a className="dropdown-item" href="ListagemFuncionarios">Listagem de Funcionários</a>
+                <a className="dropdown-item" href="CadastroFuncionario">Cadastrar Cargo</a>
+                <a className="dropdown-item" href="ListagemFuncionarios">Listagem de Cargos</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(6)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen6 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown6'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen6 ? 'true' : 'false'}
-              >
-                Fabricantes
-              </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen6 ? 'show' : ''}`}
-                aria-labelledby='navbarDropdown6'
-              >
-                <a className='dropdown-item'
-                  href='CadastroFabricante'>
-                  Cadastrar Fabricante
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemFabricantes'>
-                  Listagem de Fabricantes
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroVacina'>
-                  Cadastrar Vacina
-                </a>
-                <a className='dropdown-item'
-                  href='CadastroTipoVacina'>
-                  Cadastrar Tipo de Vacina
-                </a>
-              </div>
-            </li>
-
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(7)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen7 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown7'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen7 ? 'true' : 'false'}
-              >
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(7)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen7 ? "active" : ""}`} id="navbarDropdown7" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen7}>
                 Pacientes
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen7 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown7'
-              >
-                <a className='dropdown-item' href='CadastroPaciente'>
-                  Cadastrar Paciente
-                </a>
-                <a className='dropdown-item' href='ListagemPacientes'>
-                  Listagem de Pacientes
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen7 ? "show" : ""}`} aria-labelledby="navbarDropdown7">
+                <a className="dropdown-item" href="CadastroPaciente">Cadastrar Paciente</a>
+                <a className="dropdown-item" href="ListagemPacientes">Listagem de Pacientes</a>
+                <a className="dropdown-item" href="CadastroPaciente">Cadastrar Comorbidade</a>
+                <a className="dropdown-item" href="ListagemPacientes">Listagem de Comorbidades</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(8)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen8 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown8'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen8 ? 'true' : 'false'}
-              >
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(8)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen8 ? "active" : ""}`} id="navbarDropdown8" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen8}>
                 Compras
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen8 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown8'
-              >
-                <a className='dropdown-item'
-                  href='CadastroCompra'>
-                  Cadastrar Compra
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemCompra'>
-                  Listagem de Compras
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen8 ? "show" : ""}`} aria-labelledby="navbarDropdown8">
+                <a className="dropdown-item" href="CadastroCompra">Cadastrar Compra</a>
+                <a className="dropdown-item" href="ListagemCompra">Listagem de Compras</a>
+                <a className="dropdown-item" href="CadastroCompra">Cadastrar Fornecedor</a>
+                <a className="dropdown-item" href="ListagemCompra">Listagem de Fornecedores</a>
+                <a className="dropdown-item" href="CadastroCompra">Cadastrar Fabricante</a>
+                <a className="dropdown-item" href="ListagemCompra">Listagem de Fabricantes</a>
               </div>
             </li>
 
-            <li className={'nav-item dropdown'}
-              onMouseEnter={() => handleMouseEnter(9)}
-              onMouseLeave={handleMouseLeave}>
-              <span
-                className={`nav-link ${isDropdownOpen8 ? 'active' : ''}`}
-                href='/'
-                id='navbarDropdown8'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen8 ? 'true' : 'false'}
-              >
-                Descarte
+            <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter(9)} onMouseLeave={handleMouseLeave}>
+              <span className={`nav-link ${isDropdownOpen9 ? "active" : ""}`} id="navbarDropdown9" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded={isDropdownOpen9}>
+                Estoques
               </span>
-              <div
-                className={`dropdown-menu ${isDropdownOpen9 ? 'show' : ''} `}
-                aria-labelledby='navbarDropdown9'
-              >
-                <a className='dropdown-item'
-                  href='CadastroDescarte'>
-                  Cadastrar Descarte
-                </a>
-                <a className='dropdown-item'
-                  href='ListagemDescarte'>
-                  Listagem de Descartess
-                </a>
+              <div className={`dropdown-menu ${isDropdownOpen9 ? "show" : ""}`} aria-labelledby="navbarDropdown9">
+                <a className="dropdown-item" href="CadastroDescarte">Cadastrar Estoque</a>
+                <a className="dropdown-item" href="ListagemDescarte">Listagem de Estoques</a>
+                <a className="dropdown-item" href="CadastroDescarte">Cadastrar Lote</a>
+                <a className="dropdown-item" href="ListagemDescarte">Listagem de Lotes</a>
+                <a className="dropdown-item" href="CadastroDescarte">Cadastrar Descarte</a>
+                <a className="dropdown-item" href="ListagemDescarte">Listagem de Descartes</a>
               </div>
             </li>
+
           </ul>
         </div>
       </div>
