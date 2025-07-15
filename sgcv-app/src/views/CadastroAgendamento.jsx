@@ -71,17 +71,18 @@ function CadastroAgendamento() {
   async function salvar() {
     const novosErros = {};
 
-    if (!dataAgendamento.trim()) {
+    if (!String(dataAgendamento || '').trim()) {
       novosErros.dataAgendamento = "Informe a data do agendamento.";
     }
 
-    if (!horarioAgendamento.trim()) {
+    if (!String(horarioAgendamento || '').trim()) {
       novosErros.horarioAgendamento = "Informe o horário do agendamento.";
     }
 
-    if (!pacienteId.trim()) {
+    if (!String(pacienteId || '').trim()) {
       novosErros.pacienteId = "Informe o paciente.";
     }
+
 
     setErros(novosErros);
     if (Object.keys(novosErros).length > 0) {
@@ -160,14 +161,17 @@ function CadastroAgendamento() {
                   <FormGroup label="Paciente: *" htmlFor="pacienteId">
                     <Autocomplete
                       id="paciente-autocomplete"
-                      options={inputValue.length >= 2 ? pacientes : []}
+                      options={pacientes}
+                      getOptionLabel={(option) => option.nome}
+                      filterOptions={(options, { inputValue }) =>
+                        inputValue.trim().length >= 2
+                          ? options.filter(option =>
+                            option.nome.toLowerCase().includes(inputValue.toLowerCase())
+                          )
+                          : []
+                      }
                       inputValue={inputValue}
                       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
-                      getOptionLabel={(option) =>
-                        option && option.nome && option.cpf
-                          ? `${option.nome} - ${option.cpf}`
-                          : ''
-                      }
                       value={pacientes.find(p => String(p.id) === String(pacienteId)) || null}
                       onChange={(event, newValue) => {
                         setPacienteId(newValue ? newValue.id.toString() : '');
@@ -180,7 +184,7 @@ function CadastroAgendamento() {
                             type="text"
                             {...params.inputProps}
                             className={`form-control ${erros.pacienteId ? 'is-invalid' : ''}`}
-                            placeholder="Digite o nome ou CPF"
+                            placeholder="Digite o nome do paciente"
                           />
                           {erros.pacienteId && (
                             <div className="invalid-feedback">{erros.pacienteId}</div>
@@ -188,6 +192,7 @@ function CadastroAgendamento() {
                         </div>
                       )}
                     />
+
                   </FormGroup>
 
 
