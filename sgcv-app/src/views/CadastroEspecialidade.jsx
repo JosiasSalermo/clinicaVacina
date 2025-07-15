@@ -12,7 +12,8 @@ import "../custom.css";
 import LoadingOverlay from "../LoadingOverlay";
 
 import axios from "axios";
-import { URL_funcionario } from '../config/axios';
+import { BASE_URL } from '../config/axios';
+
 
 function CadastroEspecialidade() {
 
@@ -20,7 +21,8 @@ function CadastroEspecialidade() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_funcionario}/especialidades`;
+  const baseURL = `${BASE_URL}/especialidades`;
+  
 
   const [id, setId] = useState('');
   const [especialidade, setEspecialidade] = useState('');
@@ -116,7 +118,7 @@ function CadastroEspecialidade() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/especialidades`).then((response) => {
+    axios.get(`${BASE_URL}/especialidades`).then((response) => {
       setDados(response.data);
     });
   }, []);

@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { URL_paciente } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${URL_paciente}/pacientes`;
+const baseURL = `${BASE_URL}/pacientes`;
 
 function ListagemPacientes() {
   const navigate = useNavigate();

@@ -9,9 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { URL_compra, URL_fabricante, URL_fornecedor } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${URL_compra}/compras`;
+const baseURL = `${BASE_URL}/compras`;
 
 function ListagemCompra() {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ function ListagemCompra() {
     try {
       const [resCompra, resFabricantes, resFornecedores] = await Promise.all([
         axios.get(baseURL),
-        axios.get(`${URL_fabricante}/fabricantes`),
-        axios.get(`${URL_fornecedor}/fornecedores`),
+        axios.get(`${BASE_URL}/fabricantes`),
+        axios.get(`${BASE_URL}/fornecedores`),
       ]);
 
       console.log('COMPRAS:', resCompra.data);

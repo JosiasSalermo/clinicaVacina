@@ -13,18 +13,13 @@ import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { BASE_URL } from "../config/axios";
-import { URL_paciente } from "../config/axios";
-import { URL_funcionario } from "../config/axios";
-import { URL_fabricante } from "../config/axios";
-import { URL_estado } from "../config/axios";
-import { URL_agenda } from "../config/axios";
 
 function CadastroFuncionario() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_funcionario}/funcionarios`;
+  const baseURL = `${BASE_URL}/funcionarios`;
 
   const [id, setId] = useState('');
   const [nomeFuncionario, setNomeFuncionario] = useState('');
@@ -195,7 +190,7 @@ function CadastroFuncionario() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/funcionarios`).then((response) => {
+    axios.get(`${BASE_URL}/funcionarios`).then((response) => {
       setDados(response.data);
     });
   }, []);
@@ -203,14 +198,14 @@ function CadastroFuncionario() {
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_estado}/estados`).then((response) => {
+    axios.get(`${BASE_URL}/estados`).then((response) => {
       setDados2(response.data);
     });
   }, []);
 
   const [dados3, setDados3] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/perfil`).then((response) => {
+    axios.get(`${BASE_URL}/perfil`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -218,14 +213,14 @@ function CadastroFuncionario() {
 
   const [dados4, setDados4] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/cargos`).then((response) => {
+    axios.get(`${BASE_URL}/cargos`).then((response) => {
       setDados4(response.data);
     });
   }, []);
 
   const [dados5, setDados5] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_funcionario}/especialidades`).then((response) => {
+    axios.get(`${BASE_URL}/especialidades`).then((response) => {
       setDados5(response.data);
     });
   }, []);

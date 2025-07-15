@@ -13,18 +13,13 @@ import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { BASE_URL } from "../config/axios";
-import { URL_paciente } from "../config/axios";
-import { URL_funcionario } from "../config/axios";
-import { URL_fabricante } from "../config/axios";
-import { URL_estado } from "../config/axios";
-import { URL_agenda } from "../config/axios";
 
 function CadastroPaciente() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_paciente}/pacientes`;
+  const baseURL = `${BASE_URL}/pacientes`;
 
   const [id, setId] = useState('');
   const [nome, setNome] = useState('');
@@ -193,7 +188,7 @@ function CadastroPaciente() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${URL_paciente}/pacientes`).then((response) => {
+    axios.get(`${BASE_URL}/pacientes`).then((response) => {
       setDados(response.data);
     });
   }, []);
@@ -201,14 +196,14 @@ function CadastroPaciente() {
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_estado}/estados`).then((response) => {
+    axios.get(`${BASE_URL}/estados`).then((response) => {
       setDados2(response.data);
     });
   }, []);
 
   const [dados3, setDados3] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_paciente}/sangue`).then((response) => {
+    axios.get(`${BASE_URL}/sangue`).then((response) => {
       setDados3(response.data);
     });
   }, []);

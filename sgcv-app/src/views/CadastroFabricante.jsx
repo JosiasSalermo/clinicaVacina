@@ -15,8 +15,6 @@ import axios from "axios";
 import { BASE_URL } from "../config/axios";
 import { URL_paciente } from "../config/axios";
 import { URL_funcionario } from "../config/axios";
-import { URL_fabricante } from "../config/axios";
-import { URL_estado } from "../config/axios";
 import { URL_agenda } from "../config/axios";
 
 function CadastroFabricante() {
@@ -24,7 +22,7 @@ function CadastroFabricante() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_fabricante}/fabricantes`;
+  const baseURL = `${BASE_URL}/fabricantes`;
 
   const [id, setId] = useState('');
   const [nomeFabricante, setNomeFabricante] = useState('');
@@ -188,7 +186,7 @@ function CadastroFabricante() {
 
   const [dados, setDados] = useState([]);
   useEffect(() => {
-    axios.get(`${URL_fabricante}/fabricantes`).then((response) => {
+    axios.get(`${BASE_URL}/fabricantes`).then((response) => {
       setDados(response.data);
     });
   }, []);
@@ -196,7 +194,7 @@ function CadastroFabricante() {
 
   const [dados2, setDados2] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_estado}/estados`).then((response) => {
+    axios.get(`${BASE_URL}/estados`).then((response) => {
       setDados2(response.data);
     });
   }, []);
