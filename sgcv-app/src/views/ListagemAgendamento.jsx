@@ -11,8 +11,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/agendamento`;
-const pacienteURL = `${BASE_URL}/pacientes`;
 
 function ListagemAgendamento() {
   const navigate = useNavigate();
@@ -25,8 +23,8 @@ function ListagemAgendamento() {
   const carregarDados = async () => {
     try {
       const [resAgendamento, resPacientes] = await Promise.all([
-        axios.get(baseURL),
-        axios.get(pacienteURL)
+        axios.get(`${BASE_URL}/agendamentos`),
+        axios.get(`${BASE_URL}/pacientes`)
       ]);
 
       const mapaPacientes = resPacientes.data.reduce((map, p) => {
@@ -36,7 +34,7 @@ function ListagemAgendamento() {
 
       const agendamentosComNome = resAgendamento.data.map((a) => ({
         ...a,
-        nomePaciente: mapaPacientes[a.paciente_id] || 'Não encontrado'
+        nomePaciente: mapaPacientes[a.pacienteId] || 'Não encontrado'
       }));
 
       setAgendamentos(agendamentosComNome);
@@ -55,7 +53,7 @@ function ListagemAgendamento() {
 
   const excluirAgendamento = async (id) => {
     try {
-      await axios.delete(`${baseURL}/${id}`);
+      await axios.delete(`${BASE_URL}/agendamentos/${id}`);
       mensagemSucesso('Agendamento excluído com sucesso!');
       setAgendamentos((prev) => prev.filter((a) => a.id !== id));
     } catch (error) {
@@ -90,8 +88,8 @@ function ListagemAgendamento() {
                   {agendamentos.map((agendamento) => (
                     <tr key={agendamento.id}>
                       <td>{agendamento.id}</td>
-                      <td>{agendamento.data_agendamento}</td>
-                      <td>{agendamento.horario_agendamento}</td>
+                      <td>{agendamento.dataAgendamento}</td>
+                      <td>{agendamento.horarioAgendamento}</td>
                       <td>{agendamento.nomePaciente}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction="row">
