@@ -103,8 +103,8 @@ function NavBar(props) {
               <div className={`dropdown-menu ${isDropdownOpen4 ? "show" : ""}`} aria-labelledby="navbarDropdown4">
                 <a className="dropdown-item" href="CadastroVacina">Cadastrar Vacina</a>
                 <a className="dropdown-item" href="ListagemVacinas">Listagem de Vacinas</a>
-                <a className="dropdown-item" href="CadastroVacina">Cadastrar Tipo de vacina</a>
-                <a className="dropdown-item" href="ListagemVacinas">Listagem de Tipo de vacina</a>
+                <a className="dropdown-item" href="CadastroTipoVacina">Cadastrar Tipo de vacina</a>
+                <a className="dropdown-item" href="ListagemTipoVacinas">Listagem de Tipo de vacina</a>
               </div>
             </li>
 
@@ -115,8 +115,8 @@ function NavBar(props) {
               <div className={`dropdown-menu ${isDropdownOpen5 ? "show" : ""}`} aria-labelledby="navbarDropdown5">
                 <a className="dropdown-item" href="CadastroFuncionario">Cadastrar Funcionário</a>
                 <a className="dropdown-item" href="ListagemFuncionarios">Listagem de Funcionários</a>
-                <a className="dropdown-item" href="CadastroFuncionario">Cadastrar Cargo</a>
-                <a className="dropdown-item" href="ListagemFuncionarios">Listagem de Cargos</a>
+                <a className="dropdown-item" href="CadastroCargo">Cadastrar Cargo</a>
+                <a className="dropdown-item" href="ListagemCargos">Listagem de Cargos</a>
               </div>
             </li>
 
@@ -127,8 +127,8 @@ function NavBar(props) {
               <div className={`dropdown-menu ${isDropdownOpen7 ? "show" : ""}`} aria-labelledby="navbarDropdown7">
                 <a className="dropdown-item" href="CadastroPaciente">Cadastrar Paciente</a>
                 <a className="dropdown-item" href="ListagemPacientes">Listagem de Pacientes</a>
-                <a className="dropdown-item" href="CadastroPaciente">Cadastrar Comorbidade</a>
-                <a className="dropdown-item" href="ListagemPacientes">Listagem de Comorbidades</a>
+                <a className="dropdown-item" href="CadastroComorbidade">Cadastrar Comorbidade</a>
+                <a className="dropdown-item" href="ListagemComorbidades">Listagem de Comorbidades</a>
               </div>
             </li>
 
@@ -139,10 +139,10 @@ function NavBar(props) {
               <div className={`dropdown-menu ${isDropdownOpen8 ? "show" : ""}`} aria-labelledby="navbarDropdown8">
                 <a className="dropdown-item" href="CadastroCompra">Cadastrar Compra</a>
                 <a className="dropdown-item" href="ListagemCompra">Listagem de Compras</a>
-                <a className="dropdown-item" href="CadastroCompra">Cadastrar Fornecedor</a>
-                <a className="dropdown-item" href="ListagemCompra">Listagem de Fornecedores</a>
-                <a className="dropdown-item" href="CadastroCompra">Cadastrar Fabricante</a>
-                <a className="dropdown-item" href="ListagemCompra">Listagem de Fabricantes</a>
+                <a className="dropdown-item" href="CadastroFornecedor">Cadastrar Fornecedor</a>
+                <a className="dropdown-item" href="ListagemFornecedores">Listagem de Fornecedores</a>
+                <a className="dropdown-item" href="CadastroFabricante">Cadastrar Fabricante</a>
+                <a className="dropdown-item" href="ListagemFabricantes">Listagem de Fabricantes</a>
               </div>
             </li>
 
@@ -151,10 +151,10 @@ function NavBar(props) {
                 Estoques
               </span>
               <div className={`dropdown-menu ${isDropdownOpen9 ? "show" : ""}`} aria-labelledby="navbarDropdown9">
-                <a className="dropdown-item" href="CadastroDescarte">Cadastrar Estoque</a>
-                <a className="dropdown-item" href="ListagemDescarte">Listagem de Estoques</a>
-                <a className="dropdown-item" href="CadastroDescarte">Cadastrar Lote</a>
-                <a className="dropdown-item" href="ListagemDescarte">Listagem de Lotes</a>
+                <a className="dropdown-item" href="CadastroEstoque">Cadastrar Estoque</a>
+                <a className="dropdown-item" href="ListagemEstoques">Listagem de Estoques</a>
+                <a className="dropdown-item" href="CadastroLote">Cadastrar Lote</a>
+                <a className="dropdown-item" href="ListagemLotes">Listagem de Lotes</a>
                 <a className="dropdown-item" href="CadastroDescarte">Cadastrar Descarte</a>
                 <a className="dropdown-item" href="ListagemDescarte">Listagem de Descartes</a>
               </div>
