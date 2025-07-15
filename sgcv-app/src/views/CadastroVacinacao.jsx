@@ -11,9 +11,7 @@ import "../custom.css";
 import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
-import { BASE_URL } from '../config/axios';// api-fake-vacina
-import { URL_paciente } from '../config/axios';// paciente
-import { URL_agenda } from '../config/axios';// agenda
+import { BASE_URL } from '../config/axios';
 
 
 function CadastroVacinacao() {
@@ -161,7 +159,7 @@ function CadastroVacinacao() {
 
   const [dados2, setDados2] = useState(null); // 
   useEffect(() => {
-    axios.get(`${URL_paciente}/pacientes`).then((response) => {
+    axios.get(`${BASE_URL}/pacientes`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -169,7 +167,7 @@ function CadastroVacinacao() {
 
   const [dados3, setDados3] = useState(null);
   useEffect(() => {
-    axios.get(`${URL_agenda}/agendamento`).then((response) => {
+    axios.get(`${BASE_URL}/agendamento`).then((response) => {
       setDados3(response.data);
     });
   }, []);

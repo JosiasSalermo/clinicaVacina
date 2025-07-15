@@ -13,7 +13,9 @@ import LoadingOverlay from '../LoadingOverlay';
 
 import axios from "axios";
 import { BASE_URL } from "../config/axios";
-
+import { URL_paciente } from "../config/axios";
+import { URL_funcionario } from "../config/axios";
+import { URL_agenda } from "../config/axios";
 
 function CadastroFabricante() {
   const { idParam } = useParams();
@@ -22,9 +24,8 @@ function CadastroFabricante() {
 
   const baseURL = `${BASE_URL}/fabricantes`;
 
-
   const [id, setId] = useState('');
-  const [nome_fabricante, setNome_fabricante] = useState('');
+  const [nomeFabricante, setNomeFabricante] = useState('');
   const [email, setEmail] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
@@ -36,7 +37,7 @@ function CadastroFabricante() {
   const [complemento, setComplemento] = useState('');
   const [cep, setCep] = useState('');
   const [uf, setUf] = useState('');
-  const [cidade, setCidade] = useState('');
+  const [cidades, setCidades] = useState([]);
   const [nomeVacina, setNomeVacina] = useState('');
   const [tipoVacina, setTipoVacina] = useState('');
 
@@ -44,28 +45,51 @@ function CadastroFabricante() {
 
   const [loading, setLoading] = useState(true);
 
+  function inicializar() {
+    if (idParam == null) {
+      setId('');
+      setNomeFabricante('');
+      setEmail('');
+      setCnpj('');
+      setRazaoSocial('');
+      setDdd('');
+      setTelefone('');
+      setFotoPerfil('');
+      setLogradouro('');
+      setNumero('');
+      setComplemento('');
+      setCep('');
+      setUf('');
+      setCidades('');
+      setNomeVacina('');
+      setTipoVacina('');
 
+    } else if (dados) {
+      setId(dados.id);
+      setNomeFabricante(dados.nomeFabricante);
+      setEmail(dados.email);
+      setCnpj(dados.cnpj);
+      setRazaoSocial(dados.razaoSocial);
+      setDdd(dados.ddd);
+      setTelefone(dados.telefone);
+      setFotoPerfil(dados.fotoPerfil);
+      setLogradouro(dados.logradouro);
+      setNumero(dados.numero);
+      setComplemento(dados.complemento);
+      setCep(dados.cep);
+      setUf(dados.uf);
+      setCidades(dados.cidades);
+      setNomeVacina(dados.nomeVacina);
+      setTipoVacina(dados.tipoVacina);
+    } else {
+      buscar();
+    }
+
+  }
 
   async function salvar() {
-    let data = {
-      id: id || null,
-      nome_fantasia,
-      email,
-      cnpj,
-      razao_social,
-      ddd,
-      telefone,
-      fotoPerfil,
-      logradouro,
-      numero,
-      complemento,
-      cep,
-      uf,
-      cidade,
-      nomeVacina: parseInt(nomeVacina) || null,
-      tipoVacina: parseInt(tipoVacina) || null,
-    };
-
+    let data = { id, nomeFabricante, email, cnpj, razaoSocial, ddd, telefone, fotoPerfil, logradouro, numero, complemento, cep, uf, cidades, nomeVacina, tipoVacina };
+    data = JSON.stringify(data);
 
     if (idParam == null) {
       await axios
@@ -73,7 +97,7 @@ function CadastroFabricante() {
           headers: { 'Content-type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Fabricante ${nome_fabricante} cadastrada com sucesso!`);
+          mensagemSucesso(`Fabricante ${nomeFabricante} cadastrada com sucesso!`);
           navigate(`/ListagemFabricantes`);
         })
         .catch(function (error) {
@@ -85,7 +109,7 @@ function CadastroFabricante() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Fabricante ${nome_fabricante} alterada com sucesso!`);
+          mensagemSucesso(`Fabricante ${nomeFabricante} alterada com sucesso!`);
           navigate(`/ListagemFabricantes`);
         })
         .catch(function (error) {
@@ -97,33 +121,66 @@ function CadastroFabricante() {
   async function buscar() {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
-      const data = response.data;
+      setDados(response.data);
+      setId(response.dados.id);
+      setNomeFabricante(response.dados.nomeFabricante);
+      setEmail(response.dados.email);
+      setCnpj(response.dados.cnpj);
+      setRazaoSocial(response.dados.razaoSocial);
+      setDdd(response.dados.ddd);
+      setTelefone(response.dados.telefone);
+      setFotoPerfil(response.dados.fotoPerfil);
+      setLogradouro(response.dados.logradouro);
+      setNumero(response.dados.numero);
+      setComplemento(response.dados.complemento);
+      setCep(response.dados.cep);
+      setUf(response.dados.uf);
+      setCidades(response.dados.cidades);
+      setNomeVacina(response.dados.nomeVacina);
+      setTipoVacina(response.dados.tipoVacina);
 
-      setId(data.id);
-      setNome_fabricante(data.nome_fabricante);
-      setEmail(data.email);
 
-      setCnpj(data.cnpj);
-      setRazaoSocial(data.razaoSocial);
-      setDdd(data.ddd);
-      setTelefone(data.telefone);
-      setFotoPerfil(data.fotoPerfil);
-      setLogradouro(data.logradouro);
-      setNumero(data.numero);
-      setComplemento(data.complemento);
-      setCep(data.cep);
-      setUf(data.uf);
-      setCidade(data.cidade);
-      setNomeVacina(data.nomeVacina);
-      setTipoVacina(data.tipoVacina);
     } catch (error) {
       console.error("Erro ao buscar os dados:", error);
-      mensagemErro("Erro ao buscar os dados");
-    } finally {
-      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    async function buscar() {
+      try {
+        const response = await axios.get(`${baseURL}/${idParam}`);
+        setDados(response.data);
+        setId(response.data.id);
+        setNomeFabricante(response.data.nomeFabricante);
+        setEmail(response.data.email);
+        setCnpj(response.data.cnpj);
+        setRazaoSocial(response.data.razaoSocial);
+        setDdd(response.data.ddd);
+        setTelefone(response.data.telefone);
+        setFotoPerfil(response.data.fotoPerfil);
+        setLogradouro(response.data.logradouro);
+        setNumero(response.data.numero);
+        setComplemento(response.data.complemento);
+        setCep(response.data.cep);
+        setUf(response.data.uf);
+        setCidades(response.data.cidades);
+        setNomeVacina(response.data.nomeVacina);
+        setTipoVacina(response.data.tipoVacina);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+        mensagemErro("Erro ao buscar os dados");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+
+    if (idParam) {
+      buscar();
+    } else {
+      setLoading(false);
+    }
+  }, [baseURL, idParam]);
 
 
 
@@ -150,16 +207,11 @@ function CadastroFabricante() {
     });
   }, []);
 
+
+
   useEffect(() => {
-    if (idParam) {
-      buscar();
-    } else {
-      setLoading(false);
-    }
-  }, [idParam]);
-
-
-
+    buscar();
+  }, [id]);
 
 
   if (!dados) return null;
@@ -175,14 +227,14 @@ function CadastroFabricante() {
           <div className="col-lg-12">
             <div className="form-row">
               <div className="col-md-12 mb-3">
-                <FormGroup label="Nome: *" htmlFor="inputNome_fabricante">
+                <FormGroup label="Nome: *" htmlFor="inputNomeFabricante">
                   <input
                     type="text"
-                    id="inputNome_fabricante"
-                    value={nome_fabricante}
+                    id="inputNomeFabricante"
+                    value={nomeFabricante}
                     className="form-control"
-                    name="nome_fabricante"
-                    onChange={(e) => setNome_fabricante(e.target.value)}
+                    name="nomeFabricante"
+                    onChange={(e) => setNomeFabricante(e.target.value)}
                   />
                 </FormGroup>
               </div>
@@ -256,6 +308,18 @@ function CadastroFabricante() {
                     />
                   </FormGroup>
                 </div>
+                <div className="col-md-3 mb-3">
+                  <FormGroup label="Foto de perfil: " htmlFor="selectFotoPerfil">
+                    <input
+                      type="file"
+                      id="selectFotoPerfil"
+                      value={fotoPerfil}
+                      className="form-control"
+                      name="idFotoPerfil"
+                      onChange={(e) => setFotoPerfil(e.target.value)}
+                    />
+                  </FormGroup>
+                </div>
               </div>
 
               <div className="col-md-12 mb-3">
@@ -263,7 +327,7 @@ function CadastroFabricante() {
                   <input
                     type="text"
                     maxLength="100"
-                    id="inputLogradouro"
+                    id="inputEmail"
                     value={logradouro}
                     className="form-control"
                     name="logradouro"
@@ -279,10 +343,8 @@ function CadastroFabricante() {
                       type="text"
                       maxLength="4"
                       id="inputNumero"
-                      value={numero}
                       className="form-control"
                       name="numero"
-                      onChange={(e) => setNumero(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -292,10 +354,8 @@ function CadastroFabricante() {
                       type="text"
                       maxLength="100"
                       id="inputComplemento"
-                      value={complemento}
                       className="form-control"
                       name="complemento"
-                      onChange={(e) => setComplemento(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -305,10 +365,8 @@ function CadastroFabricante() {
                       type="text"
                       maxLength="8"
                       id="inputCep"
-                      value={cep}
                       className="form-control"
                       name="cep"
-                      onChange={(e) => setCep(e.target.value)}
                     />
                   </FormGroup>
                 </div>
@@ -341,18 +399,18 @@ function CadastroFabricante() {
                       className="form-select"
                       id="selectCidade"
                       name="cidade"
-                      value={cidade}
-                      onChange={(e) => setCidade(e.target.value)}
+                      value={cidades}
+                      onChange={(e) => setCidades(e.target.value)}
                     >
-                      <option key="0" value="">
+                      <option key="0" value="0">
                         Selecione a Cidade
                       </option>
                       {dados2
                         .filter((estados) => estados.uf === uf)
                         .map((estados) =>
-                          estados.cidade.map((cidade) => (
-                            <option key={cidade} value={cidade}>
-                              {cidade}
+                          estados.cidades.map((cidades) => (
+                            <option key={cidades} value={cidades}>
+                              {cidades}
                             </option>
                           ))
                         )}
@@ -416,8 +474,10 @@ function CadastroFabricante() {
               >
                 Salvar
               </button>
-              <button type="button" className="btn btn-danger"
-                onClick={() => navigate('/ListagemFabricantes')}
+              <button
+                onClick={inicializar}
+                type="button"
+                className="btn btn-danger"
               >
                 Cancelar
               </button>

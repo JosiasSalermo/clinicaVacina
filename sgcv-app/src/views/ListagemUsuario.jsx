@@ -9,9 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { URL_usuario } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${URL_usuario}/usuarios`;
+const baseURL = `${BASE_URL}/usuarios`;
 
 function ListagemUsuarios() {
   const navigate = useNavigate();

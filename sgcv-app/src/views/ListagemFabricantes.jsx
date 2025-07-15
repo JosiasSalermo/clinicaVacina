@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { URL_fabricante } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${URL_fabricante}/fabricantes`;
+const baseURL = `${BASE_URL}/fabricantes`;
 
 
 function ListagemFabricantes() {

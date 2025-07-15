@@ -13,8 +13,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { URL_agenda } from '../config/axios';
-const baseURL = `${URL_agenda}/agendamento`;
+import { BASE_URL } from '../config/axios';
+
+const baseURL = `${BASE_URL}/agendamento`;
 
 
 function ListagemVacinacao() {

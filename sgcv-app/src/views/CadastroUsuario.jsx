@@ -7,9 +7,9 @@ import FormGroup from '../components/FormGroup';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import Stack from '@mui/material/Stack';
-import { URL_usuario } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${URL_usuario}/usuarios`;
+const baseURL = `${BASE_URL}/usuarios`;
 
 function CadastroUsuario() {
   const { idParam } = useParams();
