@@ -28,7 +28,7 @@ function CadastroCargo() {
   async function salvar() {
     const novosErros = {};
 
-    if (!cargo.trim()) {
+    if (!cargo || !cargo.trim()) {
       novosErros.cargo = "O campo Cargo é obrigatório.";
     }
 
@@ -38,8 +38,8 @@ function CadastroCargo() {
       return;
     }
 
-    let data = { id, cargo, descricao };
-    //data = JSON.stringify(data);
+    let data = { cargo, descricao };
+    if (idParam) data.id = id;
 
     try {
       if (!idParam) {
@@ -79,12 +79,12 @@ function CadastroCargo() {
     } else {
       setLoading(false);
     }
-  }, [/*baseURL*/, idParam]);
+  }, [idParam]);
 
   return (
     <div className="container">
       <LoadingOverlay loading={loading} />
-      <Card title="Cadastro Cargo">
+      <Card title="Cadastro de Cargo">
         <div className="row">
           <div className="col-lg-12">
             <div className="form-row">
@@ -92,7 +92,7 @@ function CadastroCargo() {
                 <div className="col-md-5 mb-3">
                   <FormGroup
                     label="Nome do Cargo: *"
-                    htmlFor="inputNomeTipo"
+                    htmlFor="inputCargo"
                   >
                     <input
                       type="text"
@@ -110,7 +110,7 @@ function CadastroCargo() {
 
               <div className="col-md-12 mb-3">
                 <FormGroup
-                  label="Descrição do Cargo: "
+                  label="Descrição do Cargo:"
                   htmlFor="inputDescricao"
                 >
                   <textarea
@@ -133,7 +133,7 @@ function CadastroCargo() {
                   Salvar
                 </button>
                 <button
-                  onClick={() => navigate('/ListagemFuncionarios')}
+                  onClick={() => navigate('/ListagemCargos')}
                   type="button"
                   className="btn btn-danger"
                 >
