@@ -16,6 +16,7 @@ import CadastroDescarte from './views/CadastroDescarte';
 import CadastroUsuario from './views/CadastroUsuario';
 import CadastroCargo from './views/CadastroCargo';
 import CadastroAgendamento from './views/CadastroAgendamento';
+import CadastroEstoque from './views/CadastroEstoque';
 
 
 
@@ -30,6 +31,7 @@ import ListagemDescarte from './views/ListagemDescarte';
 import ListagemUsuarios from './views/ListagemUsuario';
 import ListagemCargos from './views/ListagemCargos';
 import ListagemAgendamento from './views/ListagemAgendamento';
+import ListagemEstoques from './views/ListagemEstoques';
 
 function Rotas() {
   const [loading, setLoading] = React.useState(true);
@@ -89,6 +91,9 @@ function Rotas() {
         <Route path='/CadastroAgendamento' element={<CadastroAgendamento />} />
         <Route path='/CadastroAgendamento/:idParam' element={<CadastroAgendamento />} />
 
+        <Route path='/CadastroEstoque' element={<CadastroEstoque />} />
+        <Route path='/CadastroEstoque/:idParam' element={<CadastroEstoque />} />
+
 
         {/* ROTAS DE LISTAGEM */}
         <Route path='/ListagemPacientes' element={<ListagemPacientes />} />
@@ -101,6 +106,7 @@ function Rotas() {
         <Route path='/ListagemUsuarios' element={<ListagemUsuarios />} />
         <Route path='/ListagemCargos' element={<ListagemCargos />} />
         <Route path='/ListagemAgendamento' element={<ListagemAgendamento />} />
+        <Route path='/ListagemEstoques' element={<ListagemEstoques />} />
 
         {/* REDIRECIONAMENTO */}
 
