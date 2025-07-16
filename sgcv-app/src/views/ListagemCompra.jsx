@@ -63,14 +63,15 @@ function ListagemCompra() {
     }
   };
 
+  // Agora cada função está corretamente isolada
   const obterNomeFabricante = (id) => {
     const fabricante = listaFabricantes.find((f) => Number(f.id) === Number(id));
-    return fabricante ? fabricante.nome_fantasia || fabricante.razao_social || fabricante.nomeFabricante || '??' : '---';
+    return fabricante ? fabricante.nomeFantasia || fabricante.razaoSocial : '---';
   };
 
   const obterNomeFornecedor = (id) => {
     const fornecedor = listaFornecedores.find((f) => Number(f.id) === Number(id));
-    return fornecedor ? fornecedor.nome_fantasia : '---';
+    return fornecedor ? fornecedor.nomeFantasia : '---';
   };
 
   return (

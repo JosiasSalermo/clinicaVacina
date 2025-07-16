@@ -19,9 +19,12 @@ function CadastroDescarte() {
   const [loteId, setLoteId] = useState('');
   const [lotes, setLotes] = useState([]);
 
+  const [erros, setErros] = useState({});
+
+
   const carregarLotes = async () => {
     try {
-      const resposta = await axios.get(`${BASE_URL}/lote`);
+      const resposta = await axios.get(`${BASE_URL}/lotes`);
       setLotes(resposta.data);
     } catch (error) {
       mensagemErro('Erro ao carregar os lotes.');
@@ -30,7 +33,7 @@ function CadastroDescarte() {
 
   const buscarDescarte = async () => {
     try {
-      const resposta = await axios.get(`${BASE_URL}/descarte/${idParam}`);
+      const resposta = await axios.get(`${BASE_URL}/descartes/${idParam}`);
       const descarte = resposta.data;
       setQuantidade(descarte.quantidadeDescarte);
       setDataDescarte(descarte.data?.substring(0, 10));
@@ -47,6 +50,31 @@ function CadastroDescarte() {
   }, [idParam]); // Se quiser eliminar o warning, inclua buscarDescarte na lista
 
   const salvar = async () => {
+    const novosErros = {};
+
+    if (!quantidade || isNaN(quantidade) || Number(quantidade) <= 0) {
+      novosErros.quantidade = 'Informe uma quantidade válida.';
+    }
+
+    if (!dataDescarte) {
+      novosErros.dataDescarte = 'Informe a data do descarte.';
+    }
+
+    if (!motivo || motivo.trim() === '') {
+      novosErros.motivo = 'Informe o motivo.';
+    }
+
+    if (!loteId) {
+      novosErros.loteId = 'Selecione o lote.';
+    }
+
+    setErros(novosErros);
+
+    if (Object.keys(novosErros).length > 0) {
+      mensagemErro('Preencha todos os campos obrigatórios corretamente.');
+      return;
+    }
+
     const dados = {
       quantidadeDescarte: Number(quantidade),
       data: dataDescarte,
@@ -56,7 +84,7 @@ function CadastroDescarte() {
 
     try {
       if (!idParam) {
-        await axios.post(`${BASE_URL}/descarte`, dados);
+        await axios.post(`${BASE_URL}/descartes`, dados);
         mensagemSucesso('Descarte cadastrado com sucesso!');
       } else {
         await axios.put(`${BASE_URL}/descarte/${idParam}`, dados);
@@ -68,6 +96,7 @@ function CadastroDescarte() {
     }
   };
 
+
   return (
     <div className="container">
       <Card title={idParam ? 'Editar Descarte' : 'Cadastrar Descarte'}>
@@ -78,11 +107,12 @@ function CadastroDescarte() {
                 <input
                   type="number"
                   id="inputQuantidade"
-                  className="form-control"
+                  className={`form-control ${erros.quantidade ? 'is-invalid' : ''}`}
                   value={quantidade}
                   onChange={(e) => setQuantidade(e.target.value)}
                   required
                 />
+                {erros.quantidade && <div className="invalid-feedback">{erros.quantidade}</div>}
               </FormGroup>
             </div>
             <div className="col-md-6 mb-3">
@@ -90,7 +120,7 @@ function CadastroDescarte() {
                 <input
                   type="date"
                   id="inputDataDescarte"
-                  className="form-control"
+                  className={`form-control ${erros.dataDescarte ? 'is-invalid' : ''}`}
                   value={dataDescarte}
                   onChange={(e) => setDataDescarte(e.target.value)}
                   required
@@ -104,11 +134,12 @@ function CadastroDescarte() {
               <FormGroup label="Motivo: *" htmlFor="inputMotivo">
                 <textarea
                   id="inputMotivo"
-                  className="form-control"
+                  className={`form-control ${erros.motivo ? 'is-invalid' : ''}`}
                   value={motivo}
                   onChange={(e) => setMotivo(e.target.value)}
                   required
                 />
+                {erros.motivo && <div className="invalid-feedback">{erros.motivo}</div>}
               </FormGroup>
             </div>
           </div>
@@ -118,7 +149,7 @@ function CadastroDescarte() {
               <FormGroup label="Lote: *" htmlFor="selectLote">
                 <select
                   id="selectLote"
-                  className="form-select"
+                  className={`form-select ${erros.loteId ? 'is-invalid' : ''}`}
                   value={loteId}
                   onChange={(e) => setLoteId(e.target.value)}
                   required
@@ -126,10 +157,11 @@ function CadastroDescarte() {
                   <option value="">Selecione o Lote</option>
                   {lotes.map((lote) => (
                     <option key={lote.id} value={lote.id}>
-                      {`${lote.numero_lote} - Val.: ${lote.data_validade}`}
+                      {`${lote.numeroLote} - Val.: ${lote.dataValidade}`}
                     </option>
                   ))}
                 </select>
+                {erros.loteId && <div className="invalid-feedback">{erros.loteId}</div>}
               </FormGroup>
             </div>
           </div>
