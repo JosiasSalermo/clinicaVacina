@@ -19,7 +19,6 @@ import { BASE_URL } from "../config/axios";
 function CadastroCompra() {
   const { idParam } = useParams();
   const navigate = useNavigate();
-
   const baseURL = `${BASE_URL}/compras`;
 
 
@@ -43,24 +42,11 @@ function CadastroCompra() {
   //--- Controle de loading e edição --
   const [loading, setLoading] = useState(true);
 
-  async function buscarTodasCompras() {
-    try {
-      const response = await axios.get(`${baseURL}/compras`);
-      const listaCompras = response.data;
-
-      console.log("Lista de Compras:");
-      setCompras(listaCompras);
-    } catch (error) {
-      console.error("Erro ao buscar compra:", error);
-      mensagemErro("Erro ao buscar compras");
-    } finally {
-      setLoading(false);
-    }
-  }
+  const [erros, setErros] = useState({});
 
   async function buscarCompraPorId() {
     try {
-      const response = await axios.get(`${baseURL}/compras/${idParam}`);
+      const response = await axios.get(`${baseURL}/${idParam}`);
       const compra = response.data;
       setId(compra.id);
       setValor(compra.valor);
@@ -78,37 +64,58 @@ function CadastroCompra() {
 
 
   async function salvar() {
+    const novosErros = {};
+
+    if (!valor || isNaN(parseFloat(valor))) {
+      novosErros.valor = "Informe um valor válido.";
+    }
+
+    if (!dataCompra) {
+      novosErros.dataCompra = "Informe a data da compra.";
+    }
+
+    if (!fabricanteId) {
+      novosErros.fabricanteId = "Selecione o fabricante.";
+    }
+
+    if (!fornecedorId) {
+      novosErros.fornecedorId = "Selecione o fornecedor.";
+    }
+
+    setErros(novosErros);
+
+    if (Object.keys(novosErros).length > 0) {
+      mensagemErro("Preencha todos os campos obrigatórios corretamente.");
+      return;
+    }
+
     const data = {
       valor: parseFloat(valor),
       dataCompra,
-      fornecedorId: parseInt((fornecedorId)),
-      fabricanteId: parseInt(fabricanteId)
+      fornecedorId: parseInt(fornecedorId),
+      fabricanteId: parseInt(fabricanteId),
     };
 
     try {
-      if (idParam == null) {
-        await axios
-          .post(`${baseURL}/compras`, data, {
-            headers: { 'Content-Type': 'application/json' },
-          });
+      if (!idParam) {
+        await axios.post(baseURL, data, {
+          headers: { 'Content-Type': 'application/json' },
+        });
         mensagemSucesso(`Compra cadastrada com sucesso!`);
-
       } else {
-        await axios
-          .put(`${baseURL}/compras/${idParam}`, data, {
-            headers: { 'Content-Type': 'application/json' },
-          });
+        await axios.put(`${baseURL}/${idParam}`, data, {
+          headers: { 'Content-Type': 'application/json' },
+        });
         mensagemSucesso(`Compra ${id} alterada com sucesso!`);
       }
 
       navigate('/ListagemCompra');
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Erro ao salvar compra:", error);
       mensagemErro("Erro ao salvar os dados");
-
     }
   }
+
 
   function inicializar() {
     if (idParam == null) {
@@ -123,26 +130,13 @@ function CadastroCompra() {
   }
 
 
-
-
-
-  useEffect(() => {
-    if (idParam) {
-      buscarCompraPorId();
-    } else {
-      setLoading(false);
-    }
-  }, [idParam]);
-
-
-
   // - UseEffect para buscar compras ao carregar o componente
 
   // - Compras
   useEffect(() => {
     async function carregarCompras() {
       try {
-        const response = await axios.get(`${baseURL}/compras`);
+        const response = await axios.get(baseURL);
         setCompras(response.data);
       } catch (error) {
         mensagemErro("Erro ao carregar lista de compras.");
@@ -203,11 +197,11 @@ function CadastroCompra() {
                   step="0.01"
                   id="inputValor"
                   value={valor}
-                  className="form-control"
+                  className={`form-control ${erros.valor ? 'is-invalid' : ''}`}
                   name="valor"
                   onChange={e => setValor(e.target.value)}
-                  required
                 />
+                {erros.valor && <div className="invalid-feedback">{erros.valor}</div>}
               </FormGroup>
             </div>
             <div className="col-md-6 mb-3">
@@ -216,11 +210,13 @@ function CadastroCompra() {
                   type="date"
                   id="inputDataCompra"
                   value={dataCompra}
-                  className="form-control"
+                  className={`form-control ${erros.dataCompra ? 'is-invalid' : ''}`}
                   name="dataCompra"
                   onChange={e => setDataCompra(e.target.value)}
-                  required
                 />
+                {erros.dataCompra && (
+                  <div className="invalid-feedback">{erros.dataCompra}</div>
+                )}
               </FormGroup>
             </div>
           </div>
@@ -228,37 +224,40 @@ function CadastroCompra() {
             <div className="col-md-6 mb-3">
               <FormGroup label="Fabricante: *" htmlFor="selectFabricante">
                 <select
-                  className="form-select"
+                  className={`form-select ${erros.fabricanteId ? 'is-invalid' : ''}`}
                   id="selectFabricante"
                   value={fabricanteId}
                   onChange={e => setFabricanteId(e.target.value)}
-                  required
                 >
                   <option value="">Selecione o Fabricante</option>
                   {fabricantes.map(fab => (
                     <option key={fab.id} value={fab.id}>
-                      {fab.nome_fantasia}
+                      {fab.nomeFantasia}
                     </option>
                   ))}
                 </select>
+                {erros.fabricanteId && <div className="invalid-feedback">{erros.fabricanteId}</div>}
+
               </FormGroup>
             </div>
             <div className="col-md-6 mb-3">
               <FormGroup label="Fornecedor: *" htmlFor="selectFornecedor">
                 <select
-                  className="form-select"
+                  className={`form-select ${erros.fornecedorId ? 'is-invalid' : ''}`}
                   id="selectFornecedor"
                   value={fornecedorId}
                   onChange={e => setFornecedorId(e.target.value)}
-                  required
                 >
                   <option value="">Selecione o Fornecedor</option>
                   {fornecedores.map(forn => (
                     <option key={forn.id} value={forn.id}>
-                      {forn.nome_fantasia}
+                      {forn.nomeFantasia || forn.razaoSocial}
                     </option>
                   ))}
                 </select>
+                {erros.fornecedorId && (
+                  <div className="invalid-feedback">{erros.fornecedorId}</div>
+                )}
               </FormGroup>
             </div>
           </div>
