@@ -14,7 +14,7 @@ import axios from "axios";
 
 import { BASE_URL } from '../config/axios';
 
-function CadastroEstoque() {
+function CadastroLote() {
   const { idParam } = useParams();
   const navigate = useNavigate();
   const baseURL = `${BASE_URL}/lotes`;
@@ -243,4 +243,4 @@ async function salvar() {
   );
 }
 
-export default CadastroEstoque;
+export default CadastroLote;
