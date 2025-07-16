@@ -11,26 +11,41 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/estoques`;
+
 
 function ListagemEstoques() {
   const navigate = useNavigate();
   const [estoques, setEstoques] = useState([]);
 
   useEffect(() => {
-    carregarEstoques();
+    carregarDados();
   }, []);
 
-  const carregarEstoques = async () => {
-    try {
-      const response = await axios.get(baseURL);
-      setEstoques(response.data);
-    } catch (error) {
-      mensagemErro('Erro ao carregar os estoques.');
-    }
-  };
+  const carregarDados = async () => {
+  try {
+    const [resEstoque, resFabricantes] = await Promise.all([
+      axios.get(`${BASE_URL}/estoques`),
+      axios.get(`${BASE_URL}/fabricantes`),
+    ]);
 
-  const redirecionarEstoques = () => {
+    const mapaFabricantes = resFabricantes.data.reduce((map, fabricante) => {
+      map[fabricante.id] = fabricante.nomeFantasia;
+      return map;
+    }, {});
+
+    const estoquesComNomes = resEstoque.data.map((estoque) => ({
+      ...estoque,
+      nomeFabricante: estoque.fabricanteId ? mapaFabricantes[estoque.fabricanteId] : "Não encontrado",
+    }));
+
+    setEstoques(estoquesComNomes);
+  } catch (error) {
+    mensagemErro('Erro ao carregar dados dos estoques ou fabricantes.');
+  }
+};
+
+
+  const redirecionarCadastro = () => {
     navigate('/CadastroEstoque');
   };
 
@@ -40,47 +55,55 @@ function ListagemEstoques() {
 
   const excluirEstoque = async (id) => {
     try {
-      await axios.delete(`${baseURL}/${id}`);
+      await axios.delete(`${BASE_URL}/${id}`);
       mensagemSucesso('Estoque excluído com sucesso!');
       setEstoques((prev) => prev.filter((estoque) => estoque.id !== id));
     } catch (error) {
-      mensagemErro('Erro ao excluir o estoque.');
+      mensagemErro('Erro ao excluir estoque.');
     }
   };
 
   return (
     <div className="container">
-      <Card title="Estoque Cadastrados">
+      <Card title="Estoques Cadastrados">
         <div className="row">
           <div className="col-lg-12">
             <div className="bs-component">
               <button
                 type="button"
                 className="btn btn-warning mb-3"
-                onClick={redirecionarEstoques}
+                onClick={redirecionarCadastro}
               >
                 Novo Estoque
               </button>
               <table className="table table-hover">
                 <thead>
                   <tr>
-                    <th>Nome</th>
+                    <th>Estoque do produto</th>
                     <th>Quantidade disponível</th>
                     <th>Quantidade mínima</th>
                     <th>Quantidade máxima</th>
-                    <th>Pode de ressuprimento</th>
-                    <th>Nome do Fabricante</th>
+                    <th>Ponto de Ressuprimento</th>
+                    <th>Fabricante</th>
+                    <th>Ações</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   {estoques.map((estoque) => (
                     <tr key={estoque.id}>
-                      <td>{estoque.id}</td>
-                      <td>{estoque.cargo}</td>
-                      <td>{estoque.descricao || '---'}</td>
+                      <td>{estoque.nome}</td>
+                      <td>{estoque.quantidadeDisponivel}</td>
+                      <td>{estoque.quantidadeMinima}</td>
+                      <td>{estoque.quantidadeMaxima}</td>
+                      <td>{estoque.pontoRessuprimento}</td>
+                      <td>{estoque.nomeFabricante}</td>
+
                       <td>
                         <Stack spacing={1} padding={0} direction="row">
-                          <IconButton onClick={() => redirecionarEdicao(estoque.id)}>
+                          <IconButton
+                            onClick={() => redirecionarEdicao(estoque.id)}
+                          >
                             <EditIcon />
                           </IconButton>
                           <IconButton onClick={() => excluirEstoque(estoque.id)}>
@@ -92,7 +115,7 @@ function ListagemEstoques() {
                   ))}
                   {estoques.length === 0 && (
                     <tr>
-                      <td colSpan="4">Nenhum estoque encontrado.</td>
+                      <td colSpan="4">Nenhum lote encontrado.</td>
                     </tr>
                   )}
                 </tbody>

@@ -11,26 +11,50 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/lotes`;
+
 
 function ListagemLotes() {
   const navigate = useNavigate();
   const [lotes, setLotes] = useState([]);
 
   useEffect(() => {
-    carregarLotes();
+    carregarDados();
   }, []);
 
-  const carregarLotes = async () => {
-    try {
-      const response = await axios.get(baseURL);
-      setLotes(response.data);
-    } catch (error) {
-      mensagemErro('Erro ao carregar os lotes.');
-    }
-  };
+  const carregarDados = async () => {
+  try {
+    const [resLote, resVacinas, resEstoques] = await Promise.all([
+      axios.get(`${BASE_URL}/lotes`),
+      axios.get(`${BASE_URL}/vacinas`),
+      axios.get(`${BASE_URL}/estoques`),
+    ]);
 
-  const redirecionarLotes = () => {
+    const mapaVacinas = resVacinas.data.reduce((map, vacina) => {
+      map[vacina.id] = vacina.vacina;
+      return map;
+    }, {});
+
+    const mapaEstoques = resEstoques.data.reduce((map, estoque) => {
+      map[estoque.id] = estoque.nome;
+      return map;
+    }, {});
+
+    const lotesComNomes = resLote.data.map((lote) => ({
+      ...lote,
+      nomeVacina: lote.vacinaId ? mapaVacinas[lote.vacinaId] : "Não encontrado",
+      nomeEstoque: lote.estoqueId ? mapaEstoques[lote.estoqueId] : "Não encontrado",
+
+
+    }));
+
+    setLotes(lotesComNomes);
+  } catch (error) {
+    mensagemErro('Erro ao carregar dados dos lotes, vacinas ou estoques.');
+  }
+};
+
+
+  const redirecionarCadastro = () => {
     navigate('/CadastroLote');
   };
 
@@ -40,11 +64,11 @@ function ListagemLotes() {
 
   const excluirLote = async (id) => {
     try {
-      await axios.delete(`${baseURL}/${id}`);
+      await axios.delete(`${BASE_URL}/${id}`);
       mensagemSucesso('Lote excluído com sucesso!');
       setLotes((prev) => prev.filter((lote) => lote.id !== id));
     } catch (error) {
-      mensagemErro('Lote ao excluir o estoque.');
+      mensagemErro('Erro ao excluir lote.');
     }
   };
 
@@ -57,7 +81,7 @@ function ListagemLotes() {
               <button
                 type="button"
                 className="btn btn-warning mb-3"
-                onClick={redirecionarLotes}
+                onClick={redirecionarCadastro}
               >
                 Novo Lote
               </button>
@@ -68,20 +92,27 @@ function ListagemLotes() {
                     <th>Data Validade</th>
                     <th>Ampolas</th>
                     <th>Doses de Ampolas</th>
-                    <th>Compra do Lote</th>
                     <th>Vacina</th>
                     <th>Estoque</th>
+                    <th>Ações</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   {lotes.map((lote) => (
                     <tr key={lote.id}>
-                      <td>{lote.id}</td>
-                      <td>{lote.cargo}</td>
-                      <td>{lote.descricao || '---'}</td>
+                      <td>{lote.numeroLote}</td>
+                      <td>{lote.dataValidade}</td>
+                      <td>{lote.numeroAmpola}</td>
+                      <td>{lote.dosesAmpola}</td>
+                      <td>{lote.nomeVacina}</td>
+                      <td>{lote.nomeEstoque}</td>
+
                       <td>
                         <Stack spacing={1} padding={0} direction="row">
-                          <IconButton onClick={() => redirecionarEdicao(lote.id)}>
+                          <IconButton
+                            onClick={() => redirecionarEdicao(lote.id)}
+                          >
                             <EditIcon />
                           </IconButton>
                           <IconButton onClick={() => excluirLote(lote.id)}>
