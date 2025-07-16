@@ -81,7 +81,7 @@ function ListagemCompra() {
             <div className="bs-component">
               <button
                 type="button"
-                className="btn btn-warning"
+                className="btn btn-warning mb-3"
                 onClick={redirecionarCadastro}
               >
                 Nova Compra
@@ -99,8 +99,8 @@ function ListagemCompra() {
                 <tbody>
                   {dadosCompra.map((compra) => (
                     <tr key={compra.id}>
-                      <td>{compra.dataCompra}</td>
-                      <td>{parseFloat(compra.valor).toFixed(2)}</td>
+                      <td>{new Date(compra.dataCompra).toLocaleDateString('pt-BR')}</td>
+                      <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(compra.valor)}</td>
                       <td>{obterNomeFabricante(compra.fabricanteId)}</td>
                       <td>{obterNomeFornecedor(compra.fornecedorId)}</td>
                       <td>

@@ -6,7 +6,6 @@ import LoadingOverlay from './LoadingOverlay';
 import CadastroPaciente from './views/CadastroPaciente';
 import CadastroFabricante from './views/CadastroFabricante';
 import CadastroEspecialidade from './views/CadastroEspecialidade';
-import CadastroCargo from './views/CadastroCargo';
 import CadastroPerfilAcesso from './views/CadastroPerfilAcesso';
 import CadastroFuncionario from './views/CadastroFuncionario';
 import CadastroTipoVacina from './views/CadastroTipoVacina';
@@ -15,6 +14,7 @@ import CadastroVacinacao from './views/CadastroVacinacao';
 import CadastroCompra from './views/CadastroCompra';
 import CadastroDescarte from './views/CadastroDescarte';
 import CadastroUsuario from './views/CadastroUsuario';
+import CadastroCargo from './views/CadastroCargo';
 import CadastroAgendamento from './views/CadastroAgendamento';
 
 
@@ -28,6 +28,7 @@ import ListagemVacinacao from './views/ListagemVacinacao';
 import ListagemCompra from './views/ListagemCompra';
 import ListagemDescarte from './views/ListagemDescarte';
 import ListagemUsuarios from './views/ListagemUsuario';
+import ListagemCargos from './views/ListagemCargos';
 import ListagemAgendamento from './views/ListagemAgendamento';
 
 function Rotas() {
@@ -98,6 +99,7 @@ function Rotas() {
         <Route path='/ListagemCompra' element={<ListagemCompra />} />
         <Route path='/ListagemDescarte' element={<ListagemDescarte />} />
         <Route path='/ListagemUsuarios' element={<ListagemUsuarios />} />
+        <Route path='/ListagemCargos' element={<ListagemCargos />} />
         <Route path='/ListagemAgendamento' element={<ListagemAgendamento />} />
 
         {/* REDIRECIONAMENTO */}
