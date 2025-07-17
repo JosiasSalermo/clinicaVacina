@@ -24,11 +24,21 @@ function CadastroLote() {
   const [numeroLote, setNumeroLote] = useState('');
   const [numeroAmpola, setNumeroAmpola] = useState('');
   const [dosesAmpola, setDosesAmpola] = useState('');
-  const [numeroCompra, setNumeroCompra] = useState('');
   const [nomeVacina, setNomeVacina] = useState('');
   const [nomeEstoque, setNomeEstoque] = useState('');
   const [loading, setLoading] = useState(true);
   const [erros, setErros] = useState({});
+
+  const [compras, setCompras] = useState([]);
+  const [compraId, setCompraId] = useState("");
+
+  const [vacinas, setVacinas] = useState([]);
+  const [vacinaId, setVacinaId] = useState("");
+
+  const [estoques, setEstoques] = useState([]);
+  const [estoqueId, setEstoqueId] = useState("");
+
+
 
 async function salvar() {
   const novosErros = {};
@@ -37,24 +47,31 @@ async function salvar() {
     novosErros.dataValidade = "A validade é obrigatória.";
   }
 
-  if (!numeroLote || isNaN(numeroLote)) {
-    novosErros.numeroLote = "O número do lote é obrigatório.";
+ if (!numeroLote || !numeroLote.trim()) {
+   novosErros.numeroLote = "O número do lote é obrigatório.";
+ }
+
+  if (!compraId) {
+    novosErros.compraId = "O número da compra é obrigatório.";
   }
 
-  if (!numeroCompra || isNaN(numeroCompra)) {
-    novosErros.numeroCompra = "O número da compra é obrigatório.";
+  if (!vacinaId) {
+    novosErros.vacinaId = "A vacina é obrigatória.";
   }
 
-  if (!nomeVacina || !nomeVacina.trim()) {
-    novosErros.nomeVacina = "O nome da vacina é obrigatório.";
-  }
-  if (!nomeEstoque || !nomeEstoque.trim()) {
-    novosErros.nomeEstoque = "O estoque é obrigatório.";
+  if (!estoqueId) {
+    novosErros.estoqueId = "O estoque é obrigatório.";
   }
 
-  if (!nomeEstoque || isNaN(nomeEstoque)) {
-    novosErros.nomeEstoque = "O estoque é obrigatório.";
-  }
+  console.log("Valores enviados:", {
+  dataValidade,
+  numeroLote,
+  numeroAmpola,
+  dosesAmpola,
+  compraId,
+  vacinaId,
+  estoqueId
+});
 
 
   setErros(novosErros);
@@ -63,14 +80,17 @@ async function salvar() {
     return;
   }
 
+  console.log("Erros detectados:", novosErros);
+
+
   const data = {
     dataValidade,
     numeroLote,
     numeroAmpola,
     dosesAmpola,
-    numeroCompra,
-    nomeVacina,
-    nomeEstoque,
+    compraId: parseInt(compraId, 10),
+    vacinaId: parseInt(vacinaId, 10),
+    estoqueId: parseInt(estoqueId, 10),
   };
   if (idParam) data.id = id;
 
@@ -84,7 +104,9 @@ async function salvar() {
       navigate(`/ListagemLotes`);
     }
   } catch (error) {
-    mensagemErro(error?.response?.data || "Erro ao salvar o lote.");
+    console.error("Erro ao salvar:", error);
+    mensagemErro(error?.response?.data?.message || "Erro ao salvar o lote.");
+
   }
 }
 
@@ -96,9 +118,6 @@ async function salvar() {
       setDataValidade(response.data.dataValidade);
       setNumeroLote(response.data.numeroLote);
       setDosesAmpola(response.data.dosesAmpola);
-      setNumeroCompra(response.data.numeroCompra);
-      setNomeVacina(response.data.nomeVacina);
-      setNomeEstoque(response.data.nomeEstoque);
     } catch (error) {
       console.error("Erro ao buscar os dados:", error);
       mensagemErro("Erro ao buscar os dados");
@@ -108,12 +127,31 @@ async function salvar() {
   }
 
   useEffect(() => {
-    if (idParam) {
-      buscar();
-    } else {
-      setLoading(false);
+  const carregarListas = async () => {
+    try {
+      const [resCompras, resVacinas, resEstoques] = await Promise.all([
+        axios.get(`${BASE_URL}/compras`),
+        axios.get(`${BASE_URL}/vacinas`),
+        axios.get(`${BASE_URL}/estoques`)
+      ]);
+      setCompras(resCompras.data);
+      console.log("COMPRAS:", resCompras.data);
+      setVacinas(resVacinas.data);
+      setEstoques(resEstoques.data);
+    } catch (error) {
+      console.error("Erro ao carregar compras, vacinas ou estoques", error);
     }
-  }, [idParam]);
+  };
+
+  if (idParam) {
+    buscar();
+  } else {
+    setLoading(false);
+  }
+
+  carregarListas();
+}, [idParam]);
+
 
   return (
     <div className="container">
@@ -188,35 +226,68 @@ async function salvar() {
                   )}
                 </FormGroup>
 
-                <FormGroup label="Vacina: *" htmlFor="inputNomeVacina">
-                  <textarea
-                    id="inputNomeVacina"
-                    value={nomeVacina}
-                    className="form-control col-md-6"
-                    onChange={(e) => setNomeVacina(e.target.value)}
-                    rows={2}
-                    style={{ resize: "none" }}
-                  />
-                  {erros.nomeVacina && (
-                    <div className="invalid-feedback">{erros.nomeVacina}</div>
+                <FormGroup label="Compra: *" htmlFor="compraId">
+                  <select
+                    id="compraId"
+                    value={compraId}
+                    onChange={(e) => setCompraId(e.target.value)}
+                    className={`form-control ${
+                      erros.numeroCompra ? "is-invalid" : ""
+                    }`}
+                  >
+                    <option value="">Selecione</option>
+                    {compras.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.id}
+                      </option>
+                    ))}
+                  </select>
+                  {erros.numeroCompra && (
+                    <div className="invalid-feedback">{erros.numeroCompra}</div>
                   )}
                 </FormGroup>
-                <FormGroup label="Estoque: *" htmlFor="inputNomeEstoque">
-                    <textarea
-                      id="inputNomeEstoque"
-                      value={nomeEstoque}
-                      className="form-control col-md-6"
-                      onChange={(e) => setNomeEstoque(e.target.value)}
-                      rows={2}
-                      style={{ resize: "none" }}
-                    />
-                    {erros.nomeEstoque && (
-                      <div className="invalid-feedback">
-                        {erros.nomeEstoque}
-                      </div>
-                    )}
-                  </FormGroup>
 
+                <FormGroup label="Vacina: *" htmlFor="vacinaId">
+                  <select
+                    id="vacinaId"
+                    value={vacinaId}
+                    onChange={(e) => setVacinaId(e.target.value)}
+                    className={`form-control ${
+                      erros.vacinaId ? "is-invalid" : ""
+                    }`}
+                  >
+                    <option value="">Selecione</option>
+                    {vacinas.map((v) => (
+                      <option key={v.id} value={v.id}>
+                        {v.vacina}
+                      </option>
+                    ))}
+                  </select>
+                  {erros.vacinaId && (
+                    <div className="invalid-feedback">{erros.vacinaId}</div>
+                  )}
+                </FormGroup>
+
+                <FormGroup label="Estoque: *" htmlFor="estoqueId">
+                  <select
+                    id="estoqueId"
+                    value={estoqueId}
+                    onChange={(e) => setEstoqueId(e.target.value)}
+                    className={`form-control ${
+                      erros.estoqueId ? "is-invalid" : ""
+                    }`}
+                  >
+                    <option value="">Selecione</option>
+                    {estoques.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.nome}
+                      </option>
+                    ))}
+                  </select>
+                  {erros.estoqueId && (
+                    <div className="invalid-feedback">{erros.estoqueId}</div>
+                  )}
+                </FormGroup>
               </div>
 
               <Stack spacing={1} padding={1} direction="row">

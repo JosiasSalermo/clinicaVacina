@@ -23,11 +23,17 @@ function ListagemLotes() {
 
   const carregarDados = async () => {
   try {
-    const [resLote, resVacinas, resEstoques] = await Promise.all([
+    const [resLote, resCompras, resVacinas, resEstoques] = await Promise.all([
       axios.get(`${BASE_URL}/lotes`),
+      axios.get(`${BASE_URL}/compras`),
       axios.get(`${BASE_URL}/vacinas`),
       axios.get(`${BASE_URL}/estoques`),
     ]);
+
+    const mapaCompras = resCompras.data.reduce((map, compra) => {
+      map[compra.id] = compra.id;
+      return map;
+    }, {});
 
     const mapaVacinas = resVacinas.data.reduce((map, vacina) => {
       map[vacina.id] = vacina.vacina;
@@ -63,14 +69,18 @@ function ListagemLotes() {
   };
 
   const excluirLote = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}/${id}`);
-      mensagemSucesso('Lote excluído com sucesso!');
-      setLotes((prev) => prev.filter((lote) => lote.id !== id));
-    } catch (error) {
-      mensagemErro('Erro ao excluir lote.');
-    }
-  };
+  if (!window.confirm("Tem certeza que deseja excluir este lote?")) return;
+
+  try {
+    await axios.delete(`${BASE_URL}/lotes/${id}`);
+    mensagemSucesso('Lote excluído com sucesso!');
+    setLotes((prev) => prev.filter((lote) => lote.id !== id));
+  } catch (error) {
+    console.error("Erro ao excluir lote:", error);
+    mensagemErro(error?.response?.data?.message || 'Erro ao excluir lote.');
+  }
+};
+
 
   return (
     <div className="container">
@@ -92,6 +102,7 @@ function ListagemLotes() {
                     <th>Data Validade</th>
                     <th>Ampolas</th>
                     <th>Doses de Ampolas</th>
+                    <th>Compra</th>
                     <th>Vacina</th>
                     <th>Estoque</th>
                     <th>Ações</th>
@@ -105,6 +116,7 @@ function ListagemLotes() {
                       <td>{lote.dataValidade}</td>
                       <td>{lote.numeroAmpola}</td>
                       <td>{lote.dosesAmpola}</td>
+                      <td>{lote.compraId}</td>
                       <td>{lote.nomeVacina}</td>
                       <td>{lote.nomeEstoque}</td>
 
