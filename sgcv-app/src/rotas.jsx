@@ -19,6 +19,7 @@ import CadastroAgendamento from './views/CadastroAgendamento';
 import CadastroEstoque from './views/CadastroEstoque';
 import CadastroLote from './views/CadastroLote';
 import CadastroFornecedor from './views/CadastroFornecedor';
+import Login from './views/Login';
 
 
 
@@ -53,7 +54,7 @@ function Rotas() {
       {loading && <LoadingOverlay loading={loading} />}
 
       <Routes>
-        <Route path="/" element={<Navigate to='/ListagemVacinacao' />} />
+        <Route path="/" element={<Navigate to='/Login' />} />
 
         {/* ROTAS DE CADASTRO */}
         <Route path='/CadastroPaciente' element={<CadastroPaciente />} />
@@ -119,6 +120,8 @@ function Rotas() {
         <Route path='/ListagemEstoques' element={<ListagemEstoques />} />
         <Route path='/ListagemLotes' element={<ListagemLotes />} />
         <Route path='/ListagemFornecedores' element={<ListagemFornecedores />} />
+
+        <Route path='/login' element={<Login />} />
 
         {/* REDIRECIONAMENTO */}
 
