@@ -360,12 +360,6 @@ function NavBar(props) {
                 </a>
               </div>
             </li>
-
-            <li className='navbar-nav' href='/login' label='Entrar' onClick={handleItemClick} > Entrar
-            </li>
-            <li className='navbar-nav' href='/' label='Sair' onClick={handleItemClick}> Sair
-            </li>
-
           </ul>
         </div>
       </div>

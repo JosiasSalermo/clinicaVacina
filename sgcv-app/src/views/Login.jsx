@@ -1,22 +1,65 @@
 import React from 'react';
-
 import Stack from '@mui/material/Stack';
-
 import Card from '../components/Card';
 import FormGroup from '../components/FormGroup';
 
-import { mensagemSucesso } from '../components/toastr';
+import axios from 'axios';
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
+// Componente principal
 class Login extends React.Component {
   state = {
     login: '',
     senha: '',
+    carregando: false,
   };
 
-  logar = () => {
-    mensagemSucesso(`Usuário ${this.state.login} logado com sucesso!`);
+  componentDidMount() {
+    document.body.classList.add('login-page');
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('login-page');
+  }
+
+  logar = async () => {
+    const { login, senha } = this.state;
+
+    if (!login || !senha) {
+      mensagemErro('Informe o login e a senha.');
+      return;
+    }
+
+    this.setState({ carregando: true });
+
+    try {
+      const response = await axios.post('http://localhost:8081/api/v1/usuarios/auth', {
+        login,
+        senha,
+      });
+
+      const token = response.data.token;
+
+      // Armazena o token e define header global
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      mensagemSucesso(`Usuário ${login} logado com sucesso!`);
+
+      // Redireciona com navigate (React Router v6)
+      this.props.navigate('/agendamentos');
+
+    } catch (error) {
+      if (error.response?.status === 401) {
+        mensagemErro('Login ou senha inválidos.');
+      } else {
+        mensagemErro('Erro ao tentar fazer login.');
+      }
+    } finally {
+      this.setState({ carregando: false });
+    }
   };
 
   cancelar = () => {
@@ -27,6 +70,8 @@ class Login extends React.Component {
   };
 
   render() {
+    const { login, senha, carregando } = this.state;
+
     return (
       <div className='container'>
         <div className='col-lg-4'>
@@ -37,7 +82,7 @@ class Login extends React.Component {
                   <input
                     type='text'
                     id='inputLogin'
-                    value={this.state.login}
+                    value={login}
                     className='form-control'
                     name='login'
                     onChange={(e) => this.setState({ login: e.target.value })}
@@ -47,7 +92,7 @@ class Login extends React.Component {
                   <input
                     type='password'
                     id='inputSenha'
-                    value={this.state.senha}
+                    value={senha}
                     className='form-control'
                     name='senha'
                     onChange={(e) => this.setState({ senha: e.target.value })}
@@ -58,8 +103,9 @@ class Login extends React.Component {
                     onClick={this.logar}
                     type='button'
                     className='btn btn-success'
+                    disabled={carregando}
                   >
-                    Entrar
+                    {carregando ? 'Entrando...' : 'Entrar'}
                   </button>
                   <button
                     onClick={this.cancelar}

@@ -355,3 +355,9 @@ body {
 .MuiAutocomplete-popper {
   margin-top: 4px !important; /* afasta visualmente o dropdown do campo */
 }
+
+
+/* Esconde o menu quando estiver na tela de login */
+.login-page .navbar {
+  display: none !important;
+}

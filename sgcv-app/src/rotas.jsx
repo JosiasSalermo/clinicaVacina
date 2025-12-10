@@ -19,7 +19,8 @@ import CadastroAgendamento from './views/CadastroAgendamento';
 import CadastroEstoque from './views/CadastroEstoque';
 import CadastroLote from './views/CadastroLote';
 import CadastroFornecedor from './views/CadastroFornecedor';
-import Login from './views/Login';
+import Login from './views/LoginWrapper'; 
+
 
 
 
@@ -122,6 +123,7 @@ function Rotas() {
         <Route path='/ListagemFornecedores' element={<ListagemFornecedores />} />
 
         <Route path='/login' element={<Login />} />
+        
 
         {/* REDIRECIONAMENTO */}
 
