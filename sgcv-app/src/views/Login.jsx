@@ -49,7 +49,7 @@ class Login extends React.Component {
       mensagemSucesso(`Usuário ${login} logado com sucesso!`);
 
       // Redireciona com navigate (React Router v6)
-      this.props.navigate('/agendamentos');
+      this.props.navigate('/CadastroAgendamento');
 
     } catch (error) {
       if (error.response?.status === 401) {
